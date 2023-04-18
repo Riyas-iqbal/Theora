@@ -1,6 +1,6 @@
-const User = require('../models/users.model')
+const User = require('../models/user.model')
 const verifyToken = require('../utils/auth.util')
-const { createAccessToken, createRefreshToken } = require('../utils/generateTokens.util')
+const { createAccessToken, createRefreshToken } = require('../utils/generate.tokens.util')
 const { comparePasswords, createHashPassword } = require('../utils/bcrypt.util')
 
 
