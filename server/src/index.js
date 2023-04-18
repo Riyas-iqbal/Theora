@@ -1,11 +1,12 @@
 require('dotenv').config()
+const connectDB = require('./config/connection')
 
 const express = require('express')
-const compression = require('./middlewares/compression')
+const cookieParser = require('cookie-parser')
 
+const compression = require('./middlewares/compression')
 const authLimiter = require('./middlewares/rate.limiter')
 const customLog = require('./middlewares/logger')
-const connectDB = require('./config/connection')
 
 const app = express()
 
@@ -17,13 +18,14 @@ app.use(customLog)
 app.use(compression)
 
 app.use(express.json())
+app.use(cookieParser())
 
 // Limit requests - Prevents DDos, Dos and Brute force attacks
 if (process.env.NODE_ENV === 'production') {
     app.use('/api/auth', authLimiter)
 }
 
-//routes
+// Routes
 app.use('/api', require('./router'))
 
 app.use('*', (req, res) => {

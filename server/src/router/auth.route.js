@@ -25,21 +25,10 @@ router
         authController.handleLogout
     )
 
-router.get('/test',async (req,res)=>{
-    console.log(new Date().toLocaleString("en-US", "Asia/Delhi"))
-    const data = new Promise((resolve, reject)=>{
-        res.send()
-    })
-    res.send(data)
-    console.log(new Date().toLocaleString("en-US", "Asia/Delhi"))
-})
 
-
-
-router.get('/test1',(req,res)=>{
-    console.log(new Date().toLocaleString("en-US", "Asia/Delhi"))
-    const data = 'hey it worked!'
-    res.send(data.repeat(10000))
+router.get('/test',(req,res)=>{
+    const data = 'Hello world'
+    res.send(data.repeat(100000))
 })
 
 module.exports = router

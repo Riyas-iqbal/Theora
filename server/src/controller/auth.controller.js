@@ -10,28 +10,41 @@ const signInSchema = require('../validation/auth.validator')
 // @access Public
 
 const handleSignIn = async (req, res) => {
+    console.log(req.body)
     const { error, value } = signInSchema.validate(req.body)
     if (error) {
         console.log(error)
         return res.status(400).json({ message: error.details[0].message })
     }
-    console.log(value)
 
-    
-    const userData = await User.findOne({ email })
+    const userData = await User.findOne({ email: value.email })
 
     if (!userData) {
         return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const isPasswordMatch = await comparePasswords(password, userData.password)
+    const isPasswordMatch = await comparePasswords(value.password, userData.password)
 
     if (!isPasswordMatch) return res.status(401).json({ message: 'Unauthorized' })
-
+    
     const accessToken = createAccessToken(userData)
     const refreshToken = createRefreshToken(userData)
+    
+    res.cookie('accessToken', accessToken, {
+		httpOnly: true,
+		secure: process.env.NODE_ENV === 'production',
+		// signed: false,
+        maxAge: 24 * 60 * 60 * 1000
+	})
 
-    res.status(200).json({ refreshToken, accessToken })
+    res.cookie('refreshToken', refreshToken, {
+		httpOnly: true,
+		secure: process.env.NODE_ENV === 'production',
+		// signed: false,
+		maxAge: 24 * 60 * 60 * 1000
+	})
+
+    res.status(200).json({ message: 'Login successfull' })
 }
 
 
@@ -95,7 +108,7 @@ const refreshToken = (req, res) => {
         return res.status(401).json({ message: 'Invalid access token' })
     }
 
-    const result = verifyToken(refreshToken)
+    const result = verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET)
 
     if (result) {
         const accessToken = createAccessToken(isValidToken)
