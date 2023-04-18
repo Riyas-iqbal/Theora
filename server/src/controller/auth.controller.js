@@ -2,6 +2,7 @@ const User = require('../models/user.model')
 const verifyToken = require('../utils/auth.util')
 const { createAccessToken, createRefreshToken } = require('../utils/generate.tokens.util')
 const { comparePasswords, createHashPassword } = require('../utils/bcrypt.util')
+const signInSchema = require('../validation/auth.validator')
 
 
 // @desc Login
@@ -9,12 +10,14 @@ const { comparePasswords, createHashPassword } = require('../utils/bcrypt.util')
 // @access Public
 
 const handleSignIn = async (req, res) => {
-    const { email, password } = req.body
-
-    if (!email || !password) {
-        return res.status(400).json({ message: 'All fields are required' })
+    const { error, value } = signInSchema.validate(req.body)
+    if (error) {
+        console.log(error)
+        return res.status(400).json({ message: error.details[0].message })
     }
+    console.log(value)
 
+    
     const userData = await User.findOne({ email })
 
     if (!userData) {
@@ -42,7 +45,7 @@ const handleSignUp = async (req, res) => {
 
 
     if (!email || !name || !password || !phone) {
-        console.log(email,name,password,phone)
+        console.log(email, name, password, phone)
         return res.status(400).json({ message: 'All fields are required' })
     }
 
@@ -69,10 +72,10 @@ const handleSignUp = async (req, res) => {
     })
 
     user.save()
-        .then((userData)=> userData)
-        .catch((error)=>{console.log(error)})
+        .then((userData) => userData)
+        .catch((error) => { console.log(error) })
     console.log(userData)
-    res.status(200).json({ message : 'Created successfully'})
+    res.status(200).json({ message: 'Created successfully' })
 }
 
 
@@ -80,9 +83,9 @@ const handleSignUp = async (req, res) => {
 // @route POST /auth/refresh
 // @access Public
 
-const refreshToken = (req,res) => { 
+const refreshToken = (req, res) => {
     const refreshToken = req.body.refreshToken
-    if (!refreshToken){
+    if (!refreshToken) {
         return res.status(401).json({ message: 'Provide a access token' })
     }
 
@@ -95,10 +98,10 @@ const refreshToken = (req,res) => {
     const result = verifyToken(refreshToken)
 
     if (result) {
-        const accessToken = createAccessToken( isValidToken )
-        res.status(200).json( accessToken )
+        const accessToken = createAccessToken(isValidToken)
+        res.status(200).json(accessToken)
     } else {
-        res.status(400).json({ message : 'inavlid' })
+        res.status(400).json({ message: 'inavlid' })
     }
 }
 
