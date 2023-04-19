@@ -2,7 +2,7 @@ const User = require('../models/user.model')
 const verifyToken = require('../utils/auth.util')
 const { createAccessToken, createRefreshToken } = require('../utils/generate.tokens.util')
 const { comparePasswords, createHashPassword } = require('../utils/bcrypt.util')
-const signInSchema = require('../validation/auth.validator')
+const { signInSchema, signUpSchema } = require('../validation/auth.validator')
 
 
 // @desc Login
@@ -26,23 +26,25 @@ const handleSignIn = async (req, res) => {
     const isPasswordMatch = await comparePasswords(value.password, userData.password)
 
     if (!isPasswordMatch) return res.status(401).json({ message: 'Unauthorized' })
-    
+
     const accessToken = createAccessToken(userData)
     const refreshToken = createRefreshToken(userData)
-    
+
     res.cookie('accessToken', accessToken, {
-		httpOnly: true,
-		secure: process.env.NODE_ENV === 'production',
-		// signed: false,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        // signed: false,
         maxAge: 24 * 60 * 60 * 1000
-	})
+    })
 
     res.cookie('refreshToken', refreshToken, {
-		httpOnly: true,
-		secure: process.env.NODE_ENV === 'production',
-		// signed: false,
-		maxAge: 24 * 60 * 60 * 1000
-	})
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        // signed: false,
+        maxAge: 24 * 60 * 60 * 1000
+    })
+
+    const updateData = User.updateOne({ _id : userData._id })
 
     res.status(200).json({ message: 'Login successfull' })
 }
@@ -54,13 +56,15 @@ const handleSignIn = async (req, res) => {
 
 const handleSignUp = async (req, res) => {
     console.log(req.body)
-    const { email, name, password, phone } = req.body
 
+    const { error, value } = signUpSchema.validate(req.body)
 
-    if (!email || !name || !password || !phone) {
-        console.log(email, name, password, phone)
-        return res.status(400).json({ message: 'All fields are required' })
+    if (error) {
+        console.log(error)
+        return res.status(400).json({ message: error.details })
     }
+
+    const { name, password, phone, email } = value
 
     const isEmailUnique = await User.findOne({ email })
     const isPhoneUnique = await User.findOne({ phone })
@@ -75,8 +79,6 @@ const handleSignUp = async (req, res) => {
 
     const hashedPassword = await createHashPassword(password)
 
-    console.log(hashedPassword)
-
     const user = new User({
         name,
         email,
@@ -84,20 +86,23 @@ const handleSignUp = async (req, res) => {
         password: hashedPassword
     })
 
-    user.save()
-        .then((userData) => userData)
+    await user.save()
+        .then((userData) => {
+            console.log(userData)
+            return userData
+        })
         .catch((error) => { console.log(error) })
-    console.log(userData)
+    console.log(userData, 'hgtfuy')
     res.status(200).json({ message: 'Created successfully' })
 }
 
 
 // @desc generate new access token
-// @route POST /auth/refresh
+// @route GET /auth/token
 // @access Public
 
-const refreshToken = (req, res) => {
-    const refreshToken = req.body.refreshToken
+const refreshToken = async (req, res) => {
+    const refreshToken = req.cookies['accessToken']
     if (!refreshToken) {
         return res.status(401).json({ message: 'Provide a access token' })
     }
@@ -108,13 +113,17 @@ const refreshToken = (req, res) => {
         return res.status(401).json({ message: 'Invalid access token' })
     }
 
-    const result = verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET)
+    try {
+        const result = await verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET)
+    } catch (error) {
+        res.status(401).json({ message: error.message })
+    }
 
     if (result) {
         const accessToken = createAccessToken(isValidToken)
         res.status(200).json(accessToken)
     } else {
-        res.status(400).json({ message: 'inavlid' })
+        res.status(400).json({ message: 'invalid' })
     }
 }
 

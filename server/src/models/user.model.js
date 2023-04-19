@@ -22,7 +22,8 @@ const userSchema = new mongoose.Schema({
     isBlocked:{
         type:Boolean,
         default:false
-    }
+    },
+    token: Array
 }, {
     timestamps: true
 })
