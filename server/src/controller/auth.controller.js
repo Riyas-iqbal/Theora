@@ -4,7 +4,6 @@ const attachTokenToCookie = require('../utils/cookie.util')
 const { createAccessToken, createRefreshToken } = require('../utils/generate.tokens.util')
 const { comparePasswords, createHashPassword } = require('../utils/bcrypt.util')
 const { signInSchema, signUpSchema } = require('../validation/auth.validator')
-const jwt = require('jsonwebtoken')
 
 
 // @desc Login
@@ -93,13 +92,13 @@ const refreshToken = async (req, res) => {
     const refreshToken = req.cookies['refreshToken']
 
     if (!refreshToken) {
-        return res.status(401).json({ message: 'Provide a access token' })
+        return res.status(401).json({ message: 'Provide a refrsh token' })
     }
 
     const userData = await User.findOne({ token: refreshToken }).select({ email: 1, name: 1, isBlocked: 1 })
 
     if (!userData) {
-        return res.status(401).json({ message: 'Invalid access token please login again' })
+        return res.status(401).json({ message: 'Invalid refresh token please login again' })
     }
 
     try {
@@ -110,20 +109,32 @@ const refreshToken = async (req, res) => {
 
     if (!result) {
         res.status(400).json({ message: 'invalid' })
-    } 
-        const accessToken = createAccessToken(userData)
-        attachTokenToCookie('accessToken', accessToken, res)
-        res.status(200).json({ message: 'token created successfully' })
+    }
+    const accessToken = createAccessToken(userData)
+    attachTokenToCookie('accessToken', accessToken, res)
+    res.status(200).json({ message: 'token created successfully' })
 }
 
 
-// @desc Logout
-// @route POST /auth/logout
+// @desc To clear tokens from cookie and delete from database
+// @route DELETE /auth/logout
 // @access Public
 
-const handleLogout = (req, res) => {
+const handleLogout = async (req, res) => {
+
+    const refreshToken = req.cookies['refreshToken']
+    if (!refreshToken) return res.status(400).json({ message: 'refresh token not found' })
+
     //delete refresh token from database
+    const isTokenPresentInDB = await User.findOneAndUpdate({ token: refreshToken }, { $pull: { token: refreshToken } })
+
+    if(!isTokenPresentInDB) console.log('token not present in database');
+
     // clear cookie from response
+    res.clearCookie('refreshToken')
+    res.clearCookie('accessToken')
+
+    res.status(200).json({ message: 'logout successful' })
 }
 
 
