@@ -1,6 +1,6 @@
 const verifyToken = require('../utils/auth.util')
 
-const isAuth = (req, res, next) => {
+const isAuth = async (req, res, next) => {
 
     const accessToken = req.cookies['accessToken'];
 
@@ -14,12 +14,13 @@ const isAuth = (req, res, next) => {
 
     verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET)
         .then((user) => {
-            console.log('token verified')
-            req.user = user;
+            console.log('token verified',user)
+            req.user = user.user;
             next()
         })
         .catch((err) => {
-            return res.status(403).json({ err })
+            console.error('token error')
+            return res.status(401).json({ err })
         })
 }
 
