@@ -1,0 +1,35 @@
+@font-face {
+    font-family: 'CustomFont';
+    src: url('./fonts/Nexa-Regular.otf');
+    font-weight: bolder;
+    /* font-style: normal; */
+}
+
+.nexa-font {
+    font-family: 'CustomFont';
+    font-weight: bolder;
+}
+
+.background-animation {
+	background: linear-gradient(-45deg, #ff80b553, #9189fc4c, #23a5d556, #23d5ab48);
+	background-size: 400% 400%;
+	animation: gradient 8s ease infinite;
+	height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
+/* body{
+    font-family: 'CustomFont';
+} */
