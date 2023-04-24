@@ -1,5 +1,6 @@
 
 attachTokenToCookie = (cookieName, Token, res) => {
+    console.log('cookie set')
     res.cookie(cookieName, Token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',

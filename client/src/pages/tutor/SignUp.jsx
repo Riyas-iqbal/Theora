@@ -16,7 +16,7 @@ function SignUp() {
   const handleSignUp = (e) => {
     e.preventDefault()
     axios.post(
-      `http://localhost:3000/api/auth/signup`,
+      `http://localhost:3000/api/auth/tutor/signup`,
       {
         email,
         password,
@@ -44,10 +44,10 @@ function SignUp() {
             alt="Your Company"
           /> */}
           <div className="flex justify-center ">
-            <Logo />
+            <Logo size={1.7} tutor={true}/>
           </div>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Create a new account
+            Create a new account as Tutor
           </h2>
         </div>
 
@@ -127,7 +127,7 @@ function SignUp() {
               <button
                 type="submit"
                 onClick={handleSignUp}
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full justify-center rounded-md bg-amber-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign up
               </button>
@@ -136,7 +136,7 @@ function SignUp() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Already a member?{' '}
-            <Link to="../signin" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <Link to="../signin" className="font-semibold leading-6 text-amber-400 hover:text-amber-500">
               Sign in
             </Link>
           </p>

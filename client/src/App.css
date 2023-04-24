@@ -14,7 +14,7 @@
 	background: linear-gradient(-45deg, #ff80b553, #9189fc4c, #23a5d556, #23d5ab48);
 	background-size: 400% 400%;
 	animation: gradient 8s ease infinite;
-	height: 100vh;
+	/* height: 100%; */
 }
 
 @keyframes gradient {
@@ -29,6 +29,13 @@
 	}
 }
 
+.hero-stats{
+	border: 1px solid rgb(79 70 229 / 24%);
+    width: -webkit-fill-available;
+    padding: 29px;
+    border-radius: 25px;
+    background-color: #ffffff52;
+}
 
 /* body{
     font-family: 'CustomFont';

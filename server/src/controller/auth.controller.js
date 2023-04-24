@@ -11,13 +11,12 @@ const { signInSchema, signUpSchema } = require('../validation/auth.validator')
 // @access Public
 
 const handleSignIn = async (req, res) => {
-    // console.log(req.body)
     const { error, value } = signInSchema.validate(req.body)
     if (error) {
         console.log(error)
         return res.status(400).json({ message: error.details[0].message })
     }
-
+    
     let userData = await User.findOne({ email: value.email }).select({ email: 1, name: 1, isBlocked: 1, password: 1 })
 
     if (!userData) {

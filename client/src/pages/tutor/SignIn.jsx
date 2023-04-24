@@ -16,7 +16,7 @@ function SignIn() {
     e.preventDefault()
     console.log(email, password)
     axios.post(
-      `http://localhost:3000/api/auth/signin`,
+      `http://localhost:3000/api/auth/tutor/signin`,
       {
         email,
         password,
@@ -45,10 +45,10 @@ function SignIn() {
             alt="Your Company"
           /> */}
           <div className='flex justify-center'>
-            <Logo size={1.7} />
+            <Logo size={1.7} tutor={true} />
           </div>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in and explore
+            Sign in as tutor and explore
           </h2>
         </div>
 
@@ -100,7 +100,7 @@ function SignIn() {
               <button
                 type="submit"
                 onClick={handleSingIn}
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full justify-center rounded-md bg-amber-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign in
               </button>
@@ -109,7 +109,7 @@ function SignIn() {
 
           <p className="mt-10 text-center text-xs text-gray-500">
             Ready to start exploring new perspectives?{' '}
-            <Link to="../signup" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <Link to="../signup" className="font-semibold leading-6 text-amber-400 hover:text-amber-500">
               Create an account!
             </Link>
           </p>

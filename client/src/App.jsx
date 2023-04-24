@@ -1,17 +1,19 @@
 import './App.css'
 import Hero from './pages/Hero'
 import { Route, Routes } from 'react-router-dom'
-import SignIn from './pages/user/SignIn'
+import UserRoutes from './routes/UserRoutes'
+import TutorRoutes from './routes/TutorRoutes'
 
 function App() {
 
   return (
-    <>
+    <div>
       <Routes>
         <Route path="/" exact Component={Hero} />
-        <Route path="/signin" exact Component={SignIn} />
+        <Route path="/user/*" element={<UserRoutes />} />
+        <Route path="/tutor/*" element={<TutorRoutes />} />
       </Routes>
-    </>
+    </div>
   )
 }
 

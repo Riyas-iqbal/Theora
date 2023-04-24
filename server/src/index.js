@@ -3,6 +3,7 @@ const connectDB = require('./config/connection')
 
 const express = require('express')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 
 const compression = require('./middlewares/compression')
 const authLimiter = require('./middlewares/rate.limiter')
@@ -17,6 +18,11 @@ app.use(customLog)
 //Applies gzip compression to responses for better network performance
 app.use(compression)
 
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true
+}))
 app.use(express.json())
 app.use(cookieParser())
 
