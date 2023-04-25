@@ -4,6 +4,8 @@ import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Typed from 'typed.js';
 import Logo from '../components/common/Logo';
+import Counter from '../utils/Counter';
+// import Counter from '../utils/Counter';
 
 const navigation = [
   { name: 'Course', href: '#' },
@@ -202,15 +204,22 @@ export default function Hero() {
             <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3 ">
               <div className="mx-auto flex max-w-xs flex-col gap-y-4 hero-stats">
                 <dt className="text-base leading-7 text-gray-600">Minutes of content made every 24 hours</dt>
-                <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">2000</dd>
+                <dd className="order-first text-3xl font-semibold tracking-tight flex justify-center text-gray-900 sm:text-5xl">
+                  <Counter value={724} />
+                </dd>
+                
               </div>
               <div className="mx-auto flex max-w-xs flex-col gap-y-4 hero-stats">
                 <dt className="text-base leading-7 text-gray-600">Courses sold every week</dt>
-                <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">54</dd>
+                <dd className="order-first text-3xl font-semibold flex justify-center tracking-tight text-gray-900 sm:text-5xl">
+                <Counter value={543} />
+                </dd>
               </div>
               <div className="mx-auto flex max-w-xs flex-col gap-y-4 hero-stats">
-                <dt className="text-base leading-7 text-gray-600">New users annually</dt>
-                <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">46,000</dd>
+                <dt className="text-base leading-7 text-gray-600">New users yearly</dt>
+                <dd className="order-first text-3xl font-semibold flex justify-center tracking-tight text-gray-900 sm:text-5xl">
+                  <Counter value={1803} />
+                  </dd>
               </div>
             </dl>
           </div>

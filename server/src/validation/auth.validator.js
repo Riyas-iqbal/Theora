@@ -62,7 +62,7 @@ const signUpSchema = Joi.object({
         .messages({
             'string.base': 'Phone number should be a type of text',
             'string.empty': 'Phone number is required',
-            'string.length': 'Phone number should be at least 10 characters long',
+            'string.length': 'Phone number should contain ten characters',
             'string.pattern.base': 'Phone number should only contain numbers'
         })
 });

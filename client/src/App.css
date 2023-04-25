@@ -40,3 +40,37 @@
 /* body{
     font-family: 'CustomFont';
 } */
+
+.StatsCounter {
+	display: inline-block;
+	font-size: 4rem;
+	font-weight: bold;
+	color: #333;
+	animation-name: count-up;
+	animation-duration: 3s;
+	animation-fill-mode: forwards;
+	animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+  }
+  
+  .StatsCounter__number {
+	animation-name: fade-in;
+	animation-duration: 0.5s;
+  }
+  
+  @keyframes count-up {
+	0% {
+	  font-size: 0;
+	}
+	100% {
+	  font-size: 4rem;
+	}
+  }
+  
+  @keyframes fade-in {
+	0% {
+	  opacity: 0;
+	}
+	100% {
+	  opacity: 1;
+	}
+  }

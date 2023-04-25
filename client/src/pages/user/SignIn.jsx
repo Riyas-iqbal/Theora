@@ -9,6 +9,7 @@ function SignIn() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
   const navigate = useNavigate();
 
@@ -31,7 +32,11 @@ function SignIn() {
           navigate('../')
         }
       })
-      .catch((err) => console.log('errrorr', err))
+      .catch((err) => {
+        console.log('errrorr', err.response.data.message)
+        setError(err.response.data.message)
+      })
+        
   }
 
 
@@ -96,6 +101,9 @@ function SignIn() {
               </div>
             </div>
 
+            <div className='flex justify-center'>
+            <span className='text-red-400 text-center font-bold nexa-font'>{error}</span>
+            </div>
             <div>
               <button
                 type="submit"

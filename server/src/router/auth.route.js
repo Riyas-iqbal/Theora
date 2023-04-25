@@ -1,34 +1,56 @@
 const router = require('express').Router()
 const authController = require('../controller/auth.controller')
 
+/**
+* @desc User Authentcion routes
+* @route /api/auth/
+* @access public
+*/
+
 router
     .route('/signin')
-    .post(
-        authController.handleSignIn
-    )
+    .post(authController.handleSignIn)
 
 router
     .route('/signup')
-    .post(
-        authController.handleSignUp
-    )
+    .post(authController.handleSignUp)
 
 router
     .route('/token')
-    .get(
-        authController.refreshToken
-    )
+    .get(authController.refreshToken)
 
 router
     .route('/logout')
-    .delete(
-        authController.handleLogout
-    )
+    .delete(authController.handleLogout)
+
+/**
+* @desc tutor Authentcion routes
+* @route /api/auth/tutor
+* @access public
+*/
+
+router
+    .route('/tutor/signin')
+    .post(authController.handleSignIn)
+
+router
+    .route('/tutor/signup')
+    .post(authController.handleSignUp)
+
+router
+    .route('/tutor/logout')
+    .delete(authController.handleLogout)
 
 
-router.get('/test',(req,res)=>{
-    const data = 'Hello world'
-    res.send(data.repeat(100000))
-})
+
+
+
+
+
+
+// router.get('/test', (req, res) => {
+//     const data = 'Hello world'
+//     res.send(data.repeat(100000))
+// })
 
 module.exports = router
