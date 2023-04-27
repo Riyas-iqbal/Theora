@@ -32,7 +32,10 @@ function SignIn() {
           navigate('../')
         }
       })
-      .catch((err) => console.log('errrorr', err))
+      .catch((err) => {
+        console.log('errrorr', err)
+        setError(err.response.data.message)
+      })
   }
 
 

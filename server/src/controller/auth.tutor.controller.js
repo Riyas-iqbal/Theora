@@ -22,7 +22,7 @@ const handleSignIn = async (req, res) => {
     if (!tutorData) {
         return res.status(401).json({ message: 'Unauthorized' })
     }
-    const isPasswordMatch = await comparePasswords(value.password, userData.password)
+    const isPasswordMatch = await comparePasswords(value.password, tutorData.password)
 
     if (!isPasswordMatch) return res.status(401).json({ message: 'Unauthorized' })
 
@@ -79,7 +79,7 @@ const handleSignUp = async (req, res) => {
         password: hashedPassword
     })
 
-    await user.save().catch(error => console.log(error))
+    await tutor.save().catch(error => console.log(error))
     res.status(200).json({ message: 'Account created successfully' })
 }
 

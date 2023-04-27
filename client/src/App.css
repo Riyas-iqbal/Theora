@@ -5,6 +5,15 @@
     /* font-style: normal; */
 }
 
+
+body{
+	--tw-bg-opacity: 1;
+    background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+	/* background-color: rgb(243 244 246 / var(--tw-bg-opacity)); bg-gray-100 */
+	/* background-color: rgb(229 231 235 / var(--tw-bg-opacity)); bg-gray-200 */
+	/* background-color: rgb(209 213 219 / var(--tw-bg-opacity)); bg-gray-300 */
+}
+
 .nexa-font {
     font-family: 'CustomFont';
     font-weight: bolder;

@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const authController = require('../controller/auth.controller')
+const authTutorController = require('../controller/auth.tutor.controller')
 
 /**
 * @desc User Authentcion routes
@@ -31,15 +32,15 @@ router
 
 router
     .route('/tutor/signin')
-    .post(authController.handleSignIn)
+    .post(authTutorController.handleSignIn)
 
 router
     .route('/tutor/signup')
-    .post(authController.handleSignUp)
+    .post(authTutorController.handleSignUp)
 
 router
     .route('/tutor/logout')
-    .delete(authController.handleLogout)
+    .delete(authTutorController.handleLogout)
 
 
 
