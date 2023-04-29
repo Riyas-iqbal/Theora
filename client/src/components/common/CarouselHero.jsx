@@ -12,11 +12,11 @@ function CarouselHero() {
     ]
 
     return (
-        <div className="sm:h-64 xl:h-80 2xl:h-96 min-h-min">
-            <Carousel slide={false}>
+        <div className="h-40 sm:h-64 xl:h-80 2xl:h-96">
+            <Carousel >
                 {
                     images.map((image,index) => {
-                        return <img className='h-60'
+                        return <img className=''
                             key={index}
                             src={image}
                             alt="..."

@@ -5,7 +5,8 @@ function Logo({ size = 1, tutor = false , outline = true , to = '/' }) {
     return (
         <>
             {/* <div className='border-r border-l ring-1 border-blue-500 rounded-full px-1 flex flex-col hover:bg-blue-50' > */}
-            <Link to={to} className='relative'>
+            {/* <Link to={to} className='relative'> */}
+            <Link to={to} className=''>
                 <h1 className=
                 {
                     `${tutor ? 'text-orange-400': 'text-blue-600' }
