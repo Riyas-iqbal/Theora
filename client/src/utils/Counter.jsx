@@ -2,7 +2,7 @@ import React from 'react';
 import AnimatedNumber from 'react-animated-numbers';
 
 function Counter({ value=200 }) {
-  // return value
+  return value
   return (
       <AnimatedNumber 
         includeComma 

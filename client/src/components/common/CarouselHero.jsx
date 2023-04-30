@@ -1,5 +1,5 @@
 import React from 'react'
-import { Carousel } from 'flowbite-react'
+import { Carousel,Footer } from 'flowbite-react'
 
 function CarouselHero() {
 
@@ -12,7 +12,7 @@ function CarouselHero() {
     ]
 
     return (
-        <div className="h-40 sm:h-64 xl:h-80 2xl:h-96">
+        <div className="h-40 sm:h-64 lg:h-96">
             <Carousel >
                 {
                     images.map((image,index) => {
@@ -25,7 +25,9 @@ function CarouselHero() {
                     })
                 }
             </Carousel>
+            <Footer.Divider  />
         </div>
+        
     )
 }
 

@@ -28,21 +28,21 @@ function Navbar() {
             </div>
             <NavBar.Collapse>
                 <NavBar.Link
-                    href="/navbars"
+                    href="/user"
                     active={true}
                 >
                     Home
                 </NavBar.Link>
-                <NavBar.Link href="/navbars">
-                    About
+                <NavBar.Link href="/explore">
+                    Explore
                 </NavBar.Link>
-                <NavBar.Link href="/navbars">
-                    Services
+                <NavBar.Link href="/blogs">
+                    Blogs
                 </NavBar.Link>
-                <NavBar.Link href="/navbars">
-                    Pricing
+                <NavBar.Link href="/newsletters">
+                    Newsletter
                 </NavBar.Link>
-                <NavBar.Link href="/navbars">
+                <NavBar.Link href="/contact">
                     Contact
                 </NavBar.Link>
 
