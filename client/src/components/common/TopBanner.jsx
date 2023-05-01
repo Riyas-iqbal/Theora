@@ -12,8 +12,8 @@ function TopBanner({ promotion = 'Check out the new thing we launched', LinkTitl
           left: 0,
           position: 'absolute',
           transition: 'opacity 1s, top 1s',
-          width: '100vw',
-          // overflowX: 'scroll',
+          width: '100%',
+          overflow: 'hidden',
         }}
       >
         <div

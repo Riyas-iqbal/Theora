@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Tab } from '@headlessui/react'
 import { Link } from 'react-router-dom'
 import HorizontalRule from '../common/HorizontalRule'
+import SectionTitle from './SectionTitle'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -104,7 +105,7 @@ export default function TabSection() {
     return (
         // <div className="px-1 sm:px-5 md:px-10 ">
         <div >
-            <h1 className='text-blue-700 nexa-font  text-start ml-16 text-4xl pt-16 font-black'>Newsletter</h1>
+            <SectionTitle title='Newsletter' description='Stay Ahead of the Learning Curve'/>
             <HorizontalRule />
             <div className="w-full px-2 pb-16 sm:px-0">
                 <Tab.Group>
@@ -167,6 +168,7 @@ export default function TabSection() {
                         ))}
                     </Tab.Panels>
                 </Tab.Group>
+            <HorizontalRule />
             </div>
         </div>
     )

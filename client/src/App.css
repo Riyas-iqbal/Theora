@@ -1,22 +1,22 @@
 @font-face {
-    font-family: 'CustomFont';
-    src: url('./fonts/Nexa-Regular.otf');
-    font-weight: bolder;
-    /* font-style: normal; */
+	font-family: 'CustomFont';
+	src: url('./fonts/Nexa-Regular.otf');
+	font-weight: bolder;
+	/* font-style: normal; */
 }
 
 
-body{
+body {
 	--tw-bg-opacity: 1;
-    background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+	background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 	/* background-color: rgb(243 244 246 / var(--tw-bg-opacity)); bg-gray-100 */
 	/* background-color: rgb(229 231 235 / var(--tw-bg-opacity)); bg-gray-200 */
 	/* background-color: rgb(209 213 219 / var(--tw-bg-opacity)); bg-gray-300 */
 }
 
 .nexa-font {
-    font-family: 'CustomFont';
-    font-weight: bolder;
+	font-family: 'CustomFont';
+	font-weight: bolder;
 }
 
 .background-animation {
@@ -30,20 +30,22 @@ body{
 	0% {
 		background-position: 0% 50%;
 	}
+
 	50% {
 		background-position: 100% 50%;
 	}
+
 	100% {
 		background-position: 0% 50%;
 	}
 }
 
-.hero-stats{
+.hero-stats {
 	border: 1px solid rgb(79 70 229 / 24%);
-    width: -webkit-fill-available;
-    padding: 29px;
-    border-radius: 25px;
-    background-color: #ffffff52;
+	width: -webkit-fill-available;
+	padding: 29px;
+	border-radius: 25px;
+	background-color: #ffffff52;
 }
 
 /* body{
@@ -59,27 +61,62 @@ body{
 	animation-duration: 3s;
 	animation-fill-mode: forwards;
 	animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
-  }
-  
-  .StatsCounter__number {
+}
+
+.StatsCounter__number {
 	animation-name: fade-in;
 	animation-duration: 0.5s;
-  }
-  
-  @keyframes count-up {
+}
+
+@keyframes count-up {
 	0% {
-	  font-size: 0;
+		font-size: 0;
 	}
+
 	100% {
-	  font-size: 4rem;
+		font-size: 4rem;
 	}
-  }
-  
-  @keyframes fade-in {
+}
+
+@keyframes fade-in {
 	0% {
-	  opacity: 0;
+		opacity: 0;
 	}
+
 	100% {
-	  opacity: 1;
+		opacity: 1;
 	}
-  }
+}
+
+
+*::-webkit-scrollbar {
+	padding: 2px;
+	width: 3px;
+}
+
+*::-webkit-scrollbar-track {
+	background: #e6e8ec;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: #5850ec;
+	border-radius: 16px;
+	/* border: 1px solid #ffffff; */
+}
+
+.hide-scroll-bar::-webkit-scrollbar {	
+	width: 1em;
+	height: 5px;
+}
+
+.hide-scroll-bar::-webkit-scrollbar-track {
+	background: #e6e8ec;
+}
+
+.hide-scroll-bar::-webkit-scrollbar-thumb {
+	width: 1px;
+	height: 10px;
+	background-color: #5850ec;
+	border-radius: 16px;
+	/* border: 1px solid #ffffff; */
+}

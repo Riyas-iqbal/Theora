@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import HorizontalRule from '../common/HorizontalRule'
 import { useEffect } from 'react'
+import SectionTitle from './SectionTitle'
+import { CodeBracketIcon, ArrowDownCircleIcon } from '@heroicons/react/24/outline'
+import { Button } from 'flowbite-react'
 
 function CategoryCard({ categories }) {
 
@@ -12,38 +15,44 @@ function CategoryCard({ categories }) {
       setIsLoading(!isLoading)
     }, 2000);
   }, [])
-  
+
 
   return (
     <>
-      <h1 className='text-blue-700 nexa-font text-start ml-16 text-4xl pt-10 font-black'>Category</h1>
+      <SectionTitle title='Category' description='Find Your Next Learning Adventure' />
       <HorizontalRule />
 
-      <div className="flex flex-wrap justify-center gap-6">
+      <div className="flex flex-wrap justify-center gap-6 p-6 md:p-2">
 
         { //change key from index to category id
           categories.map((category, i) => (
 
             <Link to={`/category/${i}`} key={i}
-              className="block max-w-xs p-6 bg-white border border-gray-200 rounded-lg shadow
+              className="block min-w-full sm:min-w-0 max-w-xs p-6 bg-white border border-gray-200 rounded-lg shadow
             hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700
-              transition ease-in-out hover:scale-105 duration-300"
+              transition ease-in-out hover:scale-105 duration-300 hover:shadow-lg ring-1 sm:ring-0"
             >
               <div className="flex flex-col gap-3 items-center justify-between">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
-                </svg>
-                <h6 className="text-2xl font-bold tracking-tight text-blue-500 nexa-font dark:text-white">{category.title}</h6>
-                <p className="font-normal text-gray-700 nexa-font dark:text-gray-400">{category.description}</p>
+                <CodeBracketIcon className="h-6 w-6 text-sm sm:block" />
+                <h6 className="text-lg md:text-2xl font-bold tracking-tight text-center text-blue-500 nexa-font dark:text-white">{category.title}</h6>
+                <p className="font-normal text-sm hidden sm:block  md:text-md text-center whitespace-pre-wrap text-gray-700 nexa-font dark:text-gray-400">{category.description}</p>
               </div>
             </Link>
           )
           )
         }
 
-
-
+      </div> {/** Add on click  */}
+      <div className='flex flex-row justify-center nexa-font  items-center'> 
+        <HorizontalRule />
+        <button type="button" className="text-blue-700 bg-gray-100 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500">
+          <svg aria-hidden="true" className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+          <span className="sr-only">Icon description</span>
+        </button>
+        <HorizontalRule />
       </div>
+
+      <HorizontalRule />
     </>
   )
 }
