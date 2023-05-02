@@ -7,6 +7,7 @@ import Footer from "../../components/user/FooterUser"
 import TabSection from "../../components/user/TabSection"
 import CategoryCard from "../../components/user/CategoryCard"
 import TrendingCourse from "../../components/user/TrendingCourse"
+import Logo from "../../components/common/Logo"
 
 function HeroUser() {
   const LinkTitle = "Namaste React";
@@ -54,7 +55,7 @@ function HeroUser() {
 
       <Navbar />
 
-      <div className="pt-10 px-1 md:px-10 sm:px-5 bg-gray-200/95 ">
+      <div className="pt-10 px-1 md:px-10 sm:px-5 bg-gray-200/95 pb-24">
         <CarouselHero />
 
         <hr className="h-px my-8 bg-gray-300 border-0 dark:bg-gray-700"></hr>
@@ -69,15 +70,15 @@ function HeroUser() {
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)] opacity-20" />
           <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center" />
           <div className="mx-auto max-w-2xl lg:max-w-4xl">
-            <img className="mx-auto h-14" src="https://tailwindui.com/img/logos/workcation-logo-indigo-600.svg" alt="" />
+            <Logo size={2}/>
             <figure className="mt-10">
               <blockquote className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
-                <p>“Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo expedita voluptas culpa sapiente alias molestiae. Numquam corrupti in laborum sed rerum et corporis.”</p>
+                <p className="nexa-font">“At Theora, we're dedicated to fostering a culture of curiosity, creativity, and growth – both for our students and our team. We believe that learning is a lifelong journey, and we're committed to providing our students with the <p className="text-green-500">highest-quality educational resources."</p></p>
               </blockquote>
               <figcaption className="mt-10">
-                <img className="mx-auto h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                <img className="mx-auto h-14 w-14 rounded-full" src="https://media.licdn.com/dms/image/D5603AQGBh0PhpiNejQ/profile-displayphoto-shrink_800_800/0/1664886272481?e=1688601600&v=beta&t=5b67dr0349HgD7LtTOSj05bhZ1UhL-KenepydP-hHIk" alt="" />
                 <div className="mt-4 flex items-center justify-center space-x-3 text-base">
-                  <div className="font-semibold text-gray-900">Judith Black</div>
+                  <div className="font-semibold text-gray-900 nexa-font">Riyas Iqbal</div>
                   <svg viewBox="0 0 2 2" width={3} height={3} aria-hidden="true" className="fill-gray-900">
                     <circle cx={1} cy={1} r={1} />
                   </svg>
