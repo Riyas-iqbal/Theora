@@ -1,4 +1,5 @@
 const Tutor = require('../models/tutor.model')
+const tutorService = require('../services/tutor.service')
 const verifyToken = require('../utils/auth.util')
 const attachTokenToCookie = require('../utils/cookie.util')
 const { createAccessToken, createRefreshToken } = require('../utils/generate.tokens.util')
@@ -6,9 +7,11 @@ const { comparePasswords, createHashPassword } = require('../utils/bcrypt.util')
 const { signInSchema, signUpSchema } = require('../validation/auth.validator')
 
 
-// @desc Login
-// @route POST /auth/tutor/signin
-// @access Public
+/**
+ * @desc Login
+ * @route POST /auth/tutor/signin
+ * @access public
+ */
 
 const handleSignIn = async (req, res) => {
     const { error, value } = signInSchema.validate(req.body)
@@ -16,37 +19,32 @@ const handleSignIn = async (req, res) => {
         console.log(error)
         return res.status(400).json({ message: error.details[0].message })
     }
+
+    let tutorData = await tutorService.findTutorByEmail(value.email)
+    if (!tutorData) return res.status(401).json({ message: 'Unauthorized' })
     
-    let tutorData = await Tutor.findOne({ email: value.email }).select({ email: 1, name: 1, isBlocked: 1, password: 1 })
-
-    if (!tutorData) {
-        return res.status(401).json({ message: 'Unauthorized' })
-    }
     const isPasswordMatch = await comparePasswords(value.password, tutorData.password)
-
     if (!isPasswordMatch) return res.status(401).json({ message: 'Unauthorized' })
 
     tutorData = tutorData.toObject()
     delete tutorData.password
 
-    console.log(tutorData)
-
     const accessToken = createAccessToken(tutorData)
-    const refreshToken = createRefreshToken(tutorData)
-
     attachTokenToCookie('accessTokenTutor', accessToken, res)
+    
+    const refreshToken = createRefreshToken(tutorData)
     attachTokenToCookie('refreshTokenTutor', refreshToken, res)
 
-    await Tutor.updateOne({ _id: tutorData._id }, { $push: { token: refreshToken } })
+    await tutorService.addRefreshTokenById(tutorData._id,refreshToken)
 
     res.status(200).json({ message: 'Login successfull' })
 }
 
-
-
-// @desc Signup
-// @route POST /auth/tutor/signup
-// @access Public
+/**
+ * @desc Tutor signup
+ * @route POST /auth/tutor/signup
+ * @access Public
+ */
 
 const handleSignUp = async (req, res) => {
 
@@ -59,16 +57,11 @@ const handleSignUp = async (req, res) => {
 
     const { name, password, phone, email } = value
 
-    const isEmailUnique = await Tutor.findOne({ email })
-    const isPhoneUnique = await Tutor.findOne({ phone })
-
-    if (isEmailUnique) {
-        return res.status(409).json({ message: 'Email already in use' })
-    }
-
-    if (isPhoneUnique) {
-        return res.status(409).json({ message: 'Phone number already in use' })
-    }
+    const isEmailTaken = await tutorService.checkEmailExists(email)
+    if (isEmailTaken) return res.status(409).json({ message: 'Email already in use' })
+    
+    const isPhoneTaken = await tutorService.checkPhoneExists(phone)
+    if (isPhoneTaken) return res.status(409).json({ message: 'Phone number already in use' })
 
     const hashedPassword = await createHashPassword(password)
 
@@ -84,7 +77,7 @@ const handleSignUp = async (req, res) => {
 }
 
 /**
- * @desc To clear tokens from cookie and delete from database
+ * @desc clear tokens from cookie and delete from database
  * @route DELETE /auth/tutor/logout
  * @access public
  */
@@ -95,9 +88,9 @@ const handleLogout = async (req, res) => {
     if (!refreshToken) return res.status(400).json({ message: 'refresh token not found' })
 
     //delete refresh token from database
-    const isTokenPresentInDB = await Tutor.findOneAndUpdate({ token: refreshToken }, { $pull: { token: refreshToken } })
+    const isTokenPresent = await tutorService.checkTokenAndDelete(refreshToken)
 
-    if(!isTokenPresentInDB) console.log('token not present in database');
+    if (!isTokenPresent) console.log('token not present in database');
 
     // clear cookie from response
     res.clearCookie('refreshTokenTutor')

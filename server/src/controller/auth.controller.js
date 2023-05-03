@@ -9,7 +9,7 @@ const { token } = require('morgan')
 
 
 /**
-* @desc User Sign in 
+* @desc User Sign in
 * @route POST /auth/signin/
 * @access public
 */
@@ -72,7 +72,8 @@ const handleSignUp = async (req, res) => {
         password: hashedPassword
     })
 
-    await user.save().catch(error => console.log(error))
+    await user.save().catch(error => res.status(400).json({ message: error}))
+    
     res.status(200).json({ message: 'Account created successfully' })
 }
 

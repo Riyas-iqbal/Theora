@@ -3,16 +3,17 @@ import { Link } from 'react-router-dom'
 
 function CourseCard() {
     const courses = [
-        1, 2, 3, 4, 5, 6.7,8.,9.0,0,
+        1, 2, 3, 4, 5, 6.7, 8., 9.0, 0,
     ]
 
     return (
         <>
-            <div className='flex hide-scroll-bar pb-3' style={{scrollSnapType:'x-mandatory',overflow:'auto'}}>
+            <div className='flex hide-scroll-bar pb-3' style={{ scrollSnapType: 'x-mandatory', overflow: 'auto' }}>
                 {
                     courses.map(course => (
                         <div
-                            style={{flexShrink:0,scrollSnapAlign:'start'}} 
+                            key={course}
+                            style={{ flexShrink: 0, scrollSnapAlign: 'start' }}
                             className="w-full max-w-xs block hover:shadow-lg duration-300 bg-white border overflow-hidden border-gray-200  rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ml-10">
                             <div className='overflow-hidden '>
                                 <Link to="#">

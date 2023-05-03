@@ -1,17 +1,17 @@
 const User = require('../models/user.model')
 
 const findUserByEmail = async (email) => {
-    const userData = await User.findOne({ email: value.email }).select({ email: 1, name: 1, isBlocked: 1, password: 1 })
+    const userData = await User.findOne({ email }).select({ email: 1, name: 1, isBlocked: 1, password: 1 })
     return userData
 }
 
 const findUserByToken = async (token) => {
-    const userData = User.findOne({ token: refreshToken }).select({ email: 1, name: 1, isBlocked: 1 })
+    const userData = User.findOne({ token }).select({ email: 1, name: 1, isBlocked: 1 })
     return userData
 }
 
-const addRefreshTokenById = async (_id, refreshToken) => {
-    await User.updateOne({ _id }, { $push: { token: refreshToken } })
+const addRefreshTokenById = async (_id, token) => {
+    await User.updateOne({ _id }, { $push: { token } })
 }
 
 const checkEmailExists = async (email) => {

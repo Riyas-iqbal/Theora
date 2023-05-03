@@ -73,7 +73,8 @@ function HeroUser() {
             <Logo size={2}/>
             <figure className="mt-10">
               <blockquote className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
-                <p className="nexa-font">“At Theora, we're dedicated to fostering a culture of curiosity, creativity, and growth – both for our students and our team. We believe that learning is a lifelong journey, and we're committed to providing our students with the <p className="text-green-500">highest-quality educational resources."</p></p>
+                <p className="nexa-font">“At Theora, we're dedicated to fostering a culture of curiosity, creativity, and growth – both for our students and our team. We believe that learning is a lifelong journey, 
+                and we're committed to providing our students with the <span className="text-green-500">highest-quality educational resources</span>."</p>
               </blockquote>
               <figcaption className="mt-10">
                 <img className="mx-auto h-14 w-14 rounded-full" src="https://media.licdn.com/dms/image/D5603AQGBh0PhpiNejQ/profile-displayphoto-shrink_800_800/0/1664886272481?e=1688601600&v=beta&t=5b67dr0349HgD7LtTOSj05bhZ1UhL-KenepydP-hHIk" alt="" />
