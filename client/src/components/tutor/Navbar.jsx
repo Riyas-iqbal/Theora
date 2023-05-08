@@ -36,17 +36,17 @@ function Navbar() {
                         Home
                     </span>
                 </NavBar.Link>
-                <NavBar.Link href="/explore">
-                    Explore
+                <NavBar.Link href="/courses">
+                    Manage Courses
                 </NavBar.Link>
                 <NavBar.Link href="/blogs">
-                    Blogs
+                    Dashboard
                 </NavBar.Link>
                 <NavBar.Link href="/newsletters">
-                    Newsletter
+                    Standings
                 </NavBar.Link>
                 <NavBar.Link href="/contact">
-                    Contact
+                    FAQ
                 </NavBar.Link>
 
             </NavBar.Collapse>

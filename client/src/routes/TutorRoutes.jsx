@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { SignIn, SignUp, HeroTutor, } from '../pages/tutor'
+import { SignIn, SignUp, HeroTutor, CreateCourse } from '../pages/tutor'
 import Navbar from '../components/tutor/Navbar'
 import NotFound from '../pages/NotFound'
 
@@ -13,7 +13,7 @@ function TutorRoutes() {
                 <Route path='signup' element={<SignUp />} />
 
                 <Route path='/' element={<HeroTutor />} />
-                <Route path='/course/' element={<CreateCourse />} />
+                <Route path='/courses/create' element={<CreateCourse />} />
 
                 <Route path="*" element={<NotFound />} />
             </Routes>

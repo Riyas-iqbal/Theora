@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react'
-import Navbar from '../../components/tutor/Navbar'
 import CarouselHero from '../../components/common/CarouselHero'
 import TutorAdvantages from '../../components/tutor/TutorAdvantages'
 import TopTutors from '../../components/tutor/TopTutors'
@@ -37,12 +36,13 @@ function HeroTutor() {
                             Create a New Course
                         </h5>
                         <p className="mb-5 text-center text-base text-gray-500 dark:text-gray-400 sm:text-lg font-normal nexa-font px-10">
-                        Our user-friendly platform makes it easy to create and manage courses on any subject, 
-                        so you can focus on what you do best: teaching. Get started today and join the growing community of educators on Theora
+                            Our user-friendly platform makes it easy to create and manage courses on any subject,
+                            so you can focus on what you do best: teaching. Get started today and join the growing
+                            community of educators on Theora
                         </p>
                         <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
                             <Link
-                                to="course"
+                                to="courses/create"
                                 className="inline-flex w-full items-center justify-center rounded-lg bg-amber-300 px-4 py-2.5 text-black hover:bg-amber-500 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 sm:w-auto"
                             >
 
