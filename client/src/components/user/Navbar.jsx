@@ -1,6 +1,7 @@
 import { Navbar as NavBar, Button } from 'flowbite-react'
 import Logo from '../common/Logo'
 import { Link } from 'react-router-dom'
+import React from 'react'
 
 function Navbar() {
     return (
@@ -51,4 +52,4 @@ function Navbar() {
     )
 }
 
-export default Navbar
+export default React.memo(Navbar)

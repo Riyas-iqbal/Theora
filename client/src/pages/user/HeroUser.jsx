@@ -43,6 +43,10 @@ function HeroUser() {
 
   const [showComponent, setShowComponent] = useState(false)
 
+  const closeBanner = ()=>{
+    setShowComponent(false)
+  }
+
   useEffect(() => {
     setTimeout(() => {
       setShowComponent(true)
@@ -51,7 +55,7 @@ function HeroUser() {
 
   return (
     <>
-      <TopBanner LinkTitle={LinkTitle} promotion={promotion} showComponent={showComponent} />
+      <TopBanner LinkTitle={LinkTitle} promotion={promotion} showComponent={showComponent} closeBanner={closeBanner}  />
 
       <Navbar />
 

@@ -41,4 +41,4 @@ function FooterUser() {
     )
 }
 
-export default FooterUser
+export default React.memo(FooterUser)

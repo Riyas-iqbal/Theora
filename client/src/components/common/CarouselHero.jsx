@@ -31,4 +31,4 @@ function CarouselHero() {
     )
 }
 
-export default CarouselHero
+export default React.memo(CarouselHero)

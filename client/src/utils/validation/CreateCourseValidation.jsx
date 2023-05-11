@@ -5,12 +5,14 @@ const checkWordLength = (str, target = 40) => {
     return (arr.filter(word => word !== '').length) < target;
 }
 
+const MAX_PRICE = 50 * 1000 
+
 const courseSchema = yup.object({
     title: yup.string().required().trim(),
     tagline: yup.string().required(),
     about: yup.string().required(),
-    price: yup.number().positive().integer().required().max(1000 * 50),
-    thumbnail: yup.mixed().required("Required")
-}).required();
+    price: yup.number().positive().integer().required().max(MAX_PRICE),
+    thumbnail: yup.mixed().required()
+}).required();  
 
 export default courseSchema

@@ -1,22 +1,34 @@
+const { createCourseSchema } = require('../validation/course.validator')
 
-const getAllCourseByTutor = (req,res)=>{
+const getAllCourseByTutor = (req, res) => {
     res.send('getAllCourseByTutor')
 }
 
-const getSpecificCourse = (req,res)=>{
+const getSpecificCourse = (req, res) => {
     res.send('getSpecificCourse')
 }
 
-const createCourse = (req,res)=>{
-    console.log(req.body)
-    res.json({response:'ok'})
+
+/**
+ * @desc create a new course
+ * @route POST /tutor/courses/create
+ * @access private
+ */
+
+const createCourse = (req, res) => {
+    const { value, error} = createCourseSchema.validate(req.body)
+    if (error) return res.status(400).json({message: error?.details[0]?.message})
+
+    
+
+    res.json({})
 }
 
-const updateCourse = (req,res)=>{
+const updateCourse = (req, res) => {
     res.send('udpateCourse')
 }
 
-const deleteCourse = (req,res)=>{
+const deleteCourse = (req, res) => {
     res.send('deleteCourse')
 }
 
