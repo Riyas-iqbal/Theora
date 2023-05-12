@@ -18,6 +18,7 @@ export default function CreateCourse() {
     resolver: yupResolver(courseSchema),
   });
 
+  //thumbnail preview
   useEffect(() => {
     let fileReader;
     if (watch('thumbnail')[0]) {
@@ -37,16 +38,27 @@ export default function CreateCourse() {
 
   
   const onSubmit = async (data, e) => {
-    data.thumbnail = Array.from(data.thumbnail)[0]
-    createCourseAPI(data)
+
+    const formData = new FormData();
+
+    formData.append("title", data.title);
+    formData.append("tagline", data.tagline);
+    formData.append("about", data.about);
+    formData.append("price", data.price);
+    formData.append("thumbnail", Array.from(data.thumbnail)[0])
+
+    createCourseAPI(formData)
       .then((response) => {
-        if (response.status < 400) {
-          navigate('../')
+        if (confirm('Course created successfully')) {
+          console.log('yes')
+        } else {
+          console.log('no')
         }
       })
       .catch((error) => {
         console.log(error)
-        alert('error occurred while creating course')
+        alert('error occurred while creating course '+error.message)
+        navigate('../')
       })
   }
 
@@ -261,8 +273,6 @@ export default function CreateCourse() {
               </div>
             </div>
           </div>
-
-
 
         </div>
       </div>

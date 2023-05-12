@@ -4,6 +4,7 @@ const createCourseSchema = Joi.object({
     title: Joi.string()
         .min(3)
         .max(30)
+        .trim()
         .required()
         .messages({
             'string.base': 'Title should be a type of text',
@@ -32,10 +33,6 @@ const createCourseSchema = Joi.object({
         .required()
         .positive()
         .max(1000 * 50),
-
-    thumbnail: Joi
-        .any()
-        .required()
 
 }).required()
 

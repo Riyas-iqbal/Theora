@@ -1,4 +1,8 @@
 const router = require('express').Router();
+const multer = require('multer');
+
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
 const courseContoller = require('../../controller/course.controller')
 
 /**
@@ -7,8 +11,7 @@ const courseContoller = require('../../controller/course.controller')
 * @access private
 */
 
-router.route('/')
-    .get(courseContoller.getAllCourseByTutor)
+router.route('/').get(courseContoller.getAllCourseByTutor)
 
 /**
 * @desc create a course 
@@ -17,15 +20,17 @@ router.route('/')
 */
 
 router.route('/create')
-    .post(courseContoller.createCourse)
+    .post(upload.single('thumbnail'),courseContoller.createCourse)
 
 /**
 * @desc get, update and delete course by tutor
 * @route /api/tutor/courses/:id
-* @access public
+* @access private
 */
 
-router.route('/:id')
+router
+    .use(()=>console.log('/api/tutor/courses/:id - called'))
+    .route('/:id')
     .get(courseContoller.getSpecificCourse)
     .put(courseContoller.updateCourse)
     .delete(courseContoller.deleteCourse)

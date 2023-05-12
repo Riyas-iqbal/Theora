@@ -12,7 +12,7 @@ const API = axios.create({ baseURL: BASE_URL });
 export function createCourseAPI(body, route) {
     return API.post(`/tutor/courses/create`,
         body, {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true
     })
 }
