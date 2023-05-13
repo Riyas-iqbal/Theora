@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'CustomFont';
-	src: url('./fonts/Nexa-Regular.otf');
+	src: url('/fonts/Nexa-Regular.otf');
 	font-weight: bolder;
 	/* font-style: normal; */
 }

@@ -1,8 +1,14 @@
 import { Navbar as NavBar, Button } from 'flowbite-react'
 import Logo from '../common/Logo'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 function Navbar() {
+
+    const tutor = useSelector(state => state.tutor)
+
+    console.log(tutor)
+
     return (
         <NavBar
             style={{ backgroundColor: 'rgb(243 244 246)', marginTop: '10px' }}
@@ -22,9 +28,14 @@ function Navbar() {
             <Logo className='mr-3' to={'/tutor'} size={1.3} tutor />
 
             <div className="flex md:order-2">
-                <Button className='bg-amber-500 hover:bg-amber-300'>
-                    <Link to='signin'>Sign In</Link>
-                </Button>
+                {
+                    tutor.loggedIn ?
+                        <h1>{tutor.name}</h1>
+                        :
+                        <Button className='bg-amber-500 hover:bg-amber-300'>
+                            <Link to='signin'>Sign In</Link>
+                        </Button>
+                }
                 <NavBar.Toggle />
             </div>
             <NavBar.Collapse>

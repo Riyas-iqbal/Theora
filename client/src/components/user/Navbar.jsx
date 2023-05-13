@@ -2,8 +2,17 @@ import { Navbar as NavBar, Button } from 'flowbite-react'
 import Logo from '../common/Logo'
 import { Link } from 'react-router-dom'
 import React from 'react'
+import { addUser } from '../../features/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 function Navbar() {
+
+    // const dispatch = useDispatch()
+    const user = useSelector(state => state.user)
+
+    console.log(user)
+
+
     return (
         <NavBar 
         style={{ backgroundColor: 'rgb(243 244 246)', marginTop: '10px' }}
@@ -25,6 +34,7 @@ function Navbar() {
                 <Button>
                     <Link to='signin'>Sign In</Link>
                 </Button>
+                <h4>user is {user.name}</h4>
                 <NavBar.Toggle />
             </div>
             <NavBar.Collapse>
