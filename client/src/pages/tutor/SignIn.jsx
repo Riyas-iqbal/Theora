@@ -3,10 +3,15 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Logo from '../../components/common/Logo'
+import { useDispatch } from 'react-redux'
+import { setTutor } from '../../features/tutorSlice'
 
 
 function SignIn() {
 
+  const dispatch = useDispatch()
+
+  // change to react hook form
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -28,9 +33,8 @@ function SignIn() {
     )
       .then((data) => {
         console.log(data)
-        if (data.status < 400) {
-          navigate('../')
-        }
+
+        // navigate('../')
       })
       .catch((err) => {
         console.log('errrorr', err)
