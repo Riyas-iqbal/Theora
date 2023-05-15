@@ -12,6 +12,7 @@ const tutorSlice = createSlice({
     initialState: initialState,
     reducers: {
         setTutor:(state,action)=>{
+            console.log(action);
             state.name = action.payload.name;
             state.email = action.payload.email;
             state.tutorId = action.payload._id;

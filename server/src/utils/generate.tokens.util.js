@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 
-const createAccessToken = ( user ) => {
+const createAccessToken = ( user , tutor = false ) => {
+
+    user.role = tutor ? 'tutor' : 'user'
     
     return jwt.sign(
         { user },

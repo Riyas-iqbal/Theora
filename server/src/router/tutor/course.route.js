@@ -3,7 +3,8 @@ const multer = require('multer');
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
-const courseContoller = require('../../controller/course.controller')
+const courseContoller = require('../../controller/course.controller');
+const isAuthTutor = require('../../middlewares/tutorAuthentication');
 
 /**
 * @desc get all courses created by specific tutor
@@ -11,7 +12,7 @@ const courseContoller = require('../../controller/course.controller')
 * @access private
 */
 
-router.route('/').get(courseContoller.getAllCourseByTutor)
+router.route('/').get(isAuthTutor, courseContoller.getAllCourseByTutor)
 
 /**
 * @desc create a course 
@@ -20,7 +21,7 @@ router.route('/').get(courseContoller.getAllCourseByTutor)
 */
 
 router.route('/create')
-    .post(upload.single('thumbnail'),courseContoller.createCourse)
+    .post(isAuthTutor, upload.single('thumbnail'), courseContoller.createCourse)
 
 /**
 * @desc get, update and delete course by tutor
@@ -29,7 +30,7 @@ router.route('/create')
 */
 
 router
-    .use(()=>console.log('/api/tutor/courses/:id - called'))
+    .use(() => console.log('/api/tutor/courses/:id - called'))
     .route('/:id')
     .get(courseContoller.getSpecificCourse)
     .put(courseContoller.updateCourse)

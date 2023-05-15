@@ -4,11 +4,11 @@ import { Carousel,Footer } from 'flowbite-react'
 function CarouselHero() {
 
     const images = [
-        'user-banner-3.png',
-        'user-banner-1.jpg',
-        'user-banner-4.jpg',
-        'user-banner-3.png',
-        'user-banner-5.jpg'
+        '/user-banner-3.png',
+        '/user-banner-1.jpg',
+        '/user-banner-4.jpg',
+        '/user-banner-3.png',
+        '/user-banner-5.jpg'
     ]
 
     return (

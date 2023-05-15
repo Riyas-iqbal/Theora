@@ -5,7 +5,7 @@ const checkWordLength = (str, target = 40) => {
     return (arr.filter(word => word !== '').length) < target;
 }
 
-const MAX_PRICE = 50 * 1000 
+const MAX_PRICE = 50 * 1000
 
 const courseSchema = yup.object({
     title: yup.string().required().trim(),

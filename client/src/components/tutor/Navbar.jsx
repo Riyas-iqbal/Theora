@@ -5,9 +5,7 @@ import { useSelector } from 'react-redux'
 
 function Navbar() {
 
-    const tutor = useSelector(state => state.tutor)
-
-    console.log(tutor)
+    const tutor = useSelector(state => state.tutor) 
 
     return (
         <NavBar

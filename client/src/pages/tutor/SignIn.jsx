@@ -31,10 +31,10 @@ function SignIn() {
         withCredentials: true,
       }
     )
-      .then((data) => {
-        console.log(data)
-
-        // navigate('../')
+      .then((response) => {
+        console.log(response.data?.user)
+        dispatch(setTutor(response.data?.user))
+        navigate('..')
       })
       .catch((err) => {
         console.log('errrorr', err)
@@ -53,7 +53,7 @@ function SignIn() {
             alt="Your Company"
           /> */}
           <div className='flex justify-center'>
-            <Logo size={1.7} tutor={true} />
+            <Logo size={1.7} tutor={true} to='/tutor' />
           </div>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in as tutor and explore

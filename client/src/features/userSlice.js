@@ -4,6 +4,7 @@ const initialState = {
     name: null,
     email: null,
     userId: null,
+    loggedIn: false,
 }
 
 const userSlice = createSlice({
@@ -13,10 +14,14 @@ const userSlice = createSlice({
         setUser: (state, action) => {
             state.name = action.payload.name;
             state.userId = action.payload.userId
+            state.email = action.payload.email,
+            state.loggedIn = true
         },
-        removeUser: (state, action) => {
+        removeUser: (state) => {
             state.name = null;
             state.userId = null;
+            state.email = null;
+            state.loggedIn = false
         }
     }
 })

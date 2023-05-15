@@ -22,22 +22,22 @@ const handleSignIn = async (req, res) => {
 
     let tutorData = await tutorService.findTutorByEmail(value.email)
     if (!tutorData) return res.status(401).json({ message: 'Unauthorized' })
-    
+
     const isPasswordMatch = await comparePasswords(value.password, tutorData.password)
-    if (!isPasswordMatch) return res.status(401).json({ message: 'Unauthorized' })
+    if (!isPasswordMatch) return res.status(401).json({ message: 'Unauthorized! invalid password' })
 
     tutorData = tutorData.toObject()
     delete tutorData.password
 
-    const accessToken = createAccessToken(tutorData)
+    const accessToken = createAccessToken(tutorData, 'tutor')
     attachTokenToCookie('accessTokenTutor', accessToken, res)
-    
+
     const refreshToken = createRefreshToken(tutorData)
     attachTokenToCookie('refreshTokenTutor', refreshToken, res)
 
-    await tutorService.addRefreshTokenById(tutorData._id,refreshToken)
+    await tutorService.addRefreshTokenById(tutorData._id, refreshToken)
 
-    res.status(200).json({ message: 'Login successfull' })
+    res.status(200).json({ user: tutorData })
 }
 
 /**
@@ -59,7 +59,7 @@ const handleSignUp = async (req, res) => {
 
     const isEmailTaken = await tutorService.checkEmailExists(email)
     if (isEmailTaken) return res.status(409).json({ message: 'Email already in use' })
-    
+
     const isPhoneTaken = await tutorService.checkPhoneExists(phone)
     if (isPhoneTaken) return res.status(409).json({ message: 'Phone number already in use' })
 

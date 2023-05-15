@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import SectionTitle from '../../components/tutor/SectionTitle'
 import HorizontalRule from '../../components/common/HorizontalRule'
 import { courseSchema } from '../../utils/validation'
-import { createCourseAPI } from '../../api';
+import { createCourseAPI } from '../../api/tutor';
 
 export default function CreateCourse() {
 
@@ -36,7 +36,7 @@ export default function CreateCourse() {
     }
   }, [watch('thumbnail')])
 
-  
+
   const onSubmit = async (data, e) => {
 
     const formData = new FormData();
@@ -49,6 +49,7 @@ export default function CreateCourse() {
 
     createCourseAPI(formData)
       .then((response) => {
+        console.log(response)
         if (confirm('Course created successfully')) {
           console.log('yes')
         } else {

@@ -4,7 +4,6 @@ const isAuth = async (req, res, next) => {
 
     const accessToken = req.cookies['accessToken'];
 
-
     /**
      * @desc for token passed in headers
      * const authHeader = req.headers['authorization']; 

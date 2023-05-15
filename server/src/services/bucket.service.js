@@ -42,7 +42,7 @@ const uploadThumbnailToBucket = async (course,thumbnail) => {
         return false
     })
 
-    return true
+    return fileName
 }
 
 

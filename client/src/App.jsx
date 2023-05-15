@@ -11,8 +11,8 @@ function App() {
   return (
     <div className='bg-gray-100'>
       <Routes>
-        <Route path="/" exact Component={Hero} />
-        <Route path="/user/*" element={<UserRoutes />} />
+        <Route path="/" element={<Hero />} />
+        <Route path="/user/*" element={<UserRoutes />}/>
         <Route path="/tutor/*" element={<TutorRoutes />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

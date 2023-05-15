@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { SignIn, SignUp, HeroTutor, CreateCourse } from '../pages/tutor'
 import Navbar from '../components/tutor/Navbar'
 import NotFound from '../pages/NotFound'
+import TutorPrivate from '../components/authorization/TutorPrivate'
 
 function TutorRoutes() {
     return (
@@ -13,7 +14,11 @@ function TutorRoutes() {
                 <Route path='signup' element={<SignUp />} />
 
                 <Route path='/' element={<HeroTutor />} />
-                <Route path='/courses/create' element={<CreateCourse />} />
+
+                <Route element={<TutorPrivate />}>
+                    <Route path='/courses/create' element={<CreateCourse />} />
+                </Route>
+
 
                 <Route path="*" element={<NotFound />} />
             </Routes>
