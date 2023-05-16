@@ -30,8 +30,8 @@ router.route('/create')
 */
 
 router
-    .use(() => console.log('/api/tutor/courses/:id - called'))
     .route('/:id')
+    .all(isAuthTutor)
     .get(courseContoller.getSpecificCourse)
     .put(courseContoller.updateCourse)
     .delete(courseContoller.deleteCourse)

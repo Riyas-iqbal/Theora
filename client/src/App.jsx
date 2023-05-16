@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom'
 import UserRoutes from './routes/UserRoutes'
 import TutorRoutes from './routes/TutorRoutes'
 import NotFound from './pages/NotFound'
+import AdminRoutes from './routes/AdminRoutes'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Hero />} />
         <Route path="/user/*" element={<UserRoutes />}/>
         <Route path="/tutor/*" element={<TutorRoutes />} />
+        <Route path="/admin/*" element={<AdminRoutes />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

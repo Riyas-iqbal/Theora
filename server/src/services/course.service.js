@@ -1,9 +1,8 @@
-const Course = require('../')
+const Course = require('../models/course.model')
+const bucketService = require('./bucket.service')
+
 
 const createCourse = async (courseData, tutorId) => {
-
-    console.log('create course servie')
-
     const course = new Course({
         title: courseData.title,
         about: courseData.about,
@@ -19,17 +18,32 @@ const createCourse = async (courseData, tutorId) => {
             return false
         })
 
+    console.log('course created successfully')
     return true
 }
 
-const getAllCourseByTutor = async ( _id ) => {
-    const courses = await Course.find({ _id }).catch(err => {console.log(err)});
-    console.log(courses)
+const getAllCourseByTutor = async (couresId) => {
+    const courses = await Course.find({ tutor: couresId }).catch(err => { console.log(err) });
+    for (let i = 0; i < courses.length; i++) {
+        courses[i] = courses[i].toObject()
+        courses[i].thumbnailURL = await bucketService.getThumbnailURL(courses[i].thumbnail)
+    }
     return courses
 }
+
+const getCourseDetails = async (courseId) => {
+    let course = await Course.findOne({ _id: courseId }).catch(err => { console.log(err) });
+    course = course.toObject()
+    course.thumbnailURL = await bucketService.getThumbnailURL(course.thumbnail);
+    return course
+}
+
+
+
 
 
 module.exports = {
     createCourse,
-    getAllCourseByTutor
+    getAllCourseByTutor,
+    getCourseDetails
 }

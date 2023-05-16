@@ -23,15 +23,16 @@ const createCourse = async (req, res) => {
 
 const getAllCourseByTutor = async (req, res) => {
     const courses = await courseService.getAllCourseByTutor(req?.tutor._id)
-    return res.status(200)
-        .json({
-            message: 'coures found',
-            data: courses
-        })
+    return res.status(200).json({
+        message: 'coures found',
+        data: courses
+    })
 }
 
-const getSpecificCourse = (req, res) => {
-    res.send('getSpecificCourse')
+const getSpecificCourse = async (req, res) => {
+    const course = await courseService.getCourseDetails(req.params.id)
+    console.log(course)
+    res.status(200).json({message:'course found',data: course})
 }
 
 

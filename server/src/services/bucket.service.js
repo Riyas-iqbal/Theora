@@ -1,10 +1,10 @@
-const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3')
+const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3')
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
 
 const accessKey = process.env.AWS_S3_ACCESS_KEY_ID
 const secretAccessKey = process.env.AWS_S3_SECRET_ACCESS_KEY
 const bucketName = process.env.AWS_S3_BUCKET_NAME
 const bucketRegion = process.env.AWS_S3_BUCKET_REGION
-
 
 const s3 = new S3Client({
     credentials: {
@@ -13,7 +13,6 @@ const s3 = new S3Client({
     },
     region: bucketRegion
 })
-
 
 const uploadThumbnailToBucket = async (course,thumbnail) => {
 
@@ -45,7 +44,20 @@ const uploadThumbnailToBucket = async (course,thumbnail) => {
     return fileName
 }
 
+const getThumbnailURL = async (imageName) => {
+    const imageUrl = await getSignedUrl(
+        s3,
+        new GetObjectCommand({
+            Bucket: bucketName,
+            Key: imageName
+        }),
+        { expiresIn: 60 * 60 * 10 } // 60 seconds
+    )
+    return imageUrl
+}
+
 
 module.exports = {
-    uploadThumbnailToBucket
+    uploadThumbnailToBucket,
+    getThumbnailURL
 }

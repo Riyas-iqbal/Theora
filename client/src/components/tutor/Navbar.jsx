@@ -1,11 +1,14 @@
 import { Navbar as NavBar, Button } from 'flowbite-react'
 import Logo from '../common/Logo'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 function Navbar() {
 
-    const tutor = useSelector(state => state.tutor) 
+    const tutor = useSelector(state => state.tutor)
+    const { pathname } = useLocation()
+
+
 
     return (
         <NavBar
@@ -37,26 +40,32 @@ function Navbar() {
                 <NavBar.Toggle />
             </div>
             <NavBar.Collapse>
-                <NavBar.Link
-                    href="/tutor"
-                    active={true}
-                >
-                    <span className='text-amber-600'>
+                
+                <Link className='hover:text-amber-500' to="/tutor">
+                    <span className={pathname === '/tutor' ? 'text-amber-600' : null}>
                         Home
                     </span>
-                </NavBar.Link>
-                <NavBar.Link href="/courses">
-                    Manage Courses
-                </NavBar.Link>
-                <NavBar.Link href="/blogs">
-                    Dashboard
-                </NavBar.Link>
-                <NavBar.Link href="/newsletters">
+                </Link>
+
+                <Link className='hover:text-amber-500' to="/tutor/courses" >
+                    <span className={pathname === '/tutor/courses' ? 'text-amber-600' : null}>
+                        Manage Courses
+                    </span>
+                </Link>
+
+                <Link className='hover:text-amber-500' to="/blogs" >
+                    <span className={pathname === '/tutor/blogs' ? 'text-amber-600' : null}>
+                        Dashboard
+                    </span>
+                </Link>
+                
+                <Link className='hover:text-amber-500' to="/newsletters" active={pathname === '/tutor/newsletters' ? true : null}>
                     Standings
-                </NavBar.Link>
-                <NavBar.Link href="/contact">
+                </Link>
+                
+                <Link className='hover:text-amber-500' to="/contact" active={pathname === '/tutor/contact' ? true : null}>
                     FAQ
-                </NavBar.Link>
+                </Link>
 
             </NavBar.Collapse>
         </NavBar>

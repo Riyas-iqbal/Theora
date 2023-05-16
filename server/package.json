@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.331.0",
+    "@aws-sdk/s3-request-presigner": "^3.332.0",
     "bcrypt": "^5.1.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",

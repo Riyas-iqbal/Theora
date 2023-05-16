@@ -4,6 +4,8 @@ import { SignIn, SignUp, HeroTutor, CreateCourse } from '../pages/tutor'
 import Navbar from '../components/tutor/Navbar'
 import NotFound from '../pages/NotFound'
 import TutorPrivate from '../components/authorization/TutorPrivate'
+import ManageCourses from '../pages/tutor/ManageCourses'
+import UpdateCourse from '../pages/tutor/UpdateCourse'
 
 function TutorRoutes() {
     return (
@@ -16,11 +18,13 @@ function TutorRoutes() {
                 <Route path='/' element={<HeroTutor />} />
 
                 <Route element={<TutorPrivate />}>
+                    <Route path='/courses' element={<ManageCourses />} />
+                    <Route path='/courses/:id' element={<UpdateCourse />} />
                     <Route path='/courses/create' element={<CreateCourse />} />
                 </Route>
 
 
-                <Route path="*" element={<NotFound />} />
+                {/* <Route path="/*" element={<NotFound />} /> */}
             </Routes>
         </>
     )

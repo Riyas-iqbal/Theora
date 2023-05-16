@@ -8,7 +8,12 @@ const createCourseAPI = (body, route = `/tutor/courses/create`) => {
     )
 }
 
+const getCourseDetailsAPI = (id,route='/tutor/courses/') => {
+    return API.get(route+id)
+}
+
 
 export {
-    createCourseAPI
+    createCourseAPI,
+    getCourseDetailsAPI
 }

@@ -1,6 +1,7 @@
 const verifyToken = require('../utils/auth.util')
 
 const isAuthTutor = async (req, res, next) => {
+    console.log('\ntutor isAuth Middleware accessed')
 
     const accessToken = req.cookies['accessTokenTutor'];
 
