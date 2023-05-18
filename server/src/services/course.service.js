@@ -38,10 +38,6 @@ const getCourseDetails = async (courseId) => {
     return course
 }
 
-
-
-
-
 module.exports = {
     createCourse,
     getAllCourseByTutor,

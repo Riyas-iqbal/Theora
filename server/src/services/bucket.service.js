@@ -44,6 +44,36 @@ const uploadThumbnailToBucket = async (course,thumbnail) => {
     return fileName
 }
 
+const uploadLessonToBucket = async (course,lesson) => {
+
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
+    const courseTitleWithoutSpaces = course.title.trim().replace(/ /g, '-');
+    const extension = lesson.mimetype.split('/')[1]
+    const fileName = `lesson/${courseTitleWithoutSpaces}-${uniqueSuffix}.${extension}`
+
+    const params = {
+        Bucket: bucketName,
+        Key: fileName,
+        Body: lesson.buffer,
+        ContentType: lesson.mimetype,
+        Metadata: {
+            course: course.title.toString(),
+            originalName: lesson?.originalname.toString(),
+            originalSize: lesson?.size.toString(),
+            time: (new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })).toString()
+        }
+    }
+
+    const command = new PutObjectCommand(params)
+
+    await s3.send(command).catch(error => {
+        console.log('error while uploading thumbnail to s3' + error)
+        return false
+    })
+
+    return fileName
+}
+
 const getThumbnailURL = async (imageName) => {
     const imageUrl = await getSignedUrl(
         s3,
@@ -54,10 +84,14 @@ const getThumbnailURL = async (imageName) => {
         { expiresIn: 60 * 60 * 10 } // 60 seconds
     )
     return imageUrl
+
+    // fake thumbnail
+    return 'https://i.ytimg.com/vi/pN6jk0uUrD8/mqdefault.jpg'
 }
 
 
 module.exports = {
     uploadThumbnailToBucket,
-    getThumbnailURL
+    getThumbnailURL,
+    uploadLessonToBucket,
 }
