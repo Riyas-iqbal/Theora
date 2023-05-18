@@ -9,11 +9,11 @@ const createCourse = async (req, res) => {
     const { value, error } = createCourseSchema.validate(req.body)
     if (error) return res.status(400).json({ message: error?.details[0]?.message })
 
-    const isThumbnailUploaded = await bucketService.uploadThumbnailToBucket(value, req.file)
-    if (!isThumbnailUploaded) return res.status(500).json({ message: 'error while uploading thumbnail' })
+    const thumbnail = await bucketService.uploadThumbnailToBucket(value, req.file)
+    if (!thumbnail) return res.status(500).json({ message: 'error while uploading thumbnail' })
 
     //contains the file name of thumbnail
-    value.thumbnail = isThumbnailUploaded
+    value.thumbnail = thumbnail
 
     const isCourseCreated = await courseService.createCourse(value, req.tutor._id)
     if (!isCourseCreated) return res.status(400).json({ message: err })

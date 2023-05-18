@@ -1,9 +1,15 @@
 const router = require('express').Router();
+const multer = require('multer');
+
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
 const lessonController = require('../../controller/lesson.controller')
+const isAuthTutor = require('../../middlewares/tutorAuthentication');
+
 
 router
     .route('/')
-    .post(lessonController.addLessonToCourse)
+    .post(isAuthTutor, upload.single('lesson'), lessonController.addLessonToCourse)
 
  
 

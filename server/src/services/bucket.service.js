@@ -44,25 +44,28 @@ const uploadThumbnailToBucket = async (course,thumbnail) => {
     return fileName
 }
 
-const uploadLessonToBucket = async (course,lesson) => {
+const uploadLesson = async (lesson) => {
 
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
-    const courseTitleWithoutSpaces = course.title.trim().replace(/ /g, '-');
-    const extension = lesson.mimetype.split('/')[1]
-    const fileName = `lesson/${courseTitleWithoutSpaces}-${uniqueSuffix}.${extension}`
+    const lessonTitleWithoutSpaces = lesson.data.title.trim().replace(/ /g, '-');
+    const extension = lesson.file.mimetype.split('/')[1]
+    const fileName = `lesson/${lessonTitleWithoutSpaces}-${uniqueSuffix}.${extension}`
 
     const params = {
         Bucket: bucketName,
         Key: fileName,
-        Body: lesson.buffer,
-        ContentType: lesson.mimetype,
+        Body: lesson.file.buffer,
+        ContentType: lesson.file.mimetype,
         Metadata: {
-            course: course.title.toString(),
-            originalName: lesson?.originalname.toString(),
-            originalSize: lesson?.size.toString(),
+            course: lesson.data.title.toString(),
+            tutor: lesson.tutor.name,
+            originalName: lesson.file.originalname.toString(),
+            originalSize: lesson.file.size.toString(),
             time: (new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })).toString()
         }
     }
+
+    console.log(params)
 
     const command = new PutObjectCommand(params)
 
@@ -75,15 +78,15 @@ const uploadLessonToBucket = async (course,lesson) => {
 }
 
 const getThumbnailURL = async (imageName) => {
-    const imageUrl = await getSignedUrl(
-        s3,
-        new GetObjectCommand({
-            Bucket: bucketName,
-            Key: imageName
-        }),
-        { expiresIn: 60 * 60 * 10 } // 60 seconds
-    )
-    return imageUrl
+    // const imageUrl = await getSignedUrl(
+    //     s3,
+    //     new GetObjectCommand({
+    //         Bucket: bucketName,
+    //         Key: imageName
+    //     }),
+    //     { expiresIn: 60 * 60 * 10 } // 60 seconds
+    // )
+    // return imageUrl
 
     // fake thumbnail
     return 'https://i.ytimg.com/vi/pN6jk0uUrD8/mqdefault.jpg'
@@ -93,5 +96,5 @@ const getThumbnailURL = async (imageName) => {
 module.exports = {
     uploadThumbnailToBucket,
     getThumbnailURL,
-    uploadLessonToBucket,
+    uploadLesson,
 }

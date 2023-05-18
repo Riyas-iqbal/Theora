@@ -22,6 +22,11 @@ const createCourse = async (courseData, tutorId) => {
     return true
 }
 
+const addLessonToCourse = async (lessonId, courseId) => {
+    await Course.findOneAndUpdate({_id: courseId},{ $push : { lessons: lessonId }})
+    return true
+}
+
 const getAllCourseByTutor = async (couresId) => {
     const courses = await Course.find({ tutor: couresId }).catch(err => { console.log(err) });
     for (let i = 0; i < courses.length; i++) {
@@ -41,5 +46,6 @@ const getCourseDetails = async (courseId) => {
 module.exports = {
     createCourse,
     getAllCourseByTutor,
-    getCourseDetails
+    getCourseDetails,
+    addLessonToCourse
 }
