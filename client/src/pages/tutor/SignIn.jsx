@@ -1,15 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import axios from 'axios'
 import Logo from '../../components/common/Logo'
 import { useDispatch } from 'react-redux'
 import { setTutor } from '../../features/tutorSlice'
+import toast, { Toaster } from 'react-hot-toast';
+
 
 
 function SignIn() {
-
+  
   const dispatch = useDispatch()
+
+  let [searchParams, setSearchParams] = useSearchParams();
+  const accessedPrivate = searchParams.get('private');
+  console.count('')
+
+  const notify = () => toast.error('Please login to continue');
+
+  useEffect(() => {
+    if (accessedPrivate) {
+      notify()
+    }
+  }, [])
+
 
   // change to react hook form
   const [email, setEmail] = useState('')
@@ -45,7 +60,9 @@ function SignIn() {
 
   return (
     <>
+      <div><Toaster /></div>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8 h-screen">
+
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           {/* <img
             className="mx-auto h-10 w-auto"

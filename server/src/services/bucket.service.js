@@ -14,7 +14,7 @@ const s3 = new S3Client({
     region: bucketRegion
 })
 
-const uploadThumbnailToBucket = async (course,thumbnail) => {
+const uploadThumbnailToBucket = async (course, thumbnail) => {
 
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
     const courseTitleWithoutSpaces = course.title.trim().replace(/ /g, '-');
@@ -92,9 +92,22 @@ const getThumbnailURL = async (imageName) => {
     return 'https://i.ytimg.com/vi/pN6jk0uUrD8/mqdefault.jpg'
 }
 
+const getVideoURL = async (videoName) => {
+    const videoURL = await getSignedUrl(
+        s3,
+        new GetObjectCommand({
+            Bucket: bucketName,
+            Key: videoName
+        }),
+        { expiresIn: 60 * 60 * 10 } // 60 seconds
+    )
+    return videoURL
+}
+
 
 module.exports = {
     uploadThumbnailToBucket,
     getThumbnailURL,
+    getVideoURL,
     uploadLesson,
 }

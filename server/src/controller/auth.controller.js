@@ -5,8 +5,6 @@ const attachTokenToCookie = require('../utils/cookie.util')
 const { createAccessToken, createRefreshToken } = require('../utils/generate.tokens.util')
 const { comparePasswords, createHashPassword } = require('../utils/bcrypt.util')
 const { signInSchema, signUpSchema } = require('../validation/auth.validator')
-const { token } = require('morgan')
-
 
 /**
 * @desc User Sign in
@@ -100,6 +98,7 @@ const refreshToken = async (req, res) => {
     if (!result) {
         res.status(400).json({ message: 'invalid' })
     }
+
     const accessToken = createAccessToken(userData)
     attachTokenToCookie('accessToken', accessToken, res)
     res.status(200).json({ message: 'token created successfully' })
@@ -123,7 +122,7 @@ const handleLogout = async (req, res) => {
     // clear cookie from response
     res.clearCookie('refreshToken')
     res.clearCookie('accessToken')
-
+    
     res.status(200).json({ message: 'logout successful' })
 }
 

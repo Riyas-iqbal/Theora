@@ -21,12 +21,8 @@ const signInSchema = Joi.object({
         })
 })
 
-
 const signUpSchema = Joi.object({
-    name: Joi.string()
-        .alphanum()
-        .min(3)
-        .max(30)
+    name: Joi.string().alphanum().min(3).max(30)
         .required()
         .messages({
             'string.base': 'Name should be a type of text',
@@ -65,8 +61,6 @@ const signUpSchema = Joi.object({
             'string.length': 'Phone number should contain ten characters',
             'string.pattern.base': 'Phone number should only contain numbers'
         }),
-
-    
 });
 
 

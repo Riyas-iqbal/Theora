@@ -33,8 +33,9 @@ router
     .route('/:id')
     .all(isAuthTutor)
     .get(courseContoller.getSpecificCourse)
-    .put(courseContoller.updateCourse)
-    .delete(courseContoller.deleteCourse)
+
+    // .put(courseContoller.updateCourse)
+    // .delete(courseContoller.deleteCourse)
 
 
 

@@ -37,7 +37,7 @@ const getAllCourseByTutor = async (couresId) => {
 }
 
 const getCourseDetails = async (courseId) => {
-    let course = await Course.findOne({ _id: courseId }).catch(err => { console.log(err) });
+    let course = await Course.findOne({ _id: courseId }).populate('lessons').catch(err => { console.log(err) });
     course = course.toObject()
     course.thumbnailURL = await bucketService.getThumbnailURL(course.thumbnail);
     return course

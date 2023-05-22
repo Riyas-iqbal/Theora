@@ -11,6 +11,8 @@ router
     .route('/')
     .post(isAuthTutor, upload.single('lesson'), lessonController.addLessonToCourse)
 
+
+
  
 
 module.exports = router

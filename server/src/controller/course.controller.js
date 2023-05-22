@@ -31,7 +31,6 @@ const getAllCourseByTutor = async (req, res) => {
 
 const getSpecificCourse = async (req, res) => {
     const course = await courseService.getCourseDetails(req.params.id)
-    console.log(course)
     res.status(200).json({message:'course found',data: course})
 }
 

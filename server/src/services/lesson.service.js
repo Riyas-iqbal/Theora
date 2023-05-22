@@ -1,6 +1,7 @@
 const bucketService = require('./bucket.service')
 const Lesson = require('../models/lesson.model')
 const courseService = require('./course.service')
+const lessonRepository = require('../repository/lesson.repository')
 
 const addLessonToCourse = async (lesson) => {
     // console.log(lesson);
@@ -37,6 +38,14 @@ const addLessonToCourse = async (lesson) => {
     return 'success';
 }
 
+
+const getLesson = async (lessonId) => {
+    const lesson = await lessonRepository.findLessonById(lessonId)
+    lesson.videoURL = await bucketService.getVideoURL(lesson.videoKey)
+    return lesson
+}
+
 module.exports = {
-    addLessonToCourse
+    addLessonToCourse,
+    getLesson
 }
