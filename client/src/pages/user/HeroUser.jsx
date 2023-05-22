@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react"
 import CarouselHero from "../../components/common/CarouselHero"
 import TopBanner from "../../components/common/TopBanner"
-import Navbar from "../../components/user/Navbar"
 import Footer from "../../components/user/FooterUser"
 import TabSection from "../../components/user/TabSection"
 import CategoryCard from "../../components/user/CategoryCard"
@@ -57,7 +56,7 @@ function HeroUser() {
     <>
       <TopBanner LinkTitle={LinkTitle} promotion={promotion} showComponent={showComponent} closeBanner={closeBanner}  />
 
-      <Navbar />
+      
 
       <div className="pt-10 px-1 md:px-10 sm:px-5 bg-gray-200/95 pb-24">
         <CarouselHero />
