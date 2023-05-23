@@ -47,8 +47,8 @@ function Navbar() {
                 <NavBar.Link href="/explore">
                     Explore
                 </NavBar.Link>
-                <NavBar.Link href="/blogs">
-                    Blogs
+                <NavBar.Link href="/user/courses">
+                    My Course
                 </NavBar.Link>
                 <NavBar.Link href="/newsletters">
                     Newsletter

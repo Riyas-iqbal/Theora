@@ -8,4 +8,9 @@ router
     .get(validateParams ,courseController.getSpecificCourse)
 
 
+router
+    .route('/enroll')
+    .post(courseController.enrollCourse)
+
+
 module.exports = router

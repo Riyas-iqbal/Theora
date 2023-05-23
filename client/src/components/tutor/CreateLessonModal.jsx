@@ -3,6 +3,7 @@ import { Button, Modal } from 'flowbite-react'
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { useForm } from 'react-hook-form'
 import { createLessonAPI } from '../../api/tutor'
+import '@headlessui/react'
 
 function createLessonModal({ course }) {
     const [isOpen, setIsOpen] = useState(false)
@@ -28,7 +29,10 @@ function createLessonModal({ course }) {
             <Button onClick={() => setIsOpen(!isOpen)} color="warning">
                 Add New Lesson
             </Button>
-            <Modal show={isOpen} onClose={() => setIsOpen(!isOpen)}>
+            <Modal 
+                dismissible={true}
+                show={isOpen} 
+                onClose={() => setIsOpen(!isOpen)}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Modal.Header >
                         <span className='text-amber-500 nexa-font'>{course.title} - Add New Lesson</span>

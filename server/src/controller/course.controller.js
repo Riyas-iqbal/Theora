@@ -1,10 +1,9 @@
 const { createCourseSchema } = require('../validation/course.validator')
 const { bucketService, courseService } = require('../services')
+const objectIdSchema = require('../validation/id.validator')
 
 
 const createCourse = async (req, res) => {
-
-    console.log(req.tutor)
 
     const { value, error } = createCourseSchema.validate(req.body)
     if (error) return res.status(400).json({ message: error?.details[0]?.message })
@@ -31,8 +30,20 @@ const getAllCourseByTutor = async (req, res) => {
 
 const getSpecificCourse = async (req, res) => {
     const course = await courseService.getCourseDetails(req.params.id)
-    res.status(200).json({message:'course found',data: course})
+    res.status(200).json({ message: 'course found', data: course })
 }
+
+const enrollCourse = async (req, res) => {
+    const { error } = await objectIdSchema.validate(req.body.courseId)
+    if (error) return res.status(400).json({ message: 'invalid course id'})
+    
+    console.log(req.user)
+
+    // const isEnrolled = await courseService.enrollCourseById()
+    res.status(200).json({ message: 'student enrolled for course successfully', data: req.body })
+}
+
+
 
 const updateCourse = (req, res) => {
     res.send('udpateCourse')
@@ -47,5 +58,6 @@ module.exports = {
     getSpecificCourse,
     createCourse,
     updateCourse,
-    deleteCourse
+    deleteCourse,
+    enrollCourse
 }

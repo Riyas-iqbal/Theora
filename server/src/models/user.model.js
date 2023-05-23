@@ -19,9 +19,12 @@ const userSchema = new mongoose.Schema({
     },
     age: Number,
     address: String,
-    isBlocked:{
-        type:Boolean,
-        default:false
+    enrolledCoures: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'courses' },
+    ],
+    isBlocked: {
+        type: Boolean,
+        default: false
     },
     token: Array
 }, {
