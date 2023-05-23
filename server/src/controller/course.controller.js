@@ -28,6 +28,14 @@ const getAllCourseByTutor = async (req, res) => {
     })
 }
 
+const getAllCourses = async (req,res) => {
+    const courses = await courseService.getAllCourses()
+    return res.status(200).json({
+        message: 'course found',
+        data: courses
+    })
+}
+
 const getSpecificCourse = async (req, res) => {
     const course = await courseService.getCourseDetails(req.params.id)
     res.status(200).json({ message: 'course found', data: course })
@@ -43,6 +51,9 @@ const enrollCourse = async (req, res) => {
     res.status(200).json({ message: 'student enrolled for course successfully', data: req.body })
 }
 
+const getEnrolledCourses = async (req,res) => {
+    return res.status(200).json({ message: 'success'})
+}
 
 
 const updateCourse = (req, res) => {
@@ -55,7 +66,9 @@ const deleteCourse = (req, res) => {
 
 module.exports = {
     getAllCourseByTutor,
+    getAllCourses,
     getSpecificCourse,
+    getEnrolledCourses,
     createCourse,
     updateCourse,
     deleteCourse,

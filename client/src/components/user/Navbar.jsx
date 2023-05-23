@@ -1,25 +1,24 @@
 import { Navbar as NavBar, Button } from 'flowbite-react'
 import Logo from '../common/Logo'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import React from 'react'
-import { addUser } from '../../features/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { UserCircleIcon } from '@heroicons/react/24/outline'
 
 function Navbar() {
 
-    // const dispatch = useDispatch()
-    const user = useSelector(state => state.user)
+	// const dispatch = useDispatch()
+	const user = useSelector(state => state.user)
 
-    console.log(user)
+	const { pathname } = useLocation()
 
-
-    return (
-        <NavBar 
-        style={{ backgroundColor: 'rgb(243 244 246)', marginTop: '10px' }}
-        fluid={true}
-        rounded={true}
-        >
-            {/* <NavBar.Brand href="https://flowbite.com/">
+	return (
+		<NavBar
+			style={{ backgroundColor: 'rgb(243 244 246)', marginTop: '10px' }}
+			fluid={true}
+			rounded={true}
+		>
+			{/* <NavBar.Brand href="https://flowbite.com/">
                 <img
                     src="https://flowbite.com/docs/images/logo.svg"
                     className="mr-3 h-6 sm:h-9"
@@ -29,37 +28,51 @@ function Navbar() {
                     Flowbite
                 </span>
             </NavBar.Brand> */}
-            <Logo className='mr-3' to={'/user'} size={1.3} />
-            <div className="flex md:order-2">
-                <Button>
-                    <Link to='signin'>Sign In</Link>
-                </Button>
-                <h4>user is {user.name}</h4>
-                <NavBar.Toggle />
-            </div>
-            <NavBar.Collapse>
-                <NavBar.Link
-                    href="/user"
-                    active={true}
-                >
-                    Home
-                </NavBar.Link>
-                <NavBar.Link href="/explore">
-                    Explore
-                </NavBar.Link>
-                <NavBar.Link href="/user/courses">
-                    My Course
-                </NavBar.Link>
-                <NavBar.Link href="/newsletters">
-                    Newsletter
-                </NavBar.Link>
-                <NavBar.Link href="/contact">
-                    Contact
-                </NavBar.Link>
+			<Logo className='mr-3' to={'/user'} size={1.3} />
+			<div className="flex md:order-2">
+				{
+					user.loggedIn ?
+						<button className='mr-3 bg-indigo-200 p-1 pr-3 rounded-xl flex hover:shadow-3 hover:bg-indigo-300'>
+							<UserCircleIcon className='w-6 mr-2' />
+							<span className='nexa-font '>{user.name}</span>
+						</button>
+						:
+						<Button>
+							<Link to='signin'>Sign In</Link>
+						</Button>
+				}
 
-            </NavBar.Collapse>
-        </NavBar>
-    )
+				<NavBar.Toggle />
+			</div>
+			<NavBar.Collapse>
+				<Link to="/user" className='hover:text-indigo-500' >
+					<span className={pathname === '/user' ? 'text-indigo-600' : null}>
+						Home
+					</span>
+				</Link>
+				<Link to="/explore" className='hover:text-indigo-500' >
+					<span className={pathname === '/explore' ? 'text-indigo-600' : null}>
+						Explore
+					</span>
+				</Link>
+				<Link to="/courses/enrolled" className='hover:text-indigo-500' >
+					<span className={pathname === '/courses/enrolled' ? 'text-indigo-600' : null}>
+						Enrolled
+					</span>
+				</Link>
+				<Link to="/newsletters" className='hover:text-indigo-500' >
+					<span className={pathname === '/newsletters' ? 'text-indigo-600' : null}>
+						Newsletter
+					</span>
+				</Link>
+				<Link to="/Contact" className='hover:text-indigo-500' >
+					<span className={pathname === '/Contact' ? 'text-indigo-600' : null}>
+						Contact
+					</span>
+				</Link>
+			</NavBar.Collapse>
+		</NavBar>
+	)
 }
 
 export default React.memo(Navbar)

@@ -1,6 +1,6 @@
 import API from "./index";
 
-const getCourseDetailsAPI = (id, route = '/user/courses/') => {
+const getCourseDetailsAPI = (id, route = '/user/courses/enroll/') => {
     return API.get(route + id)
 }
 
@@ -11,7 +11,12 @@ const enrollCourseAPI = (body) => {
     )
 }
 
+const getUserEnrolledCoursesAPI = ()=>{
+    return API.get('/user/courses/enroll')
+}
+
 export {
     getCourseDetailsAPI,
+    getUserEnrolledCoursesAPI,
     enrollCourseAPI
 }

@@ -3,9 +3,8 @@ import getuser from './getUser'
 import { Navigate, Outlet } from 'react-router-dom'
 
 function UserPrivate() {
-    const user = getuser() 
-    console.log(user)
-    return user.loggedIn ? <Outlet /> : <Navigate to={'/tutor/signin'} />
+    const user = getuser()
+    return user.loggedIn ? <Outlet /> : <Navigate to={'/signin?private=true'} />
 }
 
 export default UserPrivate

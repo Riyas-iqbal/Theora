@@ -78,18 +78,20 @@ const uploadLesson = async (lesson) => {
 }
 
 const getThumbnailURL = async (imageName) => {
-    // const imageUrl = await getSignedUrl(
-    //     s3,
-    //     new GetObjectCommand({
-    //         Bucket: bucketName,
-    //         Key: imageName
-    //     }),
-    //     { expiresIn: 60 * 60 * 10 } // 60 seconds
-    // )
-    // return imageUrl
-
+    
     // fake thumbnail
-    return 'https://i.ytimg.com/vi/pN6jk0uUrD8/mqdefault.jpg'
+    // return 'https://i.ytimg.com/vi/pN6jk0uUrD8/mqdefault.jpg'
+    
+    const imageUrl = await getSignedUrl(
+        s3,
+        new GetObjectCommand({
+            Bucket: bucketName,
+            Key: imageName
+        }),
+        { expiresIn: 60 * 60 * 10 } // 60 seconds
+    )
+    return imageUrl
+
 }
 
 const getVideoURL = async (videoName) => {

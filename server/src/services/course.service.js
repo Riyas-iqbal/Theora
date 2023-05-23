@@ -1,5 +1,6 @@
 const Course = require('../models/course.model')
 const bucketService = require('./bucket.service')
+const courseRepository = require('../repository/course.repository')
 
 
 const createCourse = async (courseData, tutorId) => {
@@ -23,13 +24,25 @@ const createCourse = async (courseData, tutorId) => {
 }
 
 const addLessonToCourse = async (lessonId, courseId) => {
-    await Course.findOneAndUpdate({_id: courseId},{ $push : { lessons: lessonId }})
+    await Course.findOneAndUpdate({ _id: courseId }, { $push: { lessons: lessonId } })
     return true
 }
 
 const getAllCourseByTutor = async (couresId) => {
     const courses = await Course.find({ tutor: couresId }).catch(err => { console.log(err) });
-    
+
+    // code refractor needed
+    for (let i = 0; i < courses.length; i++) {
+        courses[i] = courses[i].toObject()
+        courses[i].thumbnailURL = await bucketService.getThumbnailURL(courses[i].thumbnail)
+    }
+
+    return courses
+}
+
+const getAllCourses = async () => {
+    const courses = await courseRepository.getAllCourses()
+
     // code refractor needed
     for (let i = 0; i < courses.length; i++) {
         courses[i] = courses[i].toObject()
@@ -45,7 +58,7 @@ const getCourseDetails = async (courseId) => {
         .populate('lessons')
         .populate('tutor')
         .catch(err => { console.log(err) });
-    
+
     course = course.toObject()
     course.thumbnailURL = await bucketService.getThumbnailURL(course.thumbnail);
     return course
@@ -54,6 +67,7 @@ const getCourseDetails = async (courseId) => {
 module.exports = {
     createCourse,
     getAllCourseByTutor,
+    getAllCourses,
     getCourseDetails,
     addLessonToCourse
 }

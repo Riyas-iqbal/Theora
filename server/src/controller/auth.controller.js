@@ -12,6 +12,8 @@ const { signInSchema, signUpSchema } = require('../validation/auth.validator')
 * @access public
 */
 
+
+//needs refractor
 const handleSignIn = async (req, res) => {
 
     const { error, value } = signInSchema.validate(req.body)
@@ -34,7 +36,7 @@ const handleSignIn = async (req, res) => {
 
     await userService.addRefreshTokenById(userData._id, refreshToken)
 
-    res.status(200).json({ message: 'Login successfull' })
+    res.status(200).json({ message: 'Login successfull', user: userData })
 }
 
 /**
@@ -70,8 +72,8 @@ const handleSignUp = async (req, res) => {
         password: hashedPassword
     })
 
-    await user.save().catch(error => res.status(400).json({ message: error}))
-    
+    await user.save().catch(error => res.status(400).json({ message: error }))
+
     res.status(200).json({ message: 'Account created successfully' })
 }
 
@@ -122,7 +124,7 @@ const handleLogout = async (req, res) => {
     // clear cookie from response
     res.clearCookie('refreshToken')
     res.clearCookie('accessToken')
-    
+
     res.status(200).json({ message: 'logout successful' })
 }
 

@@ -54,7 +54,7 @@ function HeroUser() {
 
   return (
     <>
-      <TopBanner LinkTitle={LinkTitle} promotion={promotion} showComponent={showComponent} closeBanner={closeBanner}  />
+      <TopBanner LinkTitle={LinkTitle} to="/explore" promotion={promotion} showComponent={showComponent} closeBanner={closeBanner}  />
 
       
 

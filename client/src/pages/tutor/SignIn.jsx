@@ -47,7 +47,6 @@ function SignIn() {
       }
     )
       .then((response) => {
-        console.log(response.data?.user)
         dispatch(setTutor(response.data?.user))
         navigate('..')
       })

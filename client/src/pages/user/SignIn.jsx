@@ -1,18 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import axios from 'axios'
 import Logo from '../../components/common/Logo'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../../features/userSlice'
+import { Toaster, toast } from 'react-hot-toast'
 
 
 function SignIn() {
 
+  const dispatch = useDispatch()
+
+  let [searchParams, setSearchParams] = useSearchParams();
+  const accessedPrivate = searchParams.get('private');
+
+  const notify = () => toast.error('Please login to continue');
+
+  useEffect(() => {
+    if (accessedPrivate) {
+      notify()
+    }
+  }, [])
+
+  // change to react hook form
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
   const navigate = useNavigate();
 
+  //covert to react API
   const handleSingIn = (e) => {
     e.preventDefault()
     console.log(email, password)
@@ -26,22 +44,25 @@ function SignIn() {
         withCredentials: true,
       }
     )
-      .then((data) => {
-        console.log(data)
-        if (data.status < 400) {
-          navigate('../')
-        }
+      .then((response) => {
+        console.log(response)
+        dispatch(setUser({
+          ...response.data?.user,
+          userId: response.data.user._id
+        }))
+        navigate('/user')
       })
       .catch((err) => {
         console.log('errrorr', err.response.data.message)
         setError(err.response.data.message)
       })
-        
+
   }
 
 
   return (
     <>
+      <div><Toaster /></div>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8 h-screen ">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           {/* <img
@@ -70,7 +91,7 @@ function SignIn() {
                   name="email"
                   type="email"
                   autoComplete="email"
-                  onChange={(e) => {setEmail(e.target.value);setError('')}}
+                  onChange={(e) => { setEmail(e.target.value); setError('') }}
                   required
                   className="block w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -94,7 +115,7 @@ function SignIn() {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  onChange={(e) => {setPassword(e.target.value);setError('') } }
+                  onChange={(e) => { setPassword(e.target.value); setError('') }}
                   required
                   className="block w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -102,7 +123,7 @@ function SignIn() {
             </div>
 
             <div className='flex justify-center'>
-            <span className='text-red-400 text-center font-bold nexa-font'>{error}</span>
+              <span className='text-red-400 text-center font-bold nexa-font'>{error}</span>
             </div>
             <div>
               <button
