@@ -1,6 +1,7 @@
 const verifyToken = require('../utils/auth.util')
 
 const isAuth = async (req, res, next) => {
+    console.log('\ntutor isAuth Middleware accessed')
 
     const accessToken = req.cookies['accessToken'];
 
@@ -13,13 +14,19 @@ const isAuth = async (req, res, next) => {
     if (!accessToken) return res.status(401).json({ err: "token is missing" });
 
     verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET)
-        .then((user) => {
-            console.log('token verified', user)
-            req.user = user.user;
+        .then((response) => {
+            if (response.user.role !== 'user') {
+                console.log('role is not user');
+                return res.status(403).json({ messsage: 'Not Authorized' })
+            }
+
+            console.log('token verified')
+            req.user = response.user;
             next()
         })
         .catch((err) => {
             console.error('token error')
+            console.log(err)
             return res.status(401).json({ err })
         })
 }

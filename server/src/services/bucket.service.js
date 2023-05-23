@@ -80,7 +80,7 @@ const uploadLesson = async (lesson) => {
 const getThumbnailURL = async (imageName) => {
     
     // fake thumbnail
-    // return 'https://i.ytimg.com/vi/pN6jk0uUrD8/mqdefault.jpg'
+    return 'https://i.ytimg.com/vi/pN6jk0uUrD8/mqdefault.jpg'
     
     const imageUrl = await getSignedUrl(
         s3,

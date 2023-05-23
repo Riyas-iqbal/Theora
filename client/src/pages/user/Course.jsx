@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import SectionTitle from '../../components/user/SectionTitle'
 import HorizontalRule from '../../components/common/HorizontalRule'
-import { useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { BookOpenIcon, ClockIcon, CodeBracketIcon, UserGroupIcon } from '@heroicons/react/24/outline'
 import { enrollCourseAPI, getCourseDetailsAPI } from '../../api/user'
 import { useState } from 'react'
@@ -10,14 +10,19 @@ import { Tab, Disclosure } from '@headlessui/react'
 import timeAgo from '../../utils/timeAgo'
 import { ChevronUpIcon, LockClosedIcon } from '@heroicons/react/20/solid'
 import Modal from '../../components/user/Modal'
+import getUser from '../../components/authorization/getUser'
+
 
 export default function Course() {
 	const [course, setCourse] = useState({})
 	const [isLoading, setIsLoading] = useState(true)
 	const [fomattedDate, setFomattedDate] = useState({})
 	const [isOpen, setIsOpen] = useState(false)
-
+	
+	const user = getUser()
 	const params = useParams()
+	const navigate = useNavigate()
+	const {pathname} = useLocation()
 
 	useEffect(() => {
 		(async () => {
@@ -44,11 +49,18 @@ export default function Course() {
 
 	//enroll course
 	const handleEnrollCourse = async (courseId, type) => {
+		console.log(user)
+
+		if (!user.loggedIn){
+			navigate('/signin?private=true&from='+pathname)
+			return
+		}
+
 		if (type === 'fake') {
 			console.log('fake Buy')
 		}
 
-		const response = await enrollCourseAPI({courseId:courseId })
+		const response = await enrollCourseAPI({ courseId: courseId })
 		console.log(response)
 
 		console.log('you have successfully enrolled in this course -' + courseId)

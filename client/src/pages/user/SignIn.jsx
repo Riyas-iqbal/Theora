@@ -14,6 +14,8 @@ function SignIn() {
 
   let [searchParams, setSearchParams] = useSearchParams();
   const accessedPrivate = searchParams.get('private');
+  const fromLocation = searchParams.get('from');
+
 
   const notify = () => toast.error('Please login to continue');
 
@@ -33,27 +35,19 @@ function SignIn() {
   //covert to react API
   const handleSingIn = (e) => {
     e.preventDefault()
-    console.log(email, password)
     axios.post(
       `http://localhost:3000/api/auth/signin`,
-      {
-        email,
-        password,
-      },
-      {
-        withCredentials: true,
-      }
+      { email, password },
+      { withCredentials: true }
     )
       .then((response) => {
-        console.log(response)
-        dispatch(setUser({
-          ...response.data?.user,
-          userId: response.data.user._id
-        }))
-        navigate('/user')
+        dispatch(setUser({ ...response.data?.user, userId: response.data.user._id }))
+        if (fromLocation) {
+          return navigate(fromLocation)
+        }
+        return navigate('/user')
       })
       .catch((err) => {
-        console.log('errrorr', err.response.data.message)
         setError(err.response.data.message)
       })
 

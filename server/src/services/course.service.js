@@ -64,10 +64,15 @@ const getCourseDetails = async (courseId) => {
     return course
 }
 
+const enrollInCourseById = async ({courseId,userId}) => {
+    
+}
+
 module.exports = {
     createCourse,
     getAllCourseByTutor,
     getAllCourses,
     getCourseDetails,
+    enrollInCourseById,
     addLessonToCourse
 }

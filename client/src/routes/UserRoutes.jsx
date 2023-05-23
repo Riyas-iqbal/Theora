@@ -22,12 +22,12 @@ function UserRoutes() {
         <Route path='explore' element={<Explore />} />
         <Route path='signin' element={<SignIn />} />
         <Route path='signup' element={<SignUp />} />
-        
+        <Route path='courses/:id' element={<Course />} />
+
         <Route element={<UserPrivate />}>
           <Route path='courses/enrolled' element={<Enrolled />} />
-          <Route path='courses/:id' element={<Course />} />
         </Route>
-        
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

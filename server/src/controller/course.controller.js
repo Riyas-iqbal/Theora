@@ -28,7 +28,7 @@ const getAllCourseByTutor = async (req, res) => {
     })
 }
 
-const getAllCourses = async (req,res) => {
+const getAllCourses = async (req, res) => {
     const courses = await courseService.getAllCourses()
     return res.status(200).json({
         message: 'course found',
@@ -43,16 +43,20 @@ const getSpecificCourse = async (req, res) => {
 
 const enrollCourse = async (req, res) => {
     const { error } = await objectIdSchema.validate(req.body.courseId)
-    if (error) return res.status(400).json({ message: 'invalid course id'})
-    
-    console.log(req.user)
+    if (error) return res.status(400).json({ message: 'invalid course id' })
 
-    // const isEnrolled = await courseService.enrollCourseById()
+    const params = {
+        courseId: req.body.courseId,
+        userId: req.user._id
+    }
+
+    const isEnrolled = await courseService.enrollInCourseById(params)
+
     res.status(200).json({ message: 'student enrolled for course successfully', data: req.body })
 }
 
-const getEnrolledCourses = async (req,res) => {
-    return res.status(200).json({ message: 'success'})
+const getEnrolledCourses = async (req, res) => {
+    return res.status(200).json({ message: 'success' })
 }
 
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SectionTitle from '../../components/user/SectionTitle'
 import HorizontalRule from '../../components/common/HorizontalRule'
@@ -12,6 +12,7 @@ export default function Enrolled() {
 		getUserEnrolledCoursesAPI()
 			.then((response) => {
 				setCourses(response.data.data)
+				console.log(response)
 			})
 			.catch((err) => {
 				console.log(err)
