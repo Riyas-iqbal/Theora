@@ -29,15 +29,23 @@ const addLessonToCourse = async (lessonId, courseId) => {
 
 const getAllCourseByTutor = async (couresId) => {
     const courses = await Course.find({ tutor: couresId }).catch(err => { console.log(err) });
+    
+    // code refractor needed
     for (let i = 0; i < courses.length; i++) {
         courses[i] = courses[i].toObject()
         courses[i].thumbnailURL = await bucketService.getThumbnailURL(courses[i].thumbnail)
     }
+
     return courses
 }
 
 const getCourseDetails = async (courseId) => {
-    let course = await Course.findOne({ _id: courseId }).populate('lessons').catch(err => { console.log(err) });
+    let course = await Course
+        .findOne({ _id: courseId })
+        .populate('lessons')
+        .populate('tutor')
+        .catch(err => { console.log(err) });
+    
     course = course.toObject()
     course.thumbnailURL = await bucketService.getThumbnailURL(course.thumbnail);
     return course

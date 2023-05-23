@@ -34,14 +34,6 @@ const getSpecificCourse = async (req, res) => {
     res.status(200).json({message:'course found',data: course})
 }
 
-
-/**
- * @desc create a new course
- * @route POST /tutor/courses/create
- * @access private
- */
-
-
 const updateCourse = (req, res) => {
     res.send('udpateCourse')
 }

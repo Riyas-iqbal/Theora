@@ -4,7 +4,7 @@ const multer = require('multer');
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 const courseContoller = require('../../controller/course.controller');
-const isAuthTutor = require('../../middlewares/tutorAuthentication');
+const isAuthTutor = require('../../middlewares/tutor.auth');
 
 /**
 * @desc get all courses created by specific tutor
