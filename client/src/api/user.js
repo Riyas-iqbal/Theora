@@ -11,6 +11,10 @@ const enrollCourseAPI = (body) => {
     )
 }
 
+const isEnrolledInCourseAPI = (courseId) => {
+    return API.get(`/user/details/enrolled/${courseId}/check`)
+}
+
 const getUserEnrolledCoursesAPI = ()=>{
     return API.get('/user/courses/enroll')
 }
@@ -18,5 +22,6 @@ const getUserEnrolledCoursesAPI = ()=>{
 export {
     getCourseDetailsAPI,
     getUserEnrolledCoursesAPI,
+    isEnrolledInCourseAPI,
     enrollCourseAPI
 }

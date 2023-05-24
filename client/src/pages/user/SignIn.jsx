@@ -12,16 +12,20 @@ function SignIn() {
 
   const dispatch = useDispatch()
 
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [searchParams] = useSearchParams();
   const accessedPrivate = searchParams.get('private');
   const fromLocation = searchParams.get('from');
+  const sessionExpired = searchParams.get('expired');
 
 
-  const notify = () => toast.error('Please login to continue');
+  
 
   useEffect(() => {
     if (accessedPrivate) {
-      notify()
+      toast.error('Please login to continue');
+    }
+    if (sessionExpired) {
+      toast.error('Session timeout! Please login again')
     }
   }, [])
 

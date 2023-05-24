@@ -5,6 +5,16 @@ const getAllCourses = async () => {
     return courses
 }
 
+const findCourseById = async (courseId) => {
+    const course = await Course.findById({ _id: courseId })
+    if (!course) {
+        console.log('Course not found -'+course )
+        return false
+    }
+    return course
+}
+
 module.exports = {
-    getAllCourses
+    getAllCourses,
+    findCourseById
 }

@@ -1,38 +1,46 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import toast, { Toaster } from 'react-hot-toast';
+import { Tab, Disclosure } from '@headlessui/react'
+import { BookOpenIcon, ClockIcon, CodeBracketIcon, UserGroupIcon } from '@heroicons/react/24/outline'
+import { CheckCircleIcon, ChevronUpIcon, LockClosedIcon } from '@heroicons/react/20/solid'
+
+
 import SectionTitle from '../../components/user/SectionTitle'
 import HorizontalRule from '../../components/common/HorizontalRule'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { BookOpenIcon, ClockIcon, CodeBracketIcon, UserGroupIcon } from '@heroicons/react/24/outline'
-import { enrollCourseAPI, getCourseDetailsAPI } from '../../api/user'
-import { useState } from 'react'
-import Loading from '../../components/common/Loading'
-import { Tab, Disclosure } from '@headlessui/react'
-import timeAgo from '../../utils/timeAgo'
-import { ChevronUpIcon, LockClosedIcon } from '@heroicons/react/20/solid'
 import Modal from '../../components/user/Modal'
+import Loading from '../../components/common/Loading'
 import getUser from '../../components/authorization/getUser'
+import timeAgo from '../../utils/timeAgo'
 
+import { enrollCourseAPI, getCourseDetailsAPI, isEnrolledInCourseAPI } from '../../api/user'
 
 export default function Course() {
 	const [course, setCourse] = useState({})
 	const [isLoading, setIsLoading] = useState(true)
 	const [fomattedDate, setFomattedDate] = useState({})
 	const [isOpen, setIsOpen] = useState(false)
-	
+	const [isEnrolled, setIsEnrolled] = useState(false)
+
 	const user = getUser()
 	const params = useParams()
 	const navigate = useNavigate()
-	const {pathname} = useLocation()
+	const { pathname } = useLocation()
 
+	//get course details by id in params
 	useEffect(() => {
 		(async () => {
 			const courseDetails = await getCourseDetailsAPI(params.id)
+			const userCourse = await isEnrolledInCourseAPI(params.id)
+			console.log(userCourse.data)
+			setIsEnrolled(userCourse.data.enrolled)
 			setCourse(courseDetails.data.data)
 
 			setTimeout(() => setIsLoading(false), 1000)
 		})()
 	}, [])
 
+	//set timeAgo for course based on course created date
 	useEffect(() => {
 		const courseDate = new Date(course.createdAt).toDateString()
 		const courseTimeAgo = timeAgo(course.createdAt)
@@ -43,31 +51,36 @@ export default function Course() {
 		})
 	}, [course.createdAt])
 
+	//join classes by filtering conditions
 	function classNames(...classes) {
 		return classes.filter(Boolean).join(' ')
 	}
 
-	//enroll course
+	//enroll in course  API
 	const handleEnrollCourse = async (courseId, type) => {
-		console.log(user)
 
-		if (!user.loggedIn){
-			navigate('/signin?private=true&from='+pathname)
-			return
+		if (!user.loggedIn) return navigate(`/signin?private=true&from=${pathname}`)
+		if (type === 'fake') console.log('fake Buy')
+
+		let response;
+		try {
+			response = await enrollCourseAPI({ courseId: courseId })
+		} catch (error) {
+			return console.log('error in enrolling Course', error)
 		}
 
-		if (type === 'fake') {
-			console.log('fake Buy')
-		}
+		//show success notification
+		toast.success('Congratulations! You have enrolled for the course successfully.', {
+			duration: '4000',
+			position: 'top-right'
+		});
 
-		const response = await enrollCourseAPI({ courseId: courseId })
-		console.log(response)
-
-		console.log('you have successfully enrolled in this course -' + courseId)
+		console.log('you have successfully enrolled in this course -', response)
 	}
 
 	return (
 		<>
+			<Toaster />
 			{
 				isLoading ?
 					<Loading />
@@ -294,38 +307,49 @@ export default function Course() {
 
 							<div className="rounded-2xl bg-white py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
 								<div className="mx-auto max-w-xs px-8">
-									<p className="text-base font-semibold text-gray-600">Pay once, own it forever</p>
-									<p className="mt-6 flex items-baseline justify-center gap-x-2">
-										{console.log(course)}
-										<span className="text-5xl font-bold tracking-tight text-gray-900">₹{course?.price}</span>
-										<span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">INR</span>
-									</p>
-									<button
-										onClick={() => handleEnrollCourse(course._id)}
-										className="mt-10 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-									>
-										Get Course
-									</button>
-									<button
-										onClick={() => setIsOpen(!isOpen)}
-										className="mt-2 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-									>
-										Fake Buy
-									</button>
+									{	
+										// is User Already Enrolled for the course
+										isEnrolled ?
+										<div className='flex flex-col items-center'>
+												{console.log(isEnrolled)}
+											<CheckCircleIcon className='text-green-400 w-20' />
+												Already Enrolled
+											</div>
+											:
+											<>
+												<p className="text-base font-semibold text-gray-600">Pay once, own it forever</p>
+												<p className="mt-6 flex items-baseline justify-center gap-x-2">
+													<span className="text-5xl font-bold tracking-tight text-gray-900">₹{course?.price}</span>
+													<span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">INR</span>
+												</p>
+												<button
+													onClick={() => handleEnrollCourse(course._id)}
+													className="mt-10 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+												>
+													Get Course
+												</button>
+												<button
+													onClick={() => setIsOpen(!isOpen)}
+													className="mt-2 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+												>
+													Fake Buy
+												</button>
 
-									<Modal
-										isOpen={isOpen}
-										setIsOpen={setIsOpen}
-										modalData={{
-											title: 'Confirm Payment',
-											description: 'By clicking "Confirm" you are accepting theora payment procedures and proceed to payment',
-											onClick: () => handleEnrollCourse(course._id, 'fake')
-										}}
-									/>
+												<Modal
+													isOpen={isOpen}
+													setIsOpen={setIsOpen}
+													modalData={{
+														title: 'Confirm Payment',
+														description: 'By clicking "Confirm" you are accepting theora payment procedures and proceed to payment',
+														onClick: () => handleEnrollCourse(course._id, 'fake')
+													}}
+												/>
 
-									<p className="mt-6 text-xs leading-5 text-gray-600">
-										Invoices and receipts available for easy company reimbursement
-									</p>
+												<p className="mt-6 text-xs leading-5 text-gray-600">
+													Invoices and receipts available for easy company reimbursement
+												</p>
+											</>
+									}
 								</div>
 							</div>
 						</div>

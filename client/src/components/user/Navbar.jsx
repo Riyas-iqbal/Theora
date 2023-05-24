@@ -38,7 +38,7 @@ function Navbar() {
 						</button>
 						:
 						<Button>
-							<Link to='signin'>Sign In</Link>
+							<Link to={`signin?from=${pathname}`}>Sign In</Link>
 						</Button>
 				}
 

@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     },
     age: Number,
     address: String,
-    enrolledCoures: [
+    enrolledCourses: [
         { type: mongoose.Schema.Types.ObjectId, ref: 'courses' },
     ],
     isBlocked: {

@@ -1,6 +1,7 @@
 const Course = require('../models/course.model')
 const bucketService = require('./bucket.service')
 const courseRepository = require('../repository/course.repository')
+const userRepository = require('../repository/user.repository')
 
 
 const createCourse = async (courseData, tutorId) => {
@@ -64,8 +65,26 @@ const getCourseDetails = async (courseId) => {
     return course
 }
 
-const enrollInCourseById = async ({courseId,userId}) => {
-    
+const enrollInCourse = async ({ courseId, userId }) => {
+
+    const isValidCourse = await courseRepository.findCourseById(courseId)
+    if (!isValidCourse) return false
+
+    const isEnrolled = await userRepository.enrollInCourseById({ courseId, userId });
+    return isEnrolled
+}
+
+const getEnrolledCourses = async (userId) => {
+    const coursesEnrolled = await userRepository.getCoursesEnrolled(userId)
+
+    // code refractor needed
+    for (let i = 0; i < coursesEnrolled.length; i++) {
+        
+        // coursesEnrolled[i] = coursesEnrolled[i].toObject()
+        coursesEnrolled[i].thumbnailURL = await bucketService.getThumbnailURL(coursesEnrolled[i].thumbnail)
+    }
+
+    return coursesEnrolled
 }
 
 module.exports = {
@@ -73,6 +92,7 @@ module.exports = {
     getAllCourseByTutor,
     getAllCourses,
     getCourseDetails,
-    enrollInCourseById,
+    getEnrolledCourses,
+    enrollInCourse,
     addLessonToCourse
 }

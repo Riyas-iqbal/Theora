@@ -4,7 +4,7 @@ import { getCourseDetailsAPI } from '../../api/tutor'
 import SectionTitle from '../../components/tutor/SectionTitle'
 import HorizontalRule from '../../components/common/HorizontalRule'
 import Loading from '../../components/common/Loading'
-import CreateLesson from '../../components/tutor/createLessonModal'
+import CreateLesson from '../../components/tutor/CreateLessonModal'
 
 function UpdateCourse() {
 

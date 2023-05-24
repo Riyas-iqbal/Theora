@@ -1,4 +1,5 @@
 const User = require('../models/user.model')
+const userRepository =  require('../repository/user.repository')
 
 const findUserByEmail = async (email) => {
     const userData = await User.findOne({ email }).select({ email: 1, name: 1, isBlocked: 1, password: 1 })
@@ -41,11 +42,21 @@ const checkTokenAndDelete = async (token) => {
     }
 }
 
+const isEnrolledForCourse = async ({courseId,userId})=>{
+    
+    const userData  = await userRepository.findUserByCourseId({courseId,userId})
+    if (userData) {
+        return true
+    }
+    return false
+}
+
 
 
 module.exports = {
     findUserByEmail, findUserByToken,
     addRefreshTokenById,
+    isEnrolledForCourse,
     checkEmailExists, checkPhoneExists, checkTokenAndDelete
 }
 

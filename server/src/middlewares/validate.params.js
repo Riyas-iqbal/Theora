@@ -10,7 +10,6 @@ const validateParams = (req, res, next) => {
     next()
 }
 
-
 module.exports = {
     validateParams
 }

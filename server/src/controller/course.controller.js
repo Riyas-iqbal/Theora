@@ -50,13 +50,14 @@ const enrollCourse = async (req, res) => {
         userId: req.user._id
     }
 
-    const isEnrolled = await courseService.enrollInCourseById(params)
+    const isEnrolled = await courseService.enrollInCourse(params)
 
     res.status(200).json({ message: 'student enrolled for course successfully', data: req.body })
 }
 
 const getEnrolledCourses = async (req, res) => {
-    return res.status(200).json({ message: 'success' })
+    const enrolledCourses = await courseService.getEnrolledCourses(req.user._id)
+    return res.status(200).json({ message: 'success', data: enrolledCourses })
 }
 
 
