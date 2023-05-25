@@ -10,6 +10,7 @@ import NotFound from '../pages/NotFound'
 import Explore from '../pages/user/Explore'
 import Course from '../pages/user/Course'
 import Enrolled from '../pages/user/Enrolled'
+import ViewCourse from '../pages/user/ViewCourse'
 
 function UserRoutes() {
 
@@ -26,6 +27,7 @@ function UserRoutes() {
 
         <Route element={<UserPrivate />}>
           <Route path='courses/enrolled' element={<Enrolled />} />
+          <Route path='courses/enrolled/:id' element={<ViewCourse />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

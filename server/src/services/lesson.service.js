@@ -40,7 +40,8 @@ const addLessonToCourse = async (lesson) => {
 
 
 const getLesson = async (lessonId) => {
-    const lesson = await lessonRepository.findLessonById(lessonId)
+    let lesson = await lessonRepository.findLessonById(lessonId)
+    lesson = lesson.toObject()
     lesson.videoURL = await bucketService.getVideoURL(lesson.videoKey)
     return lesson
 }

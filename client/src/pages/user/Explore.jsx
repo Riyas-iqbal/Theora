@@ -14,11 +14,11 @@ const sortOptions = [
   { name: 'Price: High to Low', href: '#', current: false },
 ]
 const subCategories = [
-  { name: 'Totes', href: '#' },
-  { name: 'Backpacks', href: '#' },
-  { name: 'Travel Bags', href: '#' },
-  { name: 'Hip Bags', href: '#' },
-  { name: 'Laptop Sleeves', href: '#' },
+  { name: 'Programming', href: '#' },
+  { name: 'Backend', href: '#' },
+  { name: 'Frontend', href: '#' },
+  { name: 'Dev ops', href: '#' },
+  { name: 'Artificial Intelligence ', href: '#' },
 ]
 const filters = [
   {
@@ -37,23 +37,23 @@ const filters = [
     options: [
       { value: 'new-arrivals', label: 'New Arrivals', checked: false },
       { value: 'sale', label: 'Sale', checked: false },
-      { value: 'travel', label: 'Travel', checked: true },
+      { value: 'travel', label: 'Travel', checked: false },
       { value: 'organization', label: 'Organization', checked: false },
       { value: 'accessories', label: 'Accessories', checked: false },
     ],
   },
-  {
-    id: 'size',
-    name: 'Size',
-    options: [
-      { value: '2l', label: '2L', checked: false },
-      { value: '6l', label: '6L', checked: false },
-      { value: '12l', label: '12L', checked: false },
-      { value: '18l', label: '18L', checked: false },
-      { value: '20l', label: '20L', checked: false },
-      { value: '40l', label: '40L', checked: true },
-    ],
-  },
+  // {
+  //   id: 'size',
+  //   name: 'Size',
+  //   options: [
+  //     { value: '2l', label: '2L', checked: false },
+  //     { value: '6l', label: '6L', checked: false },
+  //     { value: '12l', label: '12L', checked: false },
+  //     { value: '18l', label: '18L', checked: false },
+  //     { value: '20l', label: '20L', checked: false },
+  //     { value: '40l', label: '40L', checked: true },
+  //   ],
+  // },
 ]
 
 function classNames(...classes) {

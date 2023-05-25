@@ -11,7 +11,10 @@ const isAuth = async (req, res, next) => {
      * const token = authHeader && authHeader.split(' ')[1]
      */
 
-    if (!accessToken) next()
+    if (!accessToken) {
+        console.log('token not found')
+        return next()
+    }
 
     verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET)
         .then((response) => {
@@ -21,6 +24,7 @@ const isAuth = async (req, res, next) => {
         })
         .catch((err) => {
             console.log('error in verify optional token')
+            req.user = null
             next()
         })
 }

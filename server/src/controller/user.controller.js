@@ -1,9 +1,9 @@
 const userService = require('../services/user.service')
 
-const checkCourseEnrolled = (req, res) => {
+//check if user is enrolled in a course by passing couresId and userId
+const checkCourseEnrolled = async (req, res) => {
 
-    if (!req.user._id) {
-        console.log(req.user._id)
+    if (!req.user) {
         return res.status(200)
             .json({
                 message: 'user is not logged in',
@@ -13,18 +13,15 @@ const checkCourseEnrolled = (req, res) => {
 
     const params = {
         courseId: req.params.id,
-        userId: req.user.id
+        userId: req.user._id
     }
 
-    console.log(params)
+    const isEnrolled = await userService.isEnrolledForCourse(params)
 
-    const isEnrolled = userService.isEnrolledForCourse(params)
-
-    return res.status(200)
-        .json({
-            message: isEnrolled ? 'user is already enrolled for this course' : 'user is not enrolled for this course',
-            enrolled: isEnrolled
-        })
+    return res.status(200).json({
+        message: isEnrolled ? 'user is already enrolled for this course' : 'user is not enrolled for this course',
+        enrolled: isEnrolled
+    })
 }
 
 module.exports = {

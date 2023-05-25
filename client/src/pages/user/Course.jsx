@@ -69,13 +69,13 @@ export default function Course() {
 			return console.log('error in enrolling Course', error)
 		}
 
+		setIsEnrolled(true)
+
 		//show success notification
 		toast.success('Congratulations! You have enrolled for the course successfully.', {
 			duration: '4000',
 			position: 'top-right'
 		});
-
-		console.log('you have successfully enrolled in this course -', response)
 	}
 
 	return (

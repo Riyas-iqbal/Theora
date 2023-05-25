@@ -53,19 +53,19 @@ function Navbar() {
                     </span>
                 </Link>
 
-                <Link className='hover:text-amber-500' to="/blogs" >
-                    <span className={pathname === '/tutor/blogs' ? 'text-amber-600' : null}>
+                <Link className='hover:text-amber-500' to="/tutor/dashboard" >
+                    <span className={pathname === '/tutor/dashboard' ? 'text-amber-600' : null}>
                         Dashboard
                     </span>
                 </Link>
                 
-                <Link className='hover:text-amber-500' to="/newsletters" active={pathname === '/tutor/newsletters' ? true : null}>
+                {/* <Link className='hover:text-amber-500' to="/newsletters" active={pathname === '/tutor/newsletters' ? true : null}>
                     Standings
                 </Link>
                 
                 <Link className='hover:text-amber-500' to="/contact" active={pathname === '/tutor/contact' ? true : null}>
                     FAQ
-                </Link>
+                </Link> */}
 
             </NavBar.Collapse>
         </NavBar>

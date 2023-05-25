@@ -95,6 +95,9 @@ const getThumbnailURL = async (imageName) => {
 }
 
 const getVideoURL = async (videoName) => {
+    //fake video
+    return 'http://clips.vorwaerts-gmbh.de/VfE.ogv'
+
     const videoURL = await getSignedUrl(
         s3,
         new GetObjectCommand({

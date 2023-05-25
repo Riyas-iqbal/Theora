@@ -1,7 +1,6 @@
 const verifyToken = require('../utils/auth.util')
 
 const isAuth = async (req, res, next) => {
-    console.log(hello)
     console.log('\nUser isAuth Middleware accessed')
 
     const accessToken = req.cookies['accessToken'];

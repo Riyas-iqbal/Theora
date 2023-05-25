@@ -1,4 +1,5 @@
 const Tutor = require('../models/tutor.model')
+const tutorRepository = require('../repository/tutor.repository')
 
 const findTutorByEmail = async (email) => {
     let tutorData = await Tutor.findOne({ email }).select({ email: 1, name: 1, isBlocked: 1, password: 1 })
@@ -8,6 +9,12 @@ const findTutorByEmail = async (email) => {
 // const findTutorByToken = async (token) => {
 
 // }
+
+const getTopTutors = async () => {
+    const limit = 5
+    const topTutors = await tutorRepository.getTutors(limit)
+    return topTutors 
+} 
 
 const addRefreshTokenById = async (_id,refreshToken) => {
     await Tutor.updateOne({ _id }, { $push: { token: refreshToken } })
@@ -45,7 +52,7 @@ const checkTokenAndDelete = async (token) => {
 
 
 module.exports = {
-    findTutorByEmail,
+    findTutorByEmail,getTopTutors,
     addRefreshTokenById,
     checkEmailExists, checkPhoneExists, checkTokenAndDelete
 }

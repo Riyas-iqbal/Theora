@@ -12,6 +12,10 @@ const getCourseDetailsAPI = (id, route = '/tutor/courses/') => {
     return API.get(route + id)
 }
 
+const getTopTutorsAPI = async (route='/tutor/details/top') => {
+    return API.get(route) 
+}
+
 const createLessonAPI = (body, route = `/tutor/lessons`) => {
     return API.post(
         route,
@@ -24,5 +28,6 @@ const createLessonAPI = (body, route = `/tutor/lessons`) => {
 export {
     createCourseAPI,
     getCourseDetailsAPI,
-    createLessonAPI
+    createLessonAPI,
+    getTopTutorsAPI
 }

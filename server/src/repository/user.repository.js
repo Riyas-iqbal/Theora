@@ -28,7 +28,6 @@ const getCoursesEnrolled = async (userId) => {
 const findUserByCourseId = async ({ courseId, userId }) => {
     
     const userData = await User.findOne({ _id: userId, enrolledCourses: { $in: [courseId] } })
-    console.log(userData)
     return userData
 }
 

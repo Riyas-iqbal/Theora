@@ -1,22 +1,43 @@
 import React, { useState } from 'react'
 import { Button, Modal } from 'flowbite-react'
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { PhotoIcon, UserCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import { useForm } from 'react-hook-form'
 import { createLessonAPI } from '../../api/tutor'
 import '@headlessui/react'
 
 export default function createLessonModal({ course }) {
 	const [isOpen, setIsOpen] = useState(false)
+	const [error, setError] = useState(null)
+	const [fileName, setFileName] = useState(null)
 
 	const { handleSubmit, register, formState: { errors } } = useForm();
 	const formData = new FormData();
 
+	const handleFileSelect = async (e) => {
+		console.log(e.target.files[0])
+		setError(null)
+		const fileSizeInBytes = e.target.files[0].size;
+		const fileSizeInMB = fileSizeInBytes / (1024 * 1024);
+		if (fileSizeInMB > 30) {
+			return setError('file size exceeded 30 MB')
+		}
+		setFileName(e.target.files[0].name)
+	}
+
+	const removeSelectedFile = async () => {
+		 
+	}
+
 	const onSubmit = (data) => {
-		console.log(data);
+		if (error) {
+			console.log(error)
+			return false
+		}
 		formData.append("title", data.title);
 		formData.append("description", data.description);
 		formData.append("lesson", Array.from(data.video)[0])
 		formData.append("courseId", course._id)
+
 
 		createLessonAPI(formData)
 			.then(response => console.log(response))
@@ -117,7 +138,8 @@ export default function createLessonModal({ course }) {
 															id="file-upload"
 															name="file-upload"
 															type="file"
-															{...register('video')}
+															accept='video/*'
+															{...register('video', { onChange: handleFileSelect })}
 															className="sr-only"
 														/>
 
@@ -128,6 +150,18 @@ export default function createLessonModal({ course }) {
 											</div>
 											{errors.video && errors.video.message}
 										</div>
+
+										<span className='text-red-600'>{error}</span>
+										{
+											fileName && (
+												<div className='flex justify-between items-center bg-indigo-100 rounded-md mt-3 hover:bg-indigo-50'>
+											<div className='nexa-font ml-3 p-2'>{fileName}</div>
+											<div>
+												<XCircleIcon className='w-6 mr-2 hover:cursor-pointer hover:text-red-300 hover:rotate-90 duration-200' onClick={removeSelectedFile}/>
+											</div>
+										</div>
+											)
+										}
 									</div>
 								</div>
 							</div>
@@ -135,7 +169,12 @@ export default function createLessonModal({ course }) {
 
 					</Modal.Body>
 					<Modal.Footer className='flex justify-end'>
-						<Button type='submit' onClick={() => setIsOpen(!isOpen)}>
+						<Button type='submit' onClick={() => {
+							if (!error) {
+								setIsOpen(!isOpen)
+							}
+						}
+						}>
 							Create Lesson
 						</Button>
 						<Button

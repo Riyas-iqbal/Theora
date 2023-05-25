@@ -1,8 +1,8 @@
-import BrandOne from '../images/brand/brand-01.svg';
-import BrandTwo from '../images/brand/brand-02.svg';
-import BrandThree from '../images/brand/brand-03.svg';
-import BrandFour from '../images/brand/brand-04.svg';
-import BrandFive from '../images/brand/brand-05.svg';
+// import BrandOne from '../images/brand/brand-01.svg';
+// import BrandTwo from '../images/brand/brand-02.svg';
+// import BrandThree from '../images/brand/brand-03.svg';
+// import BrandFour from '../images/brand/brand-04.svg';
+// import BrandFive from '../images/brand/brand-05.svg';
 
 const TableOne = () => {
   return (
@@ -43,7 +43,7 @@ const TableOne = () => {
         <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">
             <div className="flex-shrink-0">
-              <img src={BrandOne} alt="Brand" />
+              <img src={BrandOne ?? ''} alt="Brand" />
             </div>
             <p className="hidden text-black dark:text-white sm:block">Google</p>
           </div>
@@ -68,7 +68,7 @@ const TableOne = () => {
         <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">
             <div className="flex-shrink-0">
-              <img src={BrandTwo} alt="Brand" />
+              <img src={BrandTwo ?? ''} alt="Brand" />
             </div>
             <p className="hidden text-black dark:text-white sm:block">
               Twitter
@@ -95,7 +95,7 @@ const TableOne = () => {
         <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">
             <div className="flex-shrink-0">
-              <img src={BrandThree} alt="Brand" />
+              <img src={BrandThree ?? ''} alt="Brand" />
             </div>
             <p className="hidden text-black dark:text-white sm:block">Github</p>
           </div>
@@ -120,7 +120,7 @@ const TableOne = () => {
         <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">
             <div className="flex-shrink-0">
-              <img src={BrandFour} alt="Brand" />
+              <img src={BrandFour ?? ''} alt="Brand" />
             </div>
             <p className="hidden text-black dark:text-white sm:block">Vimeo</p>
           </div>
@@ -145,7 +145,7 @@ const TableOne = () => {
         <div className="grid grid-cols-3 sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">
             <div className="flex-shrink-0">
-              <img src={BrandFive} alt="Brand" />
+              <img src={BrandFive ?? ''} alt="Brand" />
             </div>
             <p className="hidden text-black dark:text-white sm:block">
               Facebook

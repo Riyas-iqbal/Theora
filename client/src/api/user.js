@@ -19,6 +19,8 @@ const getUserEnrolledCoursesAPI = ()=>{
     return API.get('/user/courses/enroll')
 }
 
+
+
 export {
     getCourseDetailsAPI,
     getUserEnrolledCoursesAPI,

@@ -1,31 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getTopTutorsAPI } from '../../api/tutor'
 
 function TopTutors() {
 
-    const tutors = [
-        {
-            name:'Neil Sims',
-            mail:'email@windster.com',
-            totalViews:'1M+'
-        },{
-            name:'Bonnie Green',
-            mail:'email@windster.com',
-            totalViews:'956K'
-        },{
-            name:'Michael Gough',
-            mail:'email@windster.com',
-            totalViews:'800k'
-        },{
-            name:'Lana Byrd',
-            mail:'email@windster.com',
-            totalViews:'649k'
-        },{
-            name:'Thomes Lean',
-            mail:'email@windster.com',
-            totalViews:'458k'
-        },
-    ]
+    const [tutors, setTutors] = useState([])
+
+    useEffect(() => {
+        getTopTutorsAPI()
+            .then((response)=>{
+                setTutors(response.data.data)
+            })
+    }, [])
+    
 
     return (
         <>
@@ -50,11 +37,11 @@ function TopTutors() {
                                                 {tutor.name}
                                             </p>
                                             <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                {tutor.mail}
+                                                {tutor.email}
                                             </p>
                                         </div>
                                         <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                            {tutor.totalViews}
+                                            {tutor?.totalViews}
                                         </div>
                                     </div>
                                 </li>

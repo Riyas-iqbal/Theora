@@ -1,6 +1,5 @@
 const router = require('express').Router();
-const jwt = require('jsonwebtoken');
-const isAuth = require('../middlewares/authentication')
+const isAuth = require('../middlewares/user.auth')
 
 /*
  * test private routes

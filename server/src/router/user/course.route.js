@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const courseController = require('../../controller/course.controller')
 const { validateParams } = require('../../middlewares/validate.params')
-const isAuth = require('../../middlewares/authentication')
+const isAuth = require('../../middlewares/user.auth')
 
 
 router
