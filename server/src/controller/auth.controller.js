@@ -5,22 +5,25 @@ const attachTokenToCookie = require('../utils/cookie.util')
 const { createAccessToken, createRefreshToken } = require('../utils/generate.tokens.util')
 const { comparePasswords, createHashPassword } = require('../utils/bcrypt.util')
 const { signInSchema, signUpSchema } = require('../validation/auth.validator')
+const { default: asyncHandler } = require('../utils/async.handler.util')
+const AppError = require('../utils/app.error.util')
 
 /**
 * @desc User Sign in
 * @route POST /auth/signin/
-* @access public
+* @access private
 */
 
 
 //needs refractor
-const handleSignIn = async (req, res) => {
+const handleSignIn = asyncHandler(async (req, res) => {
 
     const { error, value } = signInSchema.validate(req.body)
     if (error) return res.status(400).json({ message: error.details[0].message })
 
     let userData = await userService.findUserByEmail(value.email)
-    if (!userData) return res.status(401).json({ message: 'Unauthorized' })
+    if (!userData) throw AppError.validation()
+    // if (!userData) return res.status(401).json({ message: 'Unauthorized' })
 
     const isPasswordMatch = await comparePasswords(value.password, userData.password)
     if (!isPasswordMatch) return res.status(401).json({ message: 'Unauthorized' })
@@ -37,7 +40,7 @@ const handleSignIn = async (req, res) => {
     await userService.addRefreshTokenById(userData._id, refreshToken)
 
     res.status(200).json({ message: 'Login successfull', user: userData })
-}
+})
 
 /**
 * @desc user signup

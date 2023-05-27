@@ -32,7 +32,7 @@ export default function Course() {
 		(async () => {
 			const courseDetails = await getCourseDetailsAPI(params.id)
 			const userCourse = await isEnrolledInCourseAPI(params.id)
-			console.log(userCourse.data)
+			
 			setIsEnrolled(userCourse.data.enrolled)
 			setCourse(courseDetails.data.data)
 

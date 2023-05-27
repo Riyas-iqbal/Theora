@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
+import { getAllUsersAPI } from '../../api/admin'
 
 const TableThree = () => {
   const [users, setUsers] = useState([])
 
-  // useEffect(() => {
-  //   getAllUsersAPI()
-  //     .then((response)=>{
-  //       console.log(response)
-  //     })
-  // }, [])
-  
+  useEffect(() => {
+    getAllUsersAPI()
+      .then((response) => {
+        setUsers(response.data.data)
+        console.log(response.data.data)
+      })
+  }, [])
+
 
 
   return (
@@ -33,31 +35,47 @@ const TableThree = () => {
             </tr>
           </thead>
           <tbody>
-            
-            
-            <tr>
-              {/* Users */}
-              <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                <h5 className="font-medium text-black dark:text-white">
-                  Free Package
-                </h5>
-                <p className="text-sm">$0.00</p>
-              </td>
 
-              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">Jan 13,2023</p>
-              </td>
-              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="inline-flex rounded-full bg-success bg-opacity-10 py-1 px-3 text-sm font-medium text-success">
-                  Paid
-                </p>
-              </td>
-              <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <div className="flex items-center space-x-3.5">
-                    {/* Button */}
-                </div>
-              </td>
-            </tr>
+
+            {
+              users.length ?
+                users.map((user) => (
+                  <>
+                    <tr>
+                      {/* Users */}
+                      <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
+                        <h5 className="font-medium text-black dark:text-white">
+                          {user.name}
+                        </h5>
+                        <p className="text-sm">{user.email}</p>
+                      </td>
+
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                        <p className="text-black dark:text-white">Jan 13,2023</p>
+                      </td>
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                        <p className="inline-flex rounded-full bg-success bg-opacity-10 py-1 px-3 text-sm font-medium text-success">
+                          {
+                            user.isBlocked ?
+                            <span className="text-red-500 nexa-font">Blocked</span>
+                            :
+                            <span className="text-green-400 nexa-font">Active</span>
+                          }
+                        </p>
+                      </td>
+                      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                        <div className="flex items-center space-x-3.5 text-center">
+                          {/* Button */}
+                          <span className='focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-1.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900'>
+                            Block</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </>
+                ))
+                :
+                <>No User Found</>
+            }
 
 
 

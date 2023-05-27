@@ -57,13 +57,14 @@ const getCourseDetails = async (courseId) => {
     let course = await Course
         .findOne({ _id: courseId })
         .populate('lessons')
-        .populate('tutor')
+        .populate('tutor','name')
         .catch(err => { console.log(err) });
 
     course = course.toObject()
     course.thumbnailURL = await bucketService.getThumbnailURL(course.thumbnail);
     return course
 }
+
 
 const enrollInCourse = async ({ courseId, userId }) => {
 

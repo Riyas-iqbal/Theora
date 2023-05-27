@@ -31,8 +31,14 @@ const findUserByCourseId = async ({ courseId, userId }) => {
     return userData
 }
 
+
+const getAllUsers = async (arg) => {
+    const users = await User.find()
+    return users 
+}
 module.exports = {
     enrollInCourseById,
+    getAllUsers,
     getCoursesEnrolled,
     findUserByCourseId
 }

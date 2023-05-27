@@ -24,6 +24,12 @@ const checkCourseEnrolled = async (req, res) => {
     })
 }
 
+const getAllUsers = async(req,res)=>{
+    const users = await userService.getAllUsers()
+    return res.status(200).json({message:'users found',data:users}) 
+}
+
 module.exports = {
-    checkCourseEnrolled
+    checkCourseEnrolled,
+    getAllUsers
 }

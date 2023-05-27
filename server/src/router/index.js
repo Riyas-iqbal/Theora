@@ -12,6 +12,8 @@ const userLessonRoute = require('./user/lesson.route')
 const userCourseRoute = require('./user/course.route')
 const userDetailsRoute = require('./user/details.route')
 
+const adminUsersRoute = require('./admin/users.route')
+
 const defaultRoutes = [
     {
         path: '/auth',
@@ -40,6 +42,10 @@ const defaultRoutes = [
     {
         path: '/user/details',
         route: userDetailsRoute
+    },
+    {
+        path: '/admin/users',
+        route: adminUsersRoute
     },
     {
         path: '/test',
