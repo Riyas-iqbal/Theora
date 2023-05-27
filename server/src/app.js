@@ -8,6 +8,7 @@ const cors = require('cors')
 const compression = require('./middlewares/compression')
 const authLimiter = require('./middlewares/rate.limiter')
 const customLog = require('./middlewares/logger')
+const errorHandler = require('./middlewares/error.handler')
 
 const app = express()
 
@@ -36,6 +37,8 @@ app.use('/api', require('./router'))
 app.use('*', (req, res) => {
     res.status(404).json('Not found')
 })
+
+app.use(errorHandler)
 
 connectDB()
 

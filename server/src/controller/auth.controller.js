@@ -5,7 +5,7 @@ const attachTokenToCookie = require('../utils/cookie.util')
 const { createAccessToken, createRefreshToken } = require('../utils/generate.tokens.util')
 const { comparePasswords, createHashPassword } = require('../utils/bcrypt.util')
 const { signInSchema, signUpSchema } = require('../validation/auth.validator')
-const { default: asyncHandler } = require('../utils/async.handler.util')
+const asyncHandler = require('../utils/async.handler.util')
 const AppError = require('../utils/app.error.util')
 
 /**
@@ -18,15 +18,17 @@ const AppError = require('../utils/app.error.util')
 //needs refractor
 const handleSignIn = asyncHandler(async (req, res) => {
 
+    
+
     const { error, value } = signInSchema.validate(req.body)
-    if (error) return res.status(400).json({ message: error.details[0].message })
+    if (error) throw AppError.validation(error.details[0].message)
 
     let userData = await userService.findUserByEmail(value.email)
-    if (!userData) throw AppError.validation()
+    if (!userData) throw AppError.validation('Email not registered')
     // if (!userData) return res.status(401).json({ message: 'Unauthorized' })
 
     const isPasswordMatch = await comparePasswords(value.password, userData.password)
-    if (!isPasswordMatch) return res.status(401).json({ message: 'Unauthorized' })
+    if (!isPasswordMatch) throw AppError.validation('Invalid Password')
 
     userData = userData.toObject()
     delete userData.password
