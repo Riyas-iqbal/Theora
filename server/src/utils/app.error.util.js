@@ -51,10 +51,31 @@ class AppError extends Error {
     }
 
     static forbidden(message = ReasonPhrases.FORBIDDEN) {
-        return new AppError(errorCodes.FORBIDDEN_ERROR,
+        return new AppError(
+            errorCodes.FORBIDDEN_ERROR,
             message,
             StatusCodes.FORBIDDEN
         )
+    }
+
+    static conflict(message = ReasonPhrases.CONFLICT) {
+        return new AppError(
+            errorCodes.CONFLICT,
+            message,
+            StatusCodes.CONFLICT
+        )
+    }
+
+    static database(message = ReasonPhrases.INTERNAL_SERVER_ERROR) {
+        return new AppError(
+            errorCodes.DATABASE_ERROR,
+            message,
+            StatusCodes.INTERNAL_SERVER_ERROR
+        )
+    }
+
+    static testError(message = 'This is an test error') {
+        return new AppError('1000',message,400)
     }
 }
 

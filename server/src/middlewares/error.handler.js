@@ -3,10 +3,11 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes')
 
 
 const errorHandler = (error, req, res, next) => {
-    console.log('Is Error instance of App Error', error instanceof AppError)
+    console.log('\nIs Error instance of App Error', error instanceof AppError)
 
     if (error instanceof AppError) {
         const statusCode = error.statusCode || 500
+        console.log('Error Message is -',error.message)
         const responseData = {
             errors: {
                 code: error.appCode || StatusCodes.INTERNAL_SERVER_ERROR,

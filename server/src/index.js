@@ -6,11 +6,13 @@ const server = app.listen(process.env.PORT, () => {
 
 process.on('uncaughtException', (err) => {
     console.log('Uncaught exception - ', err)
+    console.log('closing node process')
     process.exit(1)
 })
 
 process.on('unhandledRejection', (err) => {
     console.log('Unhandled rejection - ', err)
+    console.log('closing node process')
     process.exit(1)
 })
 

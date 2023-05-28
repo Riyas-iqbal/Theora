@@ -1,9 +1,5 @@
-const User = require('../models/user.model')
 const userService = require('../services/user.service')
-const verifyToken = require('../utils/auth.util')
 const attachTokenToCookie = require('../utils/cookie.util')
-const { createAccessToken, createRefreshToken } = require('../utils/generate.tokens.util')
-const { comparePasswords, createHashPassword } = require('../utils/bcrypt.util')
 const { signInSchema, signUpSchema } = require('../validation/auth.validator')
 const asyncHandler = require('../utils/async.handler.util')
 const AppError = require('../utils/app.error.util')
@@ -11,37 +7,31 @@ const AppError = require('../utils/app.error.util')
 /**
 * @desc User Sign in
 * @route POST /auth/signin/
-* @access private
+* @access public
+*
+* @body 
+* {
+*   "email": "user@gmail.com",
+*   "password": "password123"
+* }
 */
 
-
-//needs refractor
 const handleSignIn = asyncHandler(async (req, res) => {
-
-    
-
     const { error, value } = signInSchema.validate(req.body)
-    if (error) throw AppError.validation(error.details[0].message)
+    if (error) {
+        throw AppError.validation(error.details[0].message)
+    }
 
-    let userData = await userService.findUserByEmail(value.email)
-    if (!userData) throw AppError.validation('Email not registered')
-    // if (!userData) return res.status(401).json({ message: 'Unauthorized' })
-
-    const isPasswordMatch = await comparePasswords(value.password, userData.password)
-    if (!isPasswordMatch) throw AppError.validation('Invalid Password')
-
-    userData = userData.toObject()
-    delete userData.password
-
-    const accessToken = createAccessToken(userData)
-    const refreshToken = createRefreshToken(userData)
+    const {
+        user,
+        accessToken,
+        refreshToken
+    } = await userService.handleSignIn(value)
 
     attachTokenToCookie('accessToken', accessToken, res)
     attachTokenToCookie('refreshToken', refreshToken, res)
 
-    await userService.addRefreshTokenById(userData._id, refreshToken)
-
-    res.status(200).json({ message: 'Login successfull', user: userData })
+    res.status(200).json({ message: 'Login successfull', user })
 })
 
 /**
@@ -50,37 +40,16 @@ const handleSignIn = asyncHandler(async (req, res) => {
 * @access public
 */
 
-const handleSignUp = async (req, res) => {
-    // console.log(req.body)
-
+const handleSignUp = asyncHandler(async (req, res) => {
     const { error, value } = signUpSchema.validate(req.body)
-
     if (error) {
-        console.log(error)
-        return res.status(400).json({ message: error.details })
+        throw AppError.validation(error.details[0].message)
     }
 
-    const { name, password, phone, email } = value
-
-    const isEmailTaken = userService.checkEmailExists(email)
-    if (isEmailTaken) return res.status(409).json({ message: 'Email already in use' })
-
-    const isPhoneTaken = userService.checkPhoneExists(phone)
-    if (isPhoneTaken) return res.status(409).json({ message: 'Phone number already in use' })
-
-    const hashedPassword = await createHashPassword(password)
-
-    const user = new User({
-        name,
-        email,
-        phone,
-        password: hashedPassword
-    })
-
-    await user.save().catch(error => res.status(400).json({ message: error }))
+    const user = await userService.handleSignUp(value)
 
     res.status(200).json({ message: 'Account created successfully' })
-}
+})
 
 /**
 * @desc Generate new access token using refresh token
@@ -88,36 +57,26 @@ const handleSignUp = async (req, res) => {
 * @access public
 */
 
-const refreshToken = async (req, res) => {
+const refreshToken = asyncHandler(async (req, res) => {
 
     const refreshToken = req.cookies['refreshToken']
-    if (!refreshToken) return res.status(401).json({ message: 'Provide a refrsh token' })
-
-    const userData = await userService.findUserByToken(token)
-    if (!userData) return res.status(401).json({ message: 'Invalid refresh token please login again' })
-
-    try {
-        var result = await verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET)
-    } catch (error) {
-        return res.status(401).json({ message: error.message })
+    if (!refreshToken){
+        throw AppError.authentication('provide a refresh token')
     }
-
-    if (!result) {
-        res.status(400).json({ message: 'invalid' })
-    }
-
-    const accessToken = createAccessToken(userData)
+    
+    const accessToken = await userService.getAccessTokenByRefreshToken(refreshToken)
     attachTokenToCookie('accessToken', accessToken, res)
+
     res.status(200).json({ message: 'token created successfully' })
-}
+})
 
 /**
-* @desc User logout
+* handle user logout
 * @route DELETE /auth/logout
 * @access public
 */
 
-const handleLogout = async (req, res) => {
+const handleLogout = asyncHandler(async (req, res) => {
 
     const refreshToken = req.cookies['refreshToken']
     if (!refreshToken) console.log('refresh token not present in request')
@@ -131,7 +90,7 @@ const handleLogout = async (req, res) => {
     res.clearCookie('accessToken')
 
     res.status(200).json({ message: 'logout successful' })
-}
+})
 
 module.exports = {
     handleSignIn,
