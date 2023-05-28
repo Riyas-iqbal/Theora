@@ -78,10 +78,13 @@ const uploadLesson = async (lesson) => {
 }
 
 const getThumbnailURL = async (imageName) => {
-    
     // fake thumbnail
-    // return 'https://i.ytimg.com/vi/pN6jk0uUrD8/mqdefault.jpg'
+    if (process.env.FAKE_BUCKET) {
+        console.count('Faked thumbnail url')
+        return 'https://i.ytimg.com/vi/pN6jk0uUrD8/mqdefault.jpg'
+    }
     
+    console.count('GET Request send to S3')
     const imageUrl = await getSignedUrl(
         s3,
         new GetObjectCommand({
@@ -96,8 +99,12 @@ const getThumbnailURL = async (imageName) => {
 
 const getVideoURL = async (videoName) => {
     //fake video
-    // return 'http://clips.vorwaerts-gmbh.de/VfE.ogv'
+    if (process.env.FAKE_BUCKET) {
+        console.count('Faked video url')
+        return 'http://clips.vorwaerts-gmbh.de/VfE.ogv'
+    }
 
+    console.count('GET Request send to S3')
     const videoURL = await getSignedUrl(
         s3,
         new GetObjectCommand({
