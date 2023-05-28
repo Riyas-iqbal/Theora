@@ -66,6 +66,26 @@ export default function Explore() {
   const [isLoading, setIsLoading] = useState(true)
   const [courses, setCourses] = useState([])
 
+  const [obj, setObj] = useState({});
+  const [sort, setSort] = useState({sort:"rating",order:"desc"});
+  const [filter, setFilter] = useState([])
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("")
+
+  useEffect(() => {
+    const query = `?page=${page}
+                    &sort=${sort.sort},${sort.order}
+                    &filter=${filter.toString()}
+                    &search=${search}`
+
+    getCourseByQuery(query)
+  }, [sort,filter,page,search])
+  
+
+  
+  
+  
+  
   useEffect(() => {
     getAllCoursesAPI()
       .then((response) => {
