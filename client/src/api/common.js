@@ -4,10 +4,15 @@ const getAllCoursesAPI = () => {
     return API.get('/user/courses')
 }
 
+const getAllCourseByQuery = (query) => {
+    return API.get(`user/courses?${query}`)
+}
+
 const getLessonDetailsAPI = (lessonId) => {
     return API.get(`/user/lessons/${lessonId}`)
 }
 export {
     getAllCoursesAPI,
-    getLessonDetailsAPI
+    getLessonDetailsAPI,
+    getAllCourseByQuery
 }

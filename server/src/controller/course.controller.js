@@ -30,14 +30,15 @@ const getAllCourseByTutor = async (req, res) => {
 }
 
 const getAllCourses = async (req, res) => {
+    console.log(req.query)
 
     const page = parseInt(req.query.page) - 1 || 0
     const limit = parseInt(req.query.limit) || 5
-    const search = req.query.search.trim() || ""
+    const search = req.query.search || ""
     let sort = req.query.sort || "rating"
-    let category = req.query.genre || "all"
+    let category = req.query.category || "all"
 
-    let allCategory = ["Adventure",
+    let allCategory = ["Advanced Flutter",
         "Thriller",
         "Sci-fi",
         "Music"]
@@ -45,7 +46,7 @@ const getAllCourses = async (req, res) => {
     category = category === 'all' ?
         [...allCategory]
         :
-        req.query.genre.split(",")
+        req.query.category.split(",")
 
     sort = req.query.sort ? req.query.sort.split(",") : [sort]
 
@@ -56,21 +57,32 @@ const getAllCourses = async (req, res) => {
 			sortBy[sort[0]] = "asc";
 		}
 
-    console.log('name -', search,'-')
+    console.log('name -',search,'-')
     console.log('where - ', 'category')
     console.log('sort - ', sortBy)
-    console.log('in - ', [category])
+    console.log('in - ', category)
     console.log('skip - ',page*limit)
     console.log('limit - ',limit)
 
     const data = await courseModel 
-        .find({title: {$regex: search, $options:"i"}})
-        .select('title price')
+        .find({title: {$regex: search.trim(), $options:"i"}})
+        // .select('title price createdAt') 
+        // .where('category')
+        // .in(category)
         .sort(sortBy)
         .skip(page*limit)
         .limit(limit)
-    console.log(data)
-    console.log(data.length)
+
+    const total = await courseModel.countDocuments({
+        // category: {$in: [...category]},
+        title: {$regex: search,$options:'i'}
+    })
+
+    console.log('total',total)
+
+    console.log(req.query)
+
+    res.json({data,total})
 
     // const courses = await courseService.getAllCourses()
     // return res.status(200).json({

@@ -3,28 +3,37 @@ import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom'
-import { getAllCoursesAPI } from '../../api/common'
+import { getAllCourseByQuery, getAllCoursesAPI } from '../../api/common'
 import Loading from '../../components/common/Loading'
+import Pagination from '../../components/common/Pagination'
+import useDebounce from '../../hooks/useDebounce'
 
-const sortOptions = [
-  { name: 'Most Popular', href: '#', current: true },
-  { name: 'Best Rating', href: '#', current: false },
-  { name: 'Newest', href: '#', current: false },
-  { name: 'Price: Low to High', href: '#', current: false },
-  { name: 'Price: High to Low', href: '#', current: false },
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
+let sortOptions = [
+  { name: 'Alphabetical [A-Z]', sort: 'title', order: 'asc', current: true },
+  { name: 'Alphabetical [Z-A]', sort: 'title', order: 'desc', current: false },
+  { name: 'Most popular', sort: 'title', order: 'asc', current: false },
+  { name: 'Best Rating', sort: 'rating', order: 'asc', current: false },
+  { name: 'Newest', sort: 'createdAt', order: 'desc', current: false },
+  { name: 'Price: Low to High', sort: 'price', order: 'asc', current: false },
+  { name: 'Price: High to Low', sort: 'price', order: 'desc', current: false },
 ]
 const subCategories = [
-  { name: 'Programming', href: '#' },
-  { name: 'Backend', href: '#' },
-  { name: 'Frontend', href: '#' },
-  { name: 'Dev ops', href: '#' },
-  { name: 'Artificial Intelligence ', href: '#' },
+  // { name: 'Programming', href: '#' },
+  // { name: 'Backend', href: '#' },
+  // { name: 'Frontend', href: '#' },
+  // { name: 'Dev ops', href: '#' },
+  // { name: 'Artificial Intelligence ', href: '#' },
 ]
-const filters = [
+let filters = [
   {
     id: 'difficulty',
     name: 'Difficulty',
     options: [
+      // { value: 'all', label: 'All', checked: true },
       { value: 'beginner', label: 'Beginner', checked: false },
       { value: 'intermediate', label: 'Intermediate', checked: false },
       { value: 'advanced', label: 'Advanced', checked: false },
@@ -41,62 +50,110 @@ const filters = [
       { value: 'organization', label: 'Organization', checked: false },
       { value: 'accessories', label: 'Accessories', checked: false },
     ],
-  },
-  // {
-  //   id: 'size',
-  //   name: 'Size',
-  //   options: [
-  //     { value: '2l', label: '2L', checked: false },
-  //     { value: '6l', label: '6L', checked: false },
-  //     { value: '12l', label: '12L', checked: false },
-  //     { value: '18l', label: '18L', checked: false },
-  //     { value: '20l', label: '20L', checked: false },
-  //     { value: '40l', label: '40L', checked: true },
-  //   ],
-  // },
+  }
 ]
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
+
 
 export default function Explore() {
+  console.count('Rerender')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   const [isLoading, setIsLoading] = useState(true)
   const [courses, setCourses] = useState([])
 
-  const [obj, setObj] = useState({});
-  const [sort, setSort] = useState({sort:"rating",order:"desc"});
-  const [filter, setFilter] = useState([])
+  const [sort, setSort] = useState({ sort: "createdAt", order: "desc" });
+  const [difficulty, setDifficulty] = useState([])
+  const [category, setCategory] = useState([])
   const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(4)
   const [search, setSearch] = useState("")
+  const [total, setTotal] = useState(0)
+
+  const debouncedSearch = useDebounce(search, 500)
 
   useEffect(() => {
-    const query = `?page=${page}
-                    &sort=${sort.sort},${sort.order}
-                    &filter=${filter.toString()}
-                    &search=${search}`
+    const query =
+      `page=${page}&sort=${sort.sort},${sort.order}&difficulty=${difficulty.toString()}&category=${category.toString()}&search=${debouncedSearch}&limit=${limit}`
 
-    getCourseByQuery(query)
-  }, [sort,filter,page,search])
-  
+    console.count(query)
 
-  
-  
-  
-  
-  useEffect(() => {
-    getAllCoursesAPI()
-      .then((response) => {
-        setCourses(response.data.data)
+    getAllCourseByQuery(query)
+      .then(({ data }) => {
+        setCourses(data.data)
+        setTotal(data.total)
         setTimeout(() => setIsLoading(false), 1000);
       })
-      .catch((error) => {
-        console.log('error get all courses', error)
+  }, [sort, page, debouncedSearch, difficulty, category])
+
+  useEffect(() => {
+    console.log(debouncedSearch)
+  }, [debouncedSearch])
+
+  useEffect(() => {
+    return () => {
+      console.log('clean up')
+      sortOptions = sortOptions.map(sort => {
+        if (sort.sort === 'title' && sort.order === 'asc') {
+          return { ...sort, current: true }
+        } else {
+          return { ...sort, current: false }
+        }
       })
+    }
   }, [])
 
+
+  const handleSort = (sort, order = 'asc', targetIdx) => {
+    setSort({ sort: sort, order: order })
+    sortOptions = sortOptions.map((option, idx) => {
+      if (targetIdx === idx) {
+        return { ...option, current: true }
+      }
+      return { ...option, current: false }
+    })
+  }
+
+  const handleFilter = (targetOption, filterId) => {
+    filters = filters.map(filter => {
+      if (filter.id === filterId) {
+        const updatedOptions = filter.options.map(option => {
+          if (option.value === targetOption.value && option.checked === false) {
+            return { ...option, checked: true }
+          } else if (option.value === targetOption.value && option.checked === true) {
+            return { ...option, checked: false }
+          }
+          return option
+        })
+        return { ...filter, options: updatedOptions }
+      }
+      return filter
+    })
+    buildFilterQuery(filterId)
+  }
+
+  const buildFilterQuery = (filterId) => {
+    const newFilter = []
+    filters.forEach(filter => {
+      if (filter.id === filterId) {
+        filter.options.forEach(option => {
+          if (option.checked) {
+            newFilter.push(option.value)
+          }
+        })
+      }
+    })
+    if (filterId === 'category') {
+      setCategory(newFilter)
+    }
+    if (filterId === 'difficulty') {
+      setDifficulty(newFilter)
+    }
+  }
+
+  const onSearchChange = ((value) => {
+    setSearch(value)
+  })
 
   return (
     <div className='p-6'>
@@ -177,6 +234,7 @@ export default function Explore() {
                                       name={`${section.id}[]`}
                                       defaultValue={option.value}
                                       type="checkbox"
+                                      onChange={() => { handleFilter(option, section.id) }}
                                       defaultChecked={option.checked}
                                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                     />
@@ -189,6 +247,7 @@ export default function Explore() {
                                   </div>
                                 ))}
                               </div>
+
                             </Disclosure.Panel>
                           </>
                         )}
@@ -227,20 +286,20 @@ export default function Explore() {
                   leaveTo="transform opacity-0 scale-95"
                 >
                   <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className="py-1">
-                      {sortOptions.map((option) => (
+                    <div className="">
+                      {sortOptions.map((option, idx) => (
                         <Menu.Item key={option.name}>
                           {({ active }) => (
-                            <a
-                              href={option.href}
+                            <button
+                              onClick={() => handleSort(option.sort, option.order, idx)}
                               className={classNames(
-                                option.current ? 'font-medium text-gray-900' : 'text-gray-500',
+                                option.current ? 'font-bold text-indigo-500 bg-gray-50' : 'text-gray-500',
                                 active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm'
+                                'block px-4 py-2 text-sm w-full text-left'
                               )}
                             >
                               {option.name}
-                            </a>
+                            </button>
                           )}
                         </Menu.Item>
                       ))}
@@ -270,8 +329,24 @@ export default function Explore() {
             </h2>
 
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6">
-              {/* Filters */}
-              <form className="hidden lg:block">
+              {/* form Filters */}
+
+              <div className="hidden lg:block">
+                {/* search input */}
+                <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                  </div>
+                  <input
+                    type="search"
+                    className="block w-full pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Search..."
+                    onChange={(e) => onSearchChange(e.target.value)}
+                  />
+                </div>
+
+
                 <h3 className="sr-only">Categories</h3>
                 <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                   {subCategories.map((category) => (
@@ -306,6 +381,7 @@ export default function Explore() {
                                   name={`${section.id}[]`}
                                   defaultValue={option.value}
                                   type="checkbox"
+                                  onChange={() => { handleFilter(option, section.id) }}
                                   defaultChecked={option.checked}
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                 />
@@ -323,7 +399,7 @@ export default function Explore() {
                     )}
                   </Disclosure>
                 ))}
-              </form>
+              </div>
 
               {/* Product grid */}
               <div className="lg:col-span-5">
@@ -331,53 +407,61 @@ export default function Explore() {
                   isLoading ?
                     <Loading />
                     :
-                    <div className='flex flex-wrap justify-center gap-4'>
-                      {
-                        courses.length
-                          ?
-                          courses.map((course) => {
-                            return <div
-                              key={course._id}
-                              // style={{ flexShrink: 0, scrollSnapAlign: 'start' }}
-                              className="w-full max-w-xs block hover:shadow-lg duration-300 bg-white border overflow-hidden border-gray-200  rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ml-10">
-                              <div className='overflow-hidden '>
-                                <Link to={`/courses/${course._id}`}>
-                                  <img className="rounded-t-lg duration-300 scale-105 hover:scale-100" src={course.thumbnailURL} alt="product image" />
-                                </Link>
-                              </div>
-                              <div className="px-5 pb-5">
-                                <Link to="#">
-                                  <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-4 nexa-font">{course.title}</h5>
-                                  <h5 className="text-sm font-semibold tracking-tight text-gray-400 dark:text-white nexa-font">{course.tagline}</h5>
-                                </Link>
-                                <div className="flex items-center mt-2.5 mb-5">
-                                  <svg aria-hidden="true" className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>First star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                                  <svg aria-hidden="true" className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                                  <svg aria-hidden="true" className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Third star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                                  <svg aria-hidden="true" className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fourth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                                  <svg aria-hidden="true" className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                                  <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">5.0</span>
+                    <>
+                      <div className='flex flex-wrap justify-center gap-4'>
+                        {
+                          courses.length
+                            ?
+                            courses.map((course) => {
+                              return <div
+                                key={course._id}
+                                // style={{ flexShrink: 0, scrollSnapAlign: 'start' }}
+                                className="w-full max-w-xs block hover:shadow-lg duration-300 bg-white border overflow-hidden border-gray-200  rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ml-10">
+                                <div className='overflow-hidden '>
+                                  <Link to={`/courses/${course._id}`}>
+                                    <img className="min-h-[13rem] rounded-t-lg duration-300 scale-105 hover:scale-100" src={course.thumbnailURL} alt="product image" />
+                                  </Link>
                                 </div>
-                                <div className="flex items-center justify-between">
-                                  <div className="flex flex-col items-start justify-start">
-                                    <span className="text-sm font-bold text-red-700 line-through dark:text-white">₹{course.price}</span>
-                                    <span className="text-2xl font-bold text-gray-900 dark:text-white">₹{course.price}</span>
+                                <div className="px-5 pb-5">
+                                  <Link to="#">
+                                    <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-4 nexa-font">{course.title}</h5>
+                                    <h5 className="text-sm font-semibold tracking-tight text-gray-400 dark:text-white nexa-font">{course.tagline}</h5>
+                                  </Link>
+                                  <div className="flex items-center mt-2.5 mb-5">
+                                    <svg aria-hidden="true" className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>First star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    <svg aria-hidden="true" className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    <svg aria-hidden="true" className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Third star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    <svg aria-hidden="true" className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fourth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    <svg aria-hidden="true" className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">5.0</span>
                                   </div>
-                                  <Link to={`/courses/${course._id}`} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Enroll</Link>
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex flex-col items-start justify-start">
+                                      <span className="text-sm font-bold text-red-700 line-through dark:text-white">₹{course.price}</span>
+                                      <span className="text-2xl font-bold text-gray-900 dark:text-white">₹{course.price}</span>
+                                    </div>
+                                    <Link to={`/courses/${course._id}`} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Enroll</Link>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          })
-                          :
-                          <>
-                            <h1 className='nexa-font'>Oops! No courses found</h1>
-                          </>
-                      }
-                    </div>
+                            })
+                            :
+                            <>
+                              <h1 className='nexa-font'>Oops! No courses found</h1>
+                            </>
+                        }
+                      </div>
+                      <div className='mt-10'>
+
+                        <Pagination page={page}
+                          total={total || 0}
+                          limit={limit}
+                          setPage={(page) => { setPage(page) }}
+                        />
+
+                      </div>
+                    </>
                 }
-
-
-
               </div>
             </div>
           </section>
