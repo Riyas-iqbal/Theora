@@ -57,7 +57,7 @@ const getAllCourses = async () => {
 
 const getAllCourseByQuery = async (query) => {
 
-    query.category = query.category === 'all' ? await categoryRepository.getAllCategoryTitle() : query.category.split(",")
+    query.category = query.category === 'all' ? await categoryRepository.getAllCategoriesTitle() : query.category.split(",")
     query.sort = query.reqSort ? query.reqSort.split(",") : [query.sort]
     query.sortBy = {};
     if (query.sort[1]) {
@@ -73,8 +73,10 @@ const getAllCourseByQuery = async (query) => {
     console.log('skip - ', query.page * query.limit)
     console.log('limit - ', query.limit)
 
-    
+    const total = await courseRepository.getCountByQuery(query)
+    const courses = await courseRepository.getAllCoursesByQuery(query)
 
+    return {total,courses}
 }
 
 const getCourseDetails = async (courseId) => {

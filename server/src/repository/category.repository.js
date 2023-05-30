@@ -12,6 +12,14 @@ const getAllCategories = async () => {
     return categories
 }
 
+const getAllCategoriesTitle = async () => {
+    const categories = await getAllCategories()
+    const categoriesTitle = categories.map(category=>{
+        return category.title
+    })
+    return categoriesTitle
+}
+
 const createCategory = async (newCategory) => {
     const category = new Category(newCategory)
     const response = await category
@@ -26,5 +34,6 @@ const createCategory = async (newCategory) => {
 
 module.exports = {
     getAllCategories,
+    getAllCategoriesTitle,
     createCategory
 }
