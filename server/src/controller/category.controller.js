@@ -18,8 +18,6 @@ const createCategory = asyncHandler(async(req, res) => {
     return res.status(200).json({ message: 'Category created successfully' })
 })
 
-
-
 module.exports = {
     getAllCategories,
     createCategory

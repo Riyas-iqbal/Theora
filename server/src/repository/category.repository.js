@@ -3,12 +3,12 @@ const AppError = require('../utils/app.error.util')
 
 const getAllCategories = async () => {
     const categories = await Category
-        .find()
+        .find({},'-__v')
         .catch(err=>{
             console.log(err)
             throw AppError.database(err.message)
         })
-    console.log(categories)
+    console.log('total categories found -',categories.length)
     return categories
 }
 
@@ -20,7 +20,7 @@ const createCategory = async (newCategory) => {
             console.log(err)
             throw AppError.database(err.message)
         })
-    console.log('category created succesfully -',response)
+    console.log('category created succesfully -',response.title)
     return response
 }
 
