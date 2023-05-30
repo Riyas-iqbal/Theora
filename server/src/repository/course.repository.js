@@ -28,7 +28,7 @@ const getAllCoursesByQuery = async (query) => {
 
 const getCountByQuery = async ({ search, category }) => {
     const total = await Course.countDocuments({
-        // category: {$in: [...category]},
+        category: {$in: [...category]},
         title: { $regex: search, $options: 'i' }
     })
     return total

@@ -66,13 +66,6 @@ const getAllCourseByQuery = async (query) => {
         query.sortBy[query.sort[0]] = "asc";
     }
 
-    console.log('\nname -', query.search, '-')
-    console.log('where - ', 'category')
-    console.log('sort - ', query.sortBy)
-    console.log('in - ', query.category)
-    console.log('skip - ', query.page * query.limit)
-    console.log('limit - ', query.limit)
-
     const total = await courseRepository.getCountByQuery(query)
     const courses = await courseRepository.getAllCoursesByQuery(query)
 
