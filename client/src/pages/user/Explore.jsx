@@ -71,7 +71,7 @@ export default function Explore() {
   const [difficulty, setDifficulty] = useState([])
   const [category, setCategory] = useState([])
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(3  )
+  const [limit, setLimit] = useState(3)
   const [search, setSearch] = useState("")
   const [total, setTotal] = useState(0)
 

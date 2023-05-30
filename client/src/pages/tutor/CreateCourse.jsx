@@ -8,15 +8,25 @@ import SectionTitle from '../../components/tutor/SectionTitle'
 import HorizontalRule from '../../components/common/HorizontalRule'
 import { courseSchema } from '../../utils/validation'
 import { createCourseAPI } from '../../api/tutor';
+import { getAllCategoriesAPI } from '../../api/common';
 
 export default function CreateCourse() {
+  const [categories, setCategories] = useState([])
 
-  const navigate = useNavigate() 
+  const navigate = useNavigate()
   const [imagePreviewURL, setImagePreviewURL] = useState(null)
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
     resolver: yupResolver(courseSchema),
   });
+
+
+  useEffect(() => {
+    getAllCategoriesAPI()
+      .then(({ data }) => {
+        setCategories(data.categories)
+      })
+  },[])
 
   //thumbnail preview
   useEffect(() => {
@@ -39,6 +49,7 @@ export default function CreateCourse() {
 
   const onSubmit = async (data, e) => {
     const formData = new FormData();
+    return console.log(data)
 
     formData.append("title", data.title);
     formData.append("tagline", data.tagline);
@@ -57,7 +68,7 @@ export default function CreateCourse() {
       })
       .catch((error) => {
         console.log(error)
-        alert('error occurred while creating course '+error.message)
+        alert('error occurred while creating course ' + error.message)
         navigate('../')
       })
   }
@@ -121,6 +132,26 @@ export default function CreateCourse() {
                           />
                         </div>
                         <p className='text-red-600 nexa-font text-xs mt-2 ml-1'>{errors.tagline?.message}</p>
+                      </div>
+                    </div>
+
+                    <div class="sm:col-span-4">
+                      <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
+                      <div class="mt-2">
+                        <select
+                          id="country"
+                          name="country"
+                          autocomplete="country-name"
+                          class="bg-gray-100 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                          {...register('category')}
+                        >
+                          {
+                            categories.map((category) => (
+                              <option key={category._id}>{category.title}</option>
+                            ))
+                          }
+
+                        </select>
                       </div>
                     </div>
 
