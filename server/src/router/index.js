@@ -13,6 +13,8 @@ const userCourseRoute = require('./user/course.route')
 const userDetailsRoute = require('./user/details.route')
 
 const adminUsersRoute = require('./admin/users.route')
+const adminTutorRoute = require('./admin/tutors.route')
+const adminCategoryRoute = require('./admin/category.route')
 
 const defaultRoutes = [
     {
@@ -46,6 +48,10 @@ const defaultRoutes = [
     {
         path: '/admin/users',
         route: adminUsersRoute
+    },
+    {
+        path: '/admin/category',
+        route: adminCategoryRoute
     },
     {
         path: '/test',

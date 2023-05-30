@@ -38,7 +38,6 @@ export default function CreateCourse() {
 
 
   const onSubmit = async (data, e) => {
-
     const formData = new FormData();
 
     formData.append("title", data.title);

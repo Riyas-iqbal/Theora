@@ -26,12 +26,12 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser())
 
-// Limit requests - Prevents DDos, Dos and Brute force attacks
+// Limit requests - Brute force attacks to auth endpoint
 if (process.env.NODE_ENV === 'production') {
     app.use('/api/auth', authLimiter)
 }
 
-// Routes
+// Application Routes
 app.use('/api', require('./router'))
 
 app.use('*', (req, res) => {
