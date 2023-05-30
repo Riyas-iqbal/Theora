@@ -30,7 +30,17 @@ const getAllCourseByTutor = async (req, res) => {
 }
 
 const getAllCourses = async (req, res) => {
+
     console.log(req.query)
+
+    let query = {
+        page: parseInt(req.query.page) - 1 || 0,
+        limit: parseInt(req.query.limit) || 5,
+        search: req.query.search || "",
+        sort: req.query.sort || "rating",
+        category: req.query.category || "all",
+        reqSort: req.query.sort
+    }
 
     const page = parseInt(req.query.page) - 1 || 0
     const limit = parseInt(req.query.limit) || 5
@@ -50,39 +60,46 @@ const getAllCourses = async (req, res) => {
 
     sort = req.query.sort ? req.query.sort.split(",") : [sort]
 
-    let sortBy = {};
-		if (sort[1]) {
-			sortBy[sort[0]] = sort[1];
-		} else {
-			sortBy[sort[0]] = "asc";
-		}
 
-    console.log('name -',search,'-')
+
+    let sortBy = {};
+    if (sort[1]) {
+        sortBy[sort[0]] = sort[1];
+    } else {
+        sortBy[sort[0]] = "asc";
+    }
+
+    console.log('name -', search, '-')
     console.log('where - ', 'category')
     console.log('sort - ', sortBy)
     console.log('in - ', category)
-    console.log('skip - ',page*limit)
-    console.log('limit - ',limit)
+    console.log('skip - ', page * limit)
+    console.log('limit - ', limit)
 
-    const data = await courseModel 
-        .find({title: {$regex: search.trim(), $options:"i"}})
+    await courseService.getAllCourseByQuery(query)
+
+    return res.status(200).json({ message: 'hi' })
+
+
+    const data = await courseModel
+        .find({ title: { $regex: search.trim(), $options: "i" } })
         // .select('title price createdAt') 
         // .where('category')
         // .in(category)
         .sort(sortBy)
-        .skip(page*limit)
+        .skip(page * limit)
         .limit(limit)
 
     const total = await courseModel.countDocuments({
         // category: {$in: [...category]},
-        title: {$regex: search,$options:'i'}
+        title: { $regex: search, $options: 'i' }
     })
 
-    console.log('total',total)
+    console.log('total', total)
 
     console.log(req.query)
 
-    res.json({data,total})
+    res.json({ data, total })
 
     // const courses = await courseService.getAllCourses()
     // return res.status(200).json({

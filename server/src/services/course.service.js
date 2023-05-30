@@ -2,6 +2,7 @@ const Course = require('../models/course.model')
 const bucketService = require('./bucket.service')
 const courseRepository = require('../repository/course.repository')
 const userRepository = require('../repository/user.repository')
+const categoryRepository = require('../repository/category.repository')
 
 
 const createCourse = async (courseData, tutorId) => {
@@ -53,11 +54,34 @@ const getAllCourses = async () => {
     return courses
 }
 
+
+const getAllCourseByQuery = async (query) => {
+
+    query.category = query.category === 'all' ? await categoryRepository.getAllCategoryTitle() : query.category.split(",")
+    query.sort = query.reqSort ? query.reqSort.split(",") : [query.sort]
+    query.sortBy = {};
+    if (query.sort[1]) {
+        query.sortBy[query.sort[0]] = query.sort[1];
+    } else {
+        query.sortBy[query.sort[0]] = "asc";
+    }
+
+    console.log('\nname -', query.search, '-')
+    console.log('where - ', 'category')
+    console.log('sort - ', query.sortBy)
+    console.log('in - ', query.category)
+    console.log('skip - ', query.page * query.limit)
+    console.log('limit - ', query.limit)
+
+    
+
+}
+
 const getCourseDetails = async (courseId) => {
     let course = await Course
         .findOne({ _id: courseId })
         .populate('lessons')
-        .populate('tutor','name')
+        .populate('tutor', 'name')
         .catch(err => { console.log(err) });
 
     course = course.toObject()
@@ -80,7 +104,7 @@ const getEnrolledCourses = async (userId) => {
 
     // code refractor needed
     for (let i = 0; i < coursesEnrolled.length; i++) {
-        
+
         // coursesEnrolled[i] = coursesEnrolled[i].toObject()
         coursesEnrolled[i].thumbnailURL = await bucketService.getThumbnailURL(coursesEnrolled[i].thumbnail)
     }
@@ -94,6 +118,7 @@ module.exports = {
     getAllCourses,
     getCourseDetails,
     getEnrolledCourses,
+    getAllCourseByQuery,
     enrollInCourse,
     addLessonToCourse
 }

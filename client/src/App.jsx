@@ -14,11 +14,12 @@ function App() {
 
   return (
     <div className='bg-gray-100'>
+      
       <Routes>
         <Route path="/" element={<Hero />} />
         <Route path="/tutor/*" element={<TutorRoutes />} />
         <Route path="/admin/*" element={<AdminRoutes />} />
-        <Route path="/*" element={<UserRoutes />}/>
+        <Route path="/*" element={<UserRoutes />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

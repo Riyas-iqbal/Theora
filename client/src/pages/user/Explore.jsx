@@ -3,7 +3,7 @@ import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom'
-import { getAllCourseByQuery, getAllCoursesAPI } from '../../api/common'
+import { getAllCategoriesAPI, getAllCourseByQuery, getAllCoursesAPI } from '../../api/common'
 import Loading from '../../components/common/Loading'
 import Pagination from '../../components/common/Pagination'
 import useDebounce from '../../hooks/useDebounce'
@@ -21,6 +21,9 @@ let sortOptions = [
   { name: 'Price: Low to High', sort: 'price', order: 'asc', current: false },
   { name: 'Price: High to Low', sort: 'price', order: 'desc', current: false },
 ]
+
+
+
 const subCategories = [
   // { name: 'Programming', href: '#' },
   // { name: 'Backend', href: '#' },
@@ -44,7 +47,7 @@ let filters = [
     id: 'category',
     name: 'Category',
     options: [
-      { value: 'new-arrivals', label: 'New Arrivals', checked: false },
+      { value: 'new-arrivals', checked: false },
       { value: 'sale', label: 'Sale', checked: false },
       { value: 'travel', label: 'Travel', checked: false },
       { value: 'organization', label: 'Organization', checked: false },
@@ -59,6 +62,8 @@ export default function Explore() {
   console.count('Rerender')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
+
+
   const [isLoading, setIsLoading] = useState(true)
   const [courses, setCourses] = useState([])
 
@@ -66,7 +71,7 @@ export default function Explore() {
   const [difficulty, setDifficulty] = useState([])
   const [category, setCategory] = useState([])
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(4)
+  const [limit, setLimit] = useState(3  )
   const [search, setSearch] = useState("")
   const [total, setTotal] = useState(0)
 
@@ -86,9 +91,22 @@ export default function Explore() {
       })
   }, [sort, page, debouncedSearch, difficulty, category])
 
-  useEffect(() => {
-    console.log(debouncedSearch)
-  }, [debouncedSearch])
+  useEffect(()=>{
+    getAllCategoriesAPI()
+      .then(({data})=>{
+        const options = data.categories.map((category)=>{
+          return {
+            value:category.title,
+            checked:false
+          }
+        })
+
+
+        filters[1].options = [...options]
+        console.log(filters[1])
+      })
+  },[])
+
 
   useEffect(() => {
     return () => {
@@ -387,9 +405,9 @@ export default function Explore() {
                                 />
                                 <label
                                   htmlFor={`filter-${section.id}-${optionIdx}`}
-                                  className="ml-3 text-sm text-gray-600"
+                                  className="ml-3 text-sm text-gray-600 capitalize"
                                 >
-                                  {option.label}
+                                  {option.value}
                                 </label>
                               </div>
                             ))}

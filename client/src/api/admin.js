@@ -15,15 +15,16 @@ const getAllUsersAPI = (route = '/admin/users') => {
  * @param {*} route Api route to call
  * @returns promise 
  */
-const createCourseAPI = (body, route = '/admin/category') => {
+const createCategoryAPI = (body, route = '/admin/category') => {
     return API.post(
         route,
         body
     )
 }
 
+
 export {
     getAllCoursesByTutorAPI,
     getAllUsersAPI,
-    createCourseAPI
+    createCategoryAPI
 }

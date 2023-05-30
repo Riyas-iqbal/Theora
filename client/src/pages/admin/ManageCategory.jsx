@@ -12,23 +12,48 @@ import TableOne from '../../components/admin/TableOne'
 import DefaultLayout from '../../components/admin/DefaultLayout';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { createCategoryAPI, } from '../../api/admin'
+import { getAllCategoriesAPI } from '../../api/common'
+import { Toaster, toast } from 'react-hot-toast'
 
 import { categorySchema } from '../../utils/validation'
+import { useEffect, useRef, useState } from 'react';
+
+const tableData = {
+  name: 'Available Categories',
+  head: ['name', 'course count', 'created', 'description']
+}
 
 const FormElements = () => {
-  const tableData = {
-    name: 'Available Categories',
-    head: ['name', 'course count', 'created', 'description']
-  }
+  const [categories, setCategories] = useState([])
+  const scollToRef = useRef();
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+  const { register, handleSubmit, watch, formState: { errors }, reset } = useForm({
     resolver: yupResolver(categorySchema),
   });
 
+  useEffect(() => {
+    getAllCategoriesAPI()
+      .then(response => {
+        setCategories(response.data.categories)
+      })
+  }, [])
+
   const onSubmit = (data) => {
     createCategoryAPI(data)
-      .then(response=>console.log(response))
-      .catch(err=>console.log('error occured - ',err))
+      .then(response => {
+        scollToRef.current.scrollIntoView()
+        toast.success('Course added successfully', {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+            padding: '15px'
+          },
+        });
+        reset()
+      })
+      .catch(err => console.log('error occured - ', err))
   }
 
   return (
@@ -36,9 +61,9 @@ const FormElements = () => {
       <Breadcrumb pageName="Manage Categories" />
 
       <div className="flex flex-col w-full items-center gap-9 sm:grid-cols-2">
-        <div className="flex w-3/4 flex-col mb-10 gap-9">
+        <div className="flex  flex-col mb-10 gap-9" ref={scollToRef}>
           {/* <div className="col-span-12 xl:col-span-8"> */}
-          <TableOne tableData={tableData} />
+          <TableOne tableData={tableData} categories={categories} />
           {/* </div> */}
           {/* <!-- Input Fields --> */}
           {/* <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -163,8 +188,7 @@ const FormElements = () => {
             </div>
           </div> */}
         </div>
-
-        <div className="flex flex-col w-3/5 gap-9">
+        <div className="flex flex-col w-3/5 gap-9" id='form'>
           {/* <!-- Textarea Fields --> */}
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">

@@ -11,8 +11,15 @@ const getAllCourseByQuery = (query) => {
 const getLessonDetailsAPI = (lessonId) => {
     return API.get(`/user/lessons/${lessonId}`)
 }
+
+const getAllCategoriesAPI = (route = '/admin/category') => {
+    return API.get(route)
+}
+
+
 export {
     getAllCoursesAPI,
     getLessonDetailsAPI,
-    getAllCourseByQuery
+    getAllCourseByQuery,
+    getAllCategoriesAPI
 }

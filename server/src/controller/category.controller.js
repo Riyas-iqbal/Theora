@@ -9,13 +9,13 @@ const getAllCategories = asyncHandler(async (req, res) => {
     return res.status(200).json({ message: 'Categories found', categories })
 })
 
-const createCategory = asyncHandler(async(req, res) => {
-    const {value,error} = createCategorySchema.validate(req.body)
+const createCategory = asyncHandler(async (req, res) => {
+    const { value, error } = createCategorySchema.validate(req.body)
     if (error) {
         throw AppError.validation(error.details[0].message)
     }
     const category = await categoryService.createCategory(value)
-    return res.status(200).json({ message: 'Category created successfully' })
+    return res.status(201).json({ message: 'Category created successfully' })
 })
 
 module.exports = {

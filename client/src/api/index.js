@@ -18,11 +18,11 @@ API.interceptors.response.use(
     },
     (error) => {
         // Do something with the response error
-        console.log(error.response.data.err)
-        if (error.response.data?.err?.name === "TokenExpiredError") {
-            console.log('token expired')
-            window.location.href = '/signin?expired=true';
-        }
+        console.log(error)
+        // if (error?.response?.data?.err?.name === "TokenExpiredError") {
+        //     console.log('token expired')
+        //     window.location.href = '/signin?expired=true';
+        // }
         return Promise.reject(error);
     }
 );

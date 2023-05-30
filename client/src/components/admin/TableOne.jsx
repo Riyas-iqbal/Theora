@@ -3,9 +3,9 @@
 // import BrandThree from '../images/brand/brand-03.svg';
 // import BrandFour from '../images/brand/brand-04.svg';
 // import BrandFive from '../images/brand/brand-05.svg';
+import timeAgo from '../../utils/timeAgo'
 
 const TableOne = ({ tableData, categories }) => {
-    categories = []
 
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -37,28 +37,29 @@ const TableOne = ({ tableData, categories }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-4">
+        <div >
           {
             categories.map(category => (
-              <>
+              <div key={category._id} className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-4">
                 <div className="flex items-center gap-3 p-2.5 xl:p-5">
                   <div className="flex-shrink-0">
-                    <p className="text-black dark:text-white ml-10">3.5K</p>
+                    <p className="text-black nexa-font dark:text-white font-semibold capitalize ">{category.title}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-center p-2.5 xl:p-5">
-                  <p className="text-black dark:text-white">3.5K</p>
+                  <p className="text-black dark:text-white">{category.count}</p>
                 </div>
 
-                <div className="flex items-center justify-center p-2.5 xl:p-5">
-                  <p className="text-meta-3">$5,768</p>
+                <div className="flex items-center flex-col justify-center p-2.5 xl:p-5">
+                  <p className="font-medium"> {new Date(category.createdAt).toDateString()}</p>
+                  <p className="text-gray-500 "> {timeAgo(category.createdAt)}</p>
                 </div>
 
                 <div className="hidden p-2.5 sm:block xl:py-3">
-                  <p className="text-black dark:text-white tracking-tight text-justify "></p>
+                  <p className="text-black dark:text-white tracking-tight">{category.description}</p>
                 </div>
-              </>
+              </div>
             ))
           }
           {/* <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
