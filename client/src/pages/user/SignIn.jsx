@@ -3,12 +3,15 @@ import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import axios from 'axios'
 import Logo from '../../components/common/Logo'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../features/userSlice'
 import { Toaster, toast } from 'react-hot-toast'
 
 
+
 function SignIn() {
+
+  const user = useSelector(state=>state.user)
 
   const dispatch = useDispatch()
 
@@ -16,13 +19,24 @@ function SignIn() {
   const accessedPrivate = searchParams.get('private');
   const fromLocation = searchParams.get('from');
   const sessionExpired = searchParams.get('expired');
+  const logout = searchParams.get('logout');
 
 
-  
+
 
   useEffect(() => {
+    if (user.loggedIn) {
+      navigate('/user')
+    }
+    toast.dismiss()
     if (accessedPrivate) {
       toast.error('Please login to continue');
+    }
+    if (logout) {
+      toast.success('Missing You Already, Come Back Soon!', {
+        icon: '😪',
+        duration: 4000
+      })
     }
     if (sessionExpired) {
       toast.error('Session timeout! Please login again')
@@ -46,8 +60,8 @@ function SignIn() {
     )
       .then((response) => {
         console.log(response)
-        toast.success(`Hey ${response.data.user.name}, Welcome back to theora!`,{
-          duration:6000
+        toast.success(`Hey ${response.data.user.name}, Welcome back to theora!`, {
+          duration: 6000
         })
         dispatch(setUser({ ...response.data?.user, userId: response.data.user._id }))
         if (fromLocation) {

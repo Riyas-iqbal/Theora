@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { UserCircleIcon } from '@heroicons/react/24/outline'
+import MenuDropDown from '../user/MenuDropdown'
 
 function Navbar() {
 
@@ -32,12 +33,13 @@ function Navbar() {
 			<div className="flex md:order-2">
 				{
 					user.loggedIn ?
-						<button className='mr-3 bg-indigo-200 p-1 pr-3 rounded-xl flex hover:shadow-3 hover:bg-indigo-300'>
-							<UserCircleIcon className='w-6 mr-2' />
-							<span className='nexa-font '>{user.name}</span>
-						</button>
+						<MenuDropDown className='w-3' user={user.name} />
+						// <button className='mr-3 bg-indigo-200 p-1 pr-3 rounded-xl flex hover:shadow-3 hover:bg-indigo-300'>
+						// 	<UserCircleIcon className='w-6 mr-2' />
+						// 	<span className='nexa-font '>{user.name}</span>
+						// </button>
 						:
-						<Button>
+						pathname !== '/signin' && <Button>
 							<Link to={`signin?from=${pathname}`}>Sign In</Link>
 						</Button>
 				}

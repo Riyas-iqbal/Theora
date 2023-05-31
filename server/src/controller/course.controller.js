@@ -1,7 +1,7 @@
 const { createCourseSchema } = require('../validation/course.validator')
 const { bucketService, courseService } = require('../services')
 const objectIdSchema = require('../validation/id.validator')
-const courseModel = require('../models/course.model')
+const userService = require('../services/user.service')
 
 
 const createCourse = async (req, res) => {
@@ -35,6 +35,7 @@ const getAllCourses = async (req, res) => {
         page: parseInt(req.query.page) - 1 || 0,
         limit: parseInt(req.query.limit) || 5,
         search: req.query.search || "",
+        difficulty: req.query.difficulty || 'all',
         sort: req.query.sort || "createdAt",
         category: req.query.category || "all",
         reqSort: req.query.sort
@@ -45,8 +46,14 @@ const getAllCourses = async (req, res) => {
     return res.status(200).json({ message: 'Courses found', total, data: courses })
 }
 
+/**
+ * Get Course details and enrolled students count for a given course id 
+ */
+
 const getSpecificCourse = async (req, res) => {
     const course = await courseService.getCourseDetails(req.params.id)
+    const totalStudentsEnrolled = await userService.getEnrolledStudentsCount(req.params.id)
+    course.totalStudentsEnrolled = totalStudentsEnrolled
     res.status(200).json({ message: 'course found', data: course })
 }
 
@@ -63,6 +70,12 @@ const enrollCourse = async (req, res) => {
 
     res.status(200).json({ message: 'student enrolled for course successfully', data: req.body })
 }
+
+/**
+ * Get Course details 
+ *  
+ * @returns 
+ */
 
 const getEnrolledCourses = async (req, res) => {
     const enrolledCourses = await courseService.getEnrolledCourses(req.user._id)

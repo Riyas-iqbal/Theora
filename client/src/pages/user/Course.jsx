@@ -125,7 +125,7 @@ export default function Course() {
 										<ClockIcon className='w-5 text-blue-500' /> {course.totalDuration ?? '10 hours'}
 									</li>
 									<li className='flex gap-2'>
-										<UserGroupIcon className='w-5 text-blue-500' /> {course?.enrolled?.length ?? 15} enrolled
+										<UserGroupIcon className='w-5 text-blue-500' /> {course?.totalStudentsEnrolled ?? 15} enrolled
 									</li>
 								</ul>
 							</div>

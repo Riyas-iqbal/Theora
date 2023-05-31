@@ -17,18 +17,21 @@ const findCourseById = async (courseId) => {
 const getAllCoursesByQuery = async (query) => {
     const courses = await Course
         .find({ title: { $regex: query.search.trim(), $options: "i" } })
-        // .select('title price createdAt') 
+        .select('-__v') 
         .where('category')
         .in(query.category)
+        .where('difficulty')
+        .in(query.difficulty)
         .sort(query.sortBy)
         .skip(query.page * query.limit)
         .limit(query.limit)
     return courses
 }
 
-const getCountByQuery = async ({ search, category }) => {
+const getCountByQuery = async ({ search, category, difficulty }) => {
     const total = await Course.countDocuments({
-        category: {$in: [...category]},
+        category: { $in: [...category] },
+        difficulty: { $in: [...difficulty] },
         title: { $regex: search, $options: 'i' }
     })
     return total

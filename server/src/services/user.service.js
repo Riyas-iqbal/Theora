@@ -96,13 +96,18 @@ const isEnrolledForCourse = async ({ courseId, userId }) => {
     return false
 }
 
+const getEnrolledStudentsCount = async (courseId) => {
+    const enrolledStudentsCount = await userRepository.getEnrolledCountById(courseId)
+    return enrolledStudentsCount
+}
+
 const getAllUsers = async () => {
     const users = await userRepository.getAllUsers()
     return users
 }
 
 module.exports = {
-    getAllUsers,
+    getAllUsers, getEnrolledStudentsCount,
     handleSignIn, handleSignUp,
     isEnrolledForCourse, getAccessTokenByRefreshToken, checkTokenAndDelete
 }

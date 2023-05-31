@@ -19,11 +19,14 @@ const getUserEnrolledCoursesAPI = ()=>{
     return API.get('/user/courses/enroll')
 }
 
-
+const handleLogOutAPI = ()=>{
+    return API.delete('/auth/logout')
+}
 
 export {
     getCourseDetailsAPI,
     getUserEnrolledCoursesAPI,
     isEnrolledInCourseAPI,
-    enrollCourseAPI
+    enrollCourseAPI,
+    handleLogOutAPI
 }

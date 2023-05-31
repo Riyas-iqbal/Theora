@@ -59,6 +59,7 @@ const getAllCourses = async () => {
 
 const getAllCourseByQuery = async (query) => {
 
+    query.difficulty = query.difficulty === 'all' ? ['beginner,intermediate','advanced','expert'] : query.difficulty.split(",") 
     query.category = query.category === 'all' ? await categoryRepository.getAllCategoriesTitle() : query.category.split(",")
     query.sort = query.reqSort ? query.reqSort.split(",") : [query.sort]
     query.sortBy = {};

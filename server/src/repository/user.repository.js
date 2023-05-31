@@ -63,7 +63,14 @@ const getCoursesEnrolled = async (userId) => {
         },
         { $project: { details: 1 } }
     ])
+    console.log(coursesEnrolled)
     return coursesEnrolled[0].details
+}
+
+const getEnrolledCountById = async (courseId) => {
+    const enrolledStudents = await User.countDocuments({ enrolledCourses: {$in : [courseId]} }) 
+    console.log(enrolledStudents)
+    return enrolledStudents
 }
 
 const findUserByCourseId = async ({ courseId, userId }) => {
@@ -87,5 +94,6 @@ module.exports = {
     findUserByEmail,
     findUserByPhone,
     findUserByToken,
-    findByTokenAndDelete
+    findByTokenAndDelete,
+    getEnrolledCountById
 }

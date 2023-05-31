@@ -439,8 +439,8 @@ export default function Explore() {
                                 // style={{ flexShrink: 0, scrollSnapAlign: 'start' }}
                                 className="w-full max-w-xs block hover:shadow-lg duration-300 bg-white border overflow-hidden border-gray-200  rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ml-10">
                                 <div className='overflow-hidden '>
-                                  <Link to={`/courses/${course._id}`}>
-                                    <img className="min-h-[13rem] rounded-t-lg duration-300 scale-105 hover:scale-100" src={course.thumbnailURL} alt="product image" />
+                                  <Link to={`/courses/${course._id}`} className=''>
+                                    <img className="min-h-[13rem] max-h-[13rem] min-w-full object-cover rounded-t-lg duration-300 scale-105 hover:scale-100" src={course.thumbnailURL} alt="product image" />
                                   </Link>
                                 </div>
                                 <div className="px-5 pb-5">
@@ -449,11 +449,15 @@ export default function Explore() {
                                     <h5 className="text-sm font-semibold tracking-tight text-gray-400 dark:text-white nexa-font">{course.tagline}</h5>
                                   </Link>
                                   <div className='py-4 flex justify-between '>
-                                    <Badge color="info" className='w-fit capitalize'>
-                                      {console.log(course)}
-                                      {course.category}
-                                    </Badge>
-                                    <Badge color="danger" className='capitalize'>
+                                    <div>
+                                      <Badge color="info" className='w-fit capitalize mb-1'>
+                                        {course.category}
+                                      </Badge>
+                                      <Badge color={course.difficulty === 'expert' || course.difficulty === 'advanced' ? 'warning' : 'indigo'} className='w-fit capitalize'>
+                                        {course.difficulty}
+                                      </Badge>
+                                    </div>
+                                    <Badge color="purple" className='capitalize'>
                                       {timeAgo(course.createdAt)}
                                     </Badge>
                                   </div>
