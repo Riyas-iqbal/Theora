@@ -14,19 +14,20 @@ const handleSignIn = async ({ email, password }) => {
     let user = await userRepository.findUserByEmail(email)
     if (!user) throw AppError.validation('Email not registered')
 
+    
     const isPasswordMatch = await comparePasswords(password, user.password)
     if (!isPasswordMatch) throw AppError.validation('Invalid Password')
-
+    
     const { password: _, ...userWithoutPassword } = user.toObject()
-
+    
     const accessToken = createAccessToken(userWithoutPassword)
     const refreshToken = createRefreshToken(userWithoutPassword)
 
     // commented until until database refresh token cleanUp is implemented
-    // await userRepository.addRefreshTokenById(user._id,refreshToken)
+    await userRepository.addRefreshTokenById(user._id,refreshToken)
 
     return {
-        userWithoutPassword,
+        user:userWithoutPassword,
         accessToken,
         refreshToken
     }

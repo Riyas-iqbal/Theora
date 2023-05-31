@@ -27,7 +27,7 @@ function CategoryCard({ categories }) {
         { //change key from index to category id
           categories.map((category, i) => (
 
-            <Link to={`/category/${i}`} key={i}
+            <Link to={`/explore`} key={i}
               className="block min-w-full sm:min-w-0 max-w-xs p-6 bg-white border border-gray-200 rounded-lg shadow
             hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700
               transition ease-in-out hover:scale-105 duration-300 hover:shadow-lg ring-1 sm:ring-0"

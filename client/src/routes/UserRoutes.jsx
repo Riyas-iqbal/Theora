@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
+import {Toaster} from 'react-hot-toast'
 
 import Navbar from '../components/user/Navbar'
 import UserPrivate from '../components/authorization/UserPrivate'
@@ -18,6 +19,7 @@ function UserRoutes() {
   return (
     <div>
       <Navbar />
+      <Toaster />
       <Routes>
         <Route path='user' element={<HeroUser />} />
         <Route path='explore' element={<Explore />} />

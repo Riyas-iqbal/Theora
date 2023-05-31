@@ -10,6 +10,8 @@ const createCourse = async (courseData, tutorId) => {
         title: courseData.title,
         about: courseData.about,
         tutor: tutorId,
+        category: courseData.category,
+        difficulty: courseData.difficulty,
         tagline: courseData.tagline,
         thumbnail: courseData.thumbnail,
         price: courseData.price,
@@ -69,7 +71,9 @@ const getAllCourseByQuery = async (query) => {
     const total = await courseRepository.getCountByQuery(query)
     const courses = await courseRepository.getAllCoursesByQuery(query)
 
-    return {total,courses}
+    const coursesWithURL = await bucketService.attachThumbnailURLToCourses(courses)
+
+    return {total,courses: coursesWithURL}
 }
 
 const getCourseDetails = async (courseId) => {

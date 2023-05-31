@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Logo from '../../components/common/Logo'
+import { toast } from 'react-hot-toast'
 
 function SignUp() {
 
@@ -12,35 +13,31 @@ function SignUp() {
   const [phone, setPhone] = useState('')
   const [error, setError] = useState('')
 
+
   const navigate = useNavigate();
 
   const handleSignUp = (e) => {
     e.preventDefault()
     axios.post(
       `http://localhost:3000/api/auth/signup`,
-      {
-        email,
-        password,
-        name,
-        phone
-      }
+      { email, password, name, phone }
     )
       .then((data) => {
         console.log(data)
-        if (data.status < 400) {
-          navigate('../SignIn')
-        }
+        toast.success('Welcome to theora! Please login')
+        navigate('../SignIn')
       })
-      .catch((err) =>{
+      .catch((err) => {
+        toast.error(err.response?.data?.errors.message)
         console.log('errrorr', err.response)
-        console.log(err.response.data)
-        setError(err?.response?.data?.message[0]?.message || err.response?.data?.message)
+        setError(err.response?.data?.errors.message)
       })
   }
 
 
   return (
     <>
+
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           {/* <img

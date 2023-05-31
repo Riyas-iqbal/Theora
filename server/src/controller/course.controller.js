@@ -31,13 +31,11 @@ const getAllCourseByTutor = async (req, res) => {
 
 const getAllCourses = async (req, res) => {
 
-    console.log(req.query)
-
     let query = {
         page: parseInt(req.query.page) - 1 || 0,
         limit: parseInt(req.query.limit) || 5,
         search: req.query.search || "",
-        sort: req.query.sort || "rating",
+        sort: req.query.sort || "createdAt",
         category: req.query.category || "all",
         reqSort: req.query.sort
     }

@@ -29,6 +29,12 @@ const createCourseSchema = Joi.object({
     about: Joi.string()
         .required(),
 
+    category: Joi.string()
+        .required(),
+
+    difficulty: Joi.string()
+        .required(),
+
     price: Joi.number()
         .required()
         .positive()

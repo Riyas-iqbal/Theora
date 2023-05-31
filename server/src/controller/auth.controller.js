@@ -18,6 +18,7 @@ const AppError = require('../utils/app.error.util')
 
 const handleSignIn = asyncHandler(async (req, res) => {
     const { error, value } = signInSchema.validate(req.body)
+    console.log(error)
     if (error) {
         throw AppError.validation(error.details[0].message)
     }
@@ -45,10 +46,9 @@ const handleSignUp = asyncHandler(async (req, res) => {
     if (error) {
         throw AppError.validation(error.details[0].message)
     }
-
     const user = await userService.handleSignUp(value)
-
-    res.status(200).json({ message: 'Account created successfully' })
+    
+    return res.status(200).json({ message: 'Account created successfully' })
 })
 
 /**

@@ -13,6 +13,12 @@ const courseSchema = new Schema({
     tagline: {
         type: String, required: true
     },
+    category: {
+        type: String, required: true
+    },
+    difficulty: {
+        type: String, required: true
+    },
     thumbnail: {
         type: String, required: true
     },

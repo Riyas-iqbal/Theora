@@ -14,6 +14,20 @@ const s3 = new S3Client({
     region: bucketRegion
 })
 
+const attachThumbnailURLToCourses = async (courses) => {
+    // code refractor needed
+    for (let i = 0; i < courses.length; i++) {
+        if (!courses[i].thumbnail) {
+            console.log('Thumbnail key was not found in The Arg provided - ',courses[i])
+            return false 
+        }
+        courses[i] = courses[i].toObject()
+        courses[i].thumbnailURL = await getThumbnailURL(courses[i].thumbnail)
+    }
+
+    return courses
+}
+
 const uploadThumbnailToBucket = async (course, thumbnail) => {
 
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
@@ -36,10 +50,12 @@ const uploadThumbnailToBucket = async (course, thumbnail) => {
 
     const command = new PutObjectCommand(params)
 
-    await s3.send(command).catch(error => {
-        console.log('error while uploading thumbnail to s3' + error)
-        return false
-    })
+    s3.send(command)
+        .then(response => console.log('Thumbnail uploaded to S3 bucket successfully.'))
+        .catch(error => {
+            console.log('error while uploading thumbnail to s3' + error)
+            return false
+        })
 
     return fileName
 }
@@ -83,7 +99,7 @@ const getThumbnailURL = async (imageName) => {
         console.count('Faked thumbnail url')
         return 'https://i.ytimg.com/vi/pN6jk0uUrD8/mqdefault.jpg'
     }
-    
+
     console.count('GET Request send to S3')
     const imageUrl = await getSignedUrl(
         s3,
@@ -91,7 +107,7 @@ const getThumbnailURL = async (imageName) => {
             Bucket: bucketName,
             Key: imageName
         }),
-        { expiresIn: 60 * 60 * 10 } // 60 seconds
+        { expiresIn: 60 * 10 } // 10 Minutes 
     )
     return imageUrl
 
@@ -122,4 +138,5 @@ module.exports = {
     getThumbnailURL,
     getVideoURL,
     uploadLesson,
+    attachThumbnailURLToCourses
 }

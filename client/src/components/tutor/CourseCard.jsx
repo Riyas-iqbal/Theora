@@ -6,13 +6,13 @@ function CourseCard({ courses, loading }) {
 
 	return (
 		<>
-			<div className='flex hide-scroll-bar pb-3' >
+			<div className='justify-center flex flex-wrap gap-2 hide-scroll-bar pb-3' >
 				{
 					courses.length ?
 						!loading ?
 							courses.map(course => (
 								<Link to={`/tutor/courses/${course._id}`}
-									key={course._id}
+									key={course._id} 
 								>
 									<div
 										className="w-full max-w-xs block hover:shadow-lg duration-300 bg-white border overflow-hidden border-gray-200  rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ml-10">

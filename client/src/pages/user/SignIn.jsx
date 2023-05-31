@@ -45,6 +45,10 @@ function SignIn() {
       { withCredentials: true }
     )
       .then((response) => {
+        console.log(response)
+        toast.success(`Hey ${response.data.user.name}, Welcome back to theora!`,{
+          duration:6000
+        })
         dispatch(setUser({ ...response.data?.user, userId: response.data.user._id }))
         if (fromLocation) {
           return navigate(fromLocation)
@@ -52,7 +56,8 @@ function SignIn() {
         return navigate('/user')
       })
       .catch((err) => {
-        setError(err.response.data.message)
+        console.log(err)
+        setError(err?.response?.data?.errors?.message)
       })
 
   }

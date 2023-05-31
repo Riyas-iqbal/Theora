@@ -7,49 +7,57 @@ import TabSection from "../../components/user/TabSection"
 import CategoryCard from "../../components/user/CategoryCard"
 import TrendingCourse from "../../components/user/TrendingCourse"
 import Logo from "../../components/common/Logo"
+import { getAllCategoriesAPI } from "../../api/common"
 
 function HeroUser() {
   const LinkTitle = "Namaste React";
   const promotion = "From the person who made javascript easy as possible introducing"
 
-  const categories = [
-    {
-      title: 'Computer Programming',
-      description: 'Learn everything about programming from fundametals to advanced topics',
-    }, {
-      title: 'Data Science',
-      description: 'Learn everything about programming from fundametals to advanced topics',
-    }, {
-      title: 'Machine Learning',
-      description: 'Learn everything about programming from fundametals to advanced topics',
-    }, {
-      title: 'Backend engineering',
-      description: 'Learn everything about programming from fundametals to advanced topics',
-    }, {
-      title: 'Computer Programming',
-      description: 'Learn everything about programming from fundametals to advanced topics',
-    }, {
-      title: 'Data Science',
-      description: 'Learn everything about programming from fundametals to advanced topics',
-    }, {
-      title: 'Machine Learning',
-      description: 'Learn everything about programming from fundametals to advanced topics',
-    }, {
-      title: 'Backend engineering',
-      description: 'Learn everything about programming from fundametals to advanced topics',
-    },
-  ]
+  // const categories = [
+  //   {
+  //     title: 'Computer Programming',
+  //     description: 'Learn everything about programming from fundametals to advanced topics',
+  //   }, {
+  //     title: 'Data Science',
+  //     description: 'Learn everything about programming from fundametals to advanced topics',
+  //   }, {
+  //     title: 'Machine Learning',
+  //     description: 'Learn everything about programming from fundametals to advanced topics',
+  //   }, {
+  //     title: 'Backend engineering',
+  //     description: 'Learn everything about programming from fundametals to advanced topics',
+  //   }, {
+  //     title: 'Computer Programming',
+  //     description: 'Learn everything about programming from fundametals to advanced topics',
+  //   }, {
+  //     title: 'Data Science',
+  //     description: 'Learn everything about programming from fundametals to advanced topics',
+  //   }, {
+  //     title: 'Machine Learning',
+  //     description: 'Learn everything about programming from fundametals to advanced topics',
+  //   }, {
+  //     title: 'Backend engineering',
+  //     description: 'Learn everything about programming from fundametals to advanced topics',
+  //   },
+  // ]
 
   const [showComponent, setShowComponent] = useState(false)
+  const [categories, setCategories] = useState([])
 
   const closeBanner = ()=>{
     setShowComponent(false)
   }
 
   useEffect(() => {
+    getAllCategoriesAPI()
+      .then(({data})=>{
+        console.log(data.categories)
+        setCategories(data.categories)
+      })
+
     setTimeout(() => {
       setShowComponent(true)
-    }, 3000);
+    }, 5000);
   }, [])
 
   return (

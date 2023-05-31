@@ -12,11 +12,12 @@ import { getAllCategoriesAPI } from '../../api/common';
 
 export default function CreateCourse() {
   const [categories, setCategories] = useState([])
+  const [imageError, setImageError] = useState(null)
 
   const navigate = useNavigate()
   const [imagePreviewURL, setImagePreviewURL] = useState(null)
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+  const { register, handleSubmit, watch, reset, formState: { errors } } = useForm({
     resolver: yupResolver(courseSchema),
   });
 
@@ -26,42 +27,77 @@ export default function CreateCourse() {
       .then(({ data }) => {
         setCategories(data.categories)
       })
-  },[])
+  }, [])
+
+
+  const validateImage = (file) => {
+    setImagePreviewURL(null)
+
+    // Check if the file is an image
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      setImageError('Invalid file type')
+      console.log('invalid file type')
+      return false;
+    }
+
+    // Check if the file size is within the limit
+    const maxSize = 1024 * 1024; // 1 MB
+    if (file.size > maxSize) {
+      setImageError('file size exceeds limit of 1MB')
+      console.log('file size exceeds limit of 1MB')
+      return false;
+    }
+
+    setImageError(null)
+    // If all checks pass, return valid as true
+    return true;
+  }
 
   //thumbnail preview
   useEffect(() => {
     let fileReader;
-    if (watch('thumbnail')[0]) {
-      fileReader = new FileReader();
-      fileReader.onload = (e) => {
-        const { result } = e.target
-        if (result) setImagePreviewURL(result)
+    if (watch('thumbnail')[0] && validateImage(watch('thumbnail')[0])) {
+      if (watch('thumbnail')[0]) {
+        fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const { result } = e.target
+          if (result) setImagePreviewURL(result)
+        }
+        fileReader.readAsDataURL(watch('thumbnail')[0]);
       }
-      fileReader.readAsDataURL(watch('thumbnail')[0]);
-    }
-    return () => {
-      if (fileReader && fileReader.readyState === 1) {
-        fileReader.abort();
+      return () => {
+        if (fileReader && fileReader.readyState === 1) {
+          console.log('aborted')
+          fileReader.abort();
+        }
       }
     }
   }, [watch('thumbnail')])
 
 
   const onSubmit = async (data, e) => {
+    if (imageError) {
+      console.log('please upload correct thumnail')
+      return false
+    }
     const formData = new FormData();
-    return console.log(data)
 
     formData.append("title", data.title);
     formData.append("tagline", data.tagline);
     formData.append("about", data.about);
     formData.append("price", data.price);
+    formData.append("category", data.category);
+    formData.append("difficulty", data.difficulty);
     formData.append("thumbnail", Array.from(data.thumbnail)[0])
 
     createCourseAPI(formData)
       .then((response) => {
+        reset()
         console.log(response)
         if (confirm('Course created successfully')) {
           console.log('yes')
+          navigate('/tutor')
         } else {
           console.log('no')
         }
@@ -69,7 +105,7 @@ export default function CreateCourse() {
       .catch((error) => {
         console.log(error)
         alert('error occurred while creating course ' + error.message)
-        navigate('../')
+        // navigate('../')
       })
   }
 
@@ -135,14 +171,13 @@ export default function CreateCourse() {
                       </div>
                     </div>
 
-                    <div class="sm:col-span-4">
-                      <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
-                      <div class="mt-2">
+                    <div className='sm:col-span-6 flex'>
+                    <div className="w-full">
+                      <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">Catgegory</label>
+                      <div className="mt-2">
                         <select
-                          id="country"
-                          name="country"
-                          autocomplete="country-name"
-                          class="bg-gray-100 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                          id="country" 
+                          className="bg-gray-100 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                           {...register('category')}
                         >
                           {
@@ -152,7 +187,26 @@ export default function CreateCourse() {
                           }
 
                         </select>
+                        <p className='text-red-600 nexa-font text-xs mt-2 ml-1'>{errors.category?.message}</p>
                       </div>
+                    </div>
+
+                    <div className="w-full">
+                      <label htmlFor="difficulty" className="block text-sm font-medium leading-6 text-gray-900">Difficulty</label>
+                      <div className="mt-2">
+                        <select
+                          id="difficulty"
+                          className="bg-gray-100 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                          {...register('difficulty')}
+                        > 
+                          <option className='capitalize'>beginner</option>
+                          <option className='capitalize'>intermediate</option>
+                          <option className='capitalize'>advanced</option>
+                          <option className='capitalize'>expert</option>
+                        </select>
+                        <p className='text-red-600 nexa-font text-xs mt-2 ml-1'>{errors.difficulty?.message}</p>
+                      </div>
+                    </div>
                     </div>
 
                     <div className="sm:col-span-4">
@@ -225,10 +279,11 @@ export default function CreateCourse() {
                             </label>
                             <p className="pl-1">or drag and drop</p>
                           </div>
-                          <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                          <p className="text-xs leading-5 text-gray-600">PNG, JPG, WEBP up to 1MB</p>
                         </div>
                       </div>
                       <p className='text-red-600 nexa-font text-xs mt-2 ml-1'>{errors.thumbnail?.message}</p>
+                      <p className='text-red-600 nexa-font text-xs mt-2 ml-1'>{imageError}</p>
                     </div>
                   </div>
                 </div>
