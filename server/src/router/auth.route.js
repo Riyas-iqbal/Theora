@@ -42,13 +42,6 @@ router
     .route('/tutor/logout')
     .delete(authTutorController.handleLogout)
 
-
-
-
-
-
-
-
 // router.get('/test', (req, res) => {
 //     const data = 'Hello world'
 //     res.send(data.repeat(100000))

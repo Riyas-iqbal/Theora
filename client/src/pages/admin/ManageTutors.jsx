@@ -1,9 +1,21 @@
-import React from 'react'
+import DefaultLayout from '../../components/admin/DefaultLayout'
+// import TableOne from '../../components/admin/TableOne'
+// import TableTwo from '../../components/admin/Table'
+import TutorsList from '../../components/admin/TutorListTable';
+import Breadcrumb from '../../components/admin/Breadcrumb';
 
-function ManageTutors() {
+const ManageTutors = () => {
   return (
-    <div>ManageTutors</div>
-  )
-}
+    <DefaultLayout>
+      <Breadcrumb pageName="Manage Tutors" />
 
-export default ManageTutors
+      <div className="flex flex-col gap-10">
+        {/* <TableOne />
+        <TableTwo /> */}
+        <TutorsList />
+      </div>
+    </DefaultLayout>
+  );
+};
+
+export default ManageTutors;

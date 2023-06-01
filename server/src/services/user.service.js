@@ -14,20 +14,22 @@ const handleSignIn = async ({ email, password }) => {
     let user = await userRepository.findUserByEmail(email)
     if (!user) throw AppError.validation('Email not registered')
 
-    
     const isPasswordMatch = await comparePasswords(password, user.password)
     if (!isPasswordMatch) throw AppError.validation('Invalid Password')
-    
+
+    const isBlocked = await userRepository.checkIsBlocked(email)
+    if (isBlocked) throw AppError.forbidden('Access denied')
+
     const { password: _, ...userWithoutPassword } = user.toObject()
-    
+
     const accessToken = createAccessToken(userWithoutPassword)
     const refreshToken = createRefreshToken(userWithoutPassword)
 
     // commented until until database refresh token cleanUp is implemented
-    await userRepository.addRefreshTokenById(user._id,refreshToken)
+    await userRepository.addRefreshTokenById(user._id, refreshToken)
 
     return {
-        user:userWithoutPassword,
+        user: userWithoutPassword,
         accessToken,
         refreshToken
     }
@@ -106,9 +108,19 @@ const getAllUsers = async () => {
     return users
 }
 
+const blockUser = async (userId) => {
+    const isBlocked = await userRepository.blockUserById(userId)
+    return isBlocked
+}
+
+const unblockUser = async (userId) => {
+    const isBlocked = await userRepository.unblockUserById(userId)
+    return isBlocked
+}
+
 module.exports = {
     getAllUsers, getEnrolledStudentsCount,
-    handleSignIn, handleSignUp,
+    handleSignIn, handleSignUp, blockUser, unblockUser,
     isEnrolledForCourse, getAccessTokenByRefreshToken, checkTokenAndDelete
 }
 

@@ -7,6 +7,7 @@ import SectionTitle from '../../components/tutor/SectionTitle'
 import HorizontalRule from '../../components/common/HorizontalRule'
 import { Card } from 'flowbite-react'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
 
 function HeroTutor() {
 

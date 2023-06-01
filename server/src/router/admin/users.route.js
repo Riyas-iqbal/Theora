@@ -5,4 +5,13 @@ router
     .route('/')
     .get(userController.getAllUsers)
 
+
+router
+    .route('/block')
+    .post(userController.blockUser)
+
+router
+    .route('/unblock')
+    .post(userController.unblockUser)
+
 module.exports = router

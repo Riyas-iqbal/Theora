@@ -53,7 +53,7 @@ const TableOne = ({ tableData, categories }) => {
 
                 <div className="flex items-center flex-col justify-center p-2.5 xl:p-5">
                   <p className="font-medium"> {new Date(category.createdAt).toDateString()}</p>
-                  <p className="text-gray-500 "> {timeAgo(category.createdAt)}</p>
+                  <p className="text-gray-500 "> {timeAgo(category.createdAt)} ago</p>
                 </div>
 
                 <div className="hidden p-2.5 sm:block xl:py-3">

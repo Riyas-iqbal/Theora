@@ -26,6 +26,10 @@ const handleSignIn = async (req, res) => {
     const isPasswordMatch = await comparePasswords(value.password, tutorData.password)
     if (!isPasswordMatch) return res.status(401).json({ message: 'Unauthorized! invalid password' })
 
+    if (tutorData.isBlocked) {
+        return res.status(403).json({message: 'Access denied'})
+    }
+
     tutorData = tutorData.toObject()
     delete tutorData.password
 

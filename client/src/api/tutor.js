@@ -24,10 +24,15 @@ const createLessonAPI = (body, route = `/tutor/lessons`) => {
     )
 }
 
+const handleLogOutAPI = (route='/auth/tutor/logout') => {
+    return API.delete(route)
+}
+
 
 export {
     createCourseAPI,
     getCourseDetailsAPI,
     createLessonAPI,
-    getTopTutorsAPI
+    getTopTutorsAPI,
+    handleLogOutAPI
 }

@@ -5,6 +5,24 @@ const getTutors = async (limit) => {
     return topTutors
 }
 
+const getAllTutors = async () => {
+    const users = await Tutor.find()
+    return users
+}
+
+const blockTutorById = async (_id) => {
+    const isBlocked = await Tutor.updateOne({ _id}, { isBlocked: true })
+    return isBlocked 
+}
+
+const unblockTutorById = async (_id) => {
+    const isBlocked = await Tutor.updateOne({ _id}, { isBlocked: false })
+    return isBlocked 
+}
+
 module.exports = {
-    getTutors
+    getTutors,
+    getAllTutors,
+    blockTutorById,
+    unblockTutorById
 }

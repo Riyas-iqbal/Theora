@@ -47,12 +47,24 @@ const checkTokenAndDelete = async (token) => {
     }
 }
 
+const getAllTutors = async () => {
+    const users = await tutorRepository.getAllTutors()
+    return users
+}
 
+const blockTutor = async (userId) => {
+    const isBlocked = await tutorRepository.blockTutorById(userId)
+    return isBlocked
+}
 
-
+const unblockTutor = async (userId) => {
+    const isBlocked = await tutorRepository.unblockTutorById(userId)
+    return isBlocked
+}
 
 module.exports = {
     findTutorByEmail,getTopTutors,
     addRefreshTokenById,
-    checkEmailExists, checkPhoneExists, checkTokenAndDelete
+    checkEmailExists, checkPhoneExists, checkTokenAndDelete,
+    getAllTutors, blockTutor, unblockTutor
 }

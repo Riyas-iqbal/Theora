@@ -24,6 +24,16 @@ const checkCourseEnrolled = async (req, res) => {
     })
 }
 
+const blockUser = async (req,res) => {
+    const isBlocked = await userService.blockUser(req.body.userId)
+    return res.status(200).json({message:'User Blocked successfully'})
+}
+
+const unblockUser = async (req,res) => {
+    const isBlocked = await userService.unblockUser(req.body.userId)
+    return res.status(200).json({message:'User unblocked successfully'})
+}
+
 const getAllUsers = async(req,res)=>{
     const users = await userService.getAllUsers()
     return res.status(200).json({message:'users found',data:users}) 
@@ -31,5 +41,7 @@ const getAllUsers = async(req,res)=>{
 
 module.exports = {
     checkCourseEnrolled,
-    getAllUsers
+    getAllUsers,
+    blockUser,
+    unblockUser
 }

@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
-import { blockUserAPI, getAllUsersAPI, unBlockUserAPI } from '../../api/admin'
+import { getAllTutorsAPI,blockTutorAPI,unblockTutorAPI } from '../../api/admin'
+import timeAgo from "../../utils/timeAgo";
 
-const TableThree = () => {
+const TutorsList = () => {
+  console.log('tutors reoute')
   const [users, setUsers] = useState([])
   const [updateData, setUpdateData] = useState(false)
 
   useEffect(() => {
-    getAllUsersAPI()
+    getAllTutorsAPI()
       .then((response) => {
+        console.log(response.data)
         setUsers(response.data.data)
         console.log(response.data.data)
       })
   }, [updateData])
 
   const handleBlockUser = (userId)=>{
-    blockUserAPI(userId)
+    blockTutorAPI(userId)
       .then((response)=>{
         setUpdateData(!updateData)
         console.log(response)
@@ -22,7 +25,7 @@ const TableThree = () => {
   }
 
   const handleUnblockUser = (userId) => {
-    unBlockUserAPI(userId)
+    unblockTutorAPI(userId)
       .then((response)=>{
         setUpdateData(!updateData)
         console.log(response)
@@ -66,7 +69,8 @@ const TableThree = () => {
                     </td>
 
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                      <p className="text-black dark:text-white">Jan 13,2023</p>
+                      <p className="text-black dark:text-white">{new Date(user.createdAt).toDateString()}</p>
+                      <p className="dark:text-white text-gray-400">{timeAgo(user.createdAt)} ago</p>
                     </td>
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                       <p className="inline-flex rounded-full bg-success bg-opacity-10 py-1 px-3 text-sm font-medium text-success">
@@ -97,7 +101,7 @@ const TableThree = () => {
                   // </>
                 ))
                 :
-                <>No User Found</>
+                <>No Tutors Found</>
             }
 
 
@@ -364,4 +368,4 @@ const TableThree = () => {
   );
 };
 
-export default TableThree;
+export default TutorsList;

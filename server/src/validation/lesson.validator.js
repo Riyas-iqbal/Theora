@@ -19,6 +19,8 @@ const createLessonSchema = Joi.object({
     description: Joi.string()
         .required(),
 
+    
+
 }).required()
 
 module.exports = { createLessonSchema }

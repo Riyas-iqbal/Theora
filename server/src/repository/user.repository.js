@@ -13,6 +13,11 @@ const findUserByPhone = async (phone) => {
     return userData
 }
 
+const checkIsBlocked = async (email) => {
+    const user = await User.findOne({ email }).select({ isBlocked:1})
+    return user.isBlocked
+}
+
 const findUserByToken = async (token) => {
     const userData = User.findOne({ token }).select({ email: 1, name: 1, isBlocked: 1 })
     return userData
@@ -68,7 +73,7 @@ const getCoursesEnrolled = async (userId) => {
 }
 
 const getEnrolledCountById = async (courseId) => {
-    const enrolledStudents = await User.countDocuments({ enrolledCourses: {$in : [courseId]} }) 
+    const enrolledStudents = await User.countDocuments({ enrolledCourses: { $in: [courseId] } })
     console.log(enrolledStudents)
     return enrolledStudents
 }
@@ -80,10 +85,22 @@ const findUserByCourseId = async ({ courseId, userId }) => {
 }
 
 
-const getAllUsers = async (arg) => {
+const getAllUsers = async () => {
     const users = await User.find()
     return users
 }
+
+const blockUserById = async (_id) => {
+    const isBlocked = await User.updateOne({ _id }, { isBlocked: true })
+    return isBlocked
+}
+
+
+const unblockUserById = async (_id) => {
+    const isBlocked = await User.updateOne({ _id }, { isBlocked: false })
+    return isBlocked
+}
+
 module.exports = {
     enrollInCourseById,
     getAllUsers,
@@ -95,5 +112,8 @@ module.exports = {
     findUserByPhone,
     findUserByToken,
     findByTokenAndDelete,
-    getEnrolledCountById
+    getEnrolledCountById,
+    blockUserById,
+    unblockUserById,
+    checkIsBlocked
 }

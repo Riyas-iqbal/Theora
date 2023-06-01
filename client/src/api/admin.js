@@ -8,6 +8,10 @@ const getAllUsersAPI = (route = '/admin/users') => {
     return API.get(route)
 }
 
+const getAllTutorsAPI = (route = '/admin/tutors') => {
+    return API.get(route)
+}
+
 
 /**
  * 
@@ -22,9 +26,42 @@ const createCategoryAPI = (body, route = '/admin/category') => {
     )
 }
 
+const blockUserAPI = (userId) => {
+    return API.post(
+        '/admin/users/block',
+        { userId }
+    )
+}
+
+const unBlockUserAPI = (userId) => {
+    return API.post(
+        '/admin/users/unblock',
+        { userId }
+    )
+}
+
+const blockTutorAPI = (userId) => {
+    return API.post(
+        '/admin/tutors/block',
+        { userId }
+    )
+}
+
+const unblockTutorAPI = (userId) => {
+    return API.post(
+        '/admin/tutors/unblock',
+        { userId }
+    )
+}
+
 
 export {
     getAllCoursesByTutorAPI,
     getAllUsersAPI,
-    createCategoryAPI
+    getAllTutorsAPI,
+    createCategoryAPI,
+    blockUserAPI,
+    unBlockUserAPI,
+    blockTutorAPI,
+    unblockTutorAPI,
 }

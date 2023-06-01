@@ -15,13 +15,17 @@ function SignIn() {
 
   let [searchParams, setSearchParams] = useSearchParams();
   const accessedPrivate = searchParams.get('private');
-  console.count('')
+  const logout = searchParams.get('logout');
 
-  const notify = () => toast.error('Please login to continue');
+  const notify = () => 
 
   useEffect(() => {
     if (accessedPrivate) {
-      notify()
+      toast.error('Please login to continue');
+    }
+
+    if (logout) {
+      toast.success('You have been logged out successfully');
     }
   }, [])
 

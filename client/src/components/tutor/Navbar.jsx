@@ -2,6 +2,7 @@ import { Navbar as NavBar, Button } from 'flowbite-react'
 import Logo from '../common/Logo'
 import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import MenuDropDown from './MenuDropdown'
 
 function Navbar() {
 
@@ -31,7 +32,7 @@ function Navbar() {
             <div className="flex md:order-2">
                 {
                     tutor.loggedIn ?
-                        <h1>{tutor.name}</h1>
+                        <MenuDropDown className='w-3' user={tutor.name} />
                         :
                         <Button className='bg-amber-500 hover:bg-amber-300'>
                             <Link to='signin'>Sign In</Link>
