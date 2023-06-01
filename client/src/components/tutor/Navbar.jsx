@@ -54,11 +54,11 @@ function Navbar() {
                     </span>
                 </Link>
 
-                <Link className='hover:text-amber-500' to="/tutor/dashboard" >
+                {/* <Link className='hover:text-amber-500' to="/tutor/dashboard" >
                     <span className={pathname === '/tutor/dashboard' ? 'text-amber-600' : null}>
                         Dashboard
                     </span>
-                </Link>
+                </Link> */}
                 
                 {/* <Link className='hover:text-amber-500' to="/newsletters" active={pathname === '/tutor/newsletters' ? true : null}>
                     Standings

@@ -59,7 +59,7 @@ const getAllCourses = async () => {
 
 const getAllCourseByQuery = async (query) => {
 
-    query.difficulty = query.difficulty === 'all' ? ['beginner,intermediate','advanced','expert'] : query.difficulty.split(",") 
+    query.difficulty = query.difficulty === 'all' ? ['beginner','intermediate','advanced','expert'] : query.difficulty.split(",") 
     query.category = query.category === 'all' ? await categoryRepository.getAllCategoriesTitle() : query.category.split(",")
     query.sort = query.reqSort ? query.reqSort.split(",") : [query.sort]
     query.sortBy = {};
@@ -71,6 +71,9 @@ const getAllCourseByQuery = async (query) => {
 
     const total = await courseRepository.getCountByQuery(query)
     const courses = await courseRepository.getAllCoursesByQuery(query)
+
+    console.log(total)
+    console.log(courses.length)
 
     const coursesWithURL = await bucketService.attachThumbnailURLToCourses(courses)
 

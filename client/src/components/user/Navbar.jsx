@@ -62,7 +62,7 @@ function Navbar() {
 						Enrolled
 					</span>
 				</Link>
-				<Link to="/newsletters" className='hover:text-indigo-500' >
+				{/* <Link to="/newsletters" className='hover:text-indigo-500' >
 					<span className={pathname === '/newsletters' ? 'text-indigo-600' : null}>
 						Newsletter
 					</span>
@@ -71,7 +71,7 @@ function Navbar() {
 					<span className={pathname === '/Contact' ? 'text-indigo-600' : null}>
 						Contact
 					</span>
-				</Link>
+				</Link> */}
 			</NavBar.Collapse>
 		</NavBar>
 	)
