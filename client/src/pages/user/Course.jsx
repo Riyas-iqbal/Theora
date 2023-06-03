@@ -311,9 +311,8 @@ export default function Course() {
 										// is User Already Enrolled for the course
 										isEnrolled ?
 										<div className='flex flex-col items-center'>
-												{console.log(isEnrolled)}
 											<CheckCircleIcon className='text-green-400 w-20' />
-												Already Enrolled
+												Enrolled for course
 											</div>
 											:
 											<>

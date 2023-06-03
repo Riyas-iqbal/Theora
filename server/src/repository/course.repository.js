@@ -6,7 +6,7 @@ const getAllCourses = async () => {
 }
 
 const findCourseById = async (courseId) => {
-    const course = await Course.findById({ _id: courseId })
+    const course = await Course.findById({ _id: courseId }).select('-__v')
     if (!course) {
         console.log('Course not found -' + course)
         return false

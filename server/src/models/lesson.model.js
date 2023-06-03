@@ -1,12 +1,13 @@
 const { Schema, model } = require('mongoose')
+const { COURSES, USERS, LESSONS } = require('../config/collection')
 
-const  lessonSchema = new Schema({
+const lessonSchema = new Schema({
     title: {
         type: String, required: true,
     },
     course: {
         type: Schema.Types.ObjectId,
-        ref: 'course',
+        ref: COURSES,
         required: true
     },
     description: {
@@ -23,25 +24,25 @@ const  lessonSchema = new Schema({
         type: Number,
     },
     likes: [
-        { type: Schema.Types.ObjectId, ref: 'users' }
+        { type: Schema.Types.ObjectId, ref: USERS }
     ],
     comments: [
         {
-            user: { type: Schema.Types.ObjectId, ref: 'users' },
+            user: { type: Schema.Types.ObjectId, ref: USERS },
             content: { type: String, required: true },
             createdAt: { type: Date, default: Date.now }
         }
     ],
     reports: [
         {
-            user: { type: Schema.Types.ObjectId, ref: 'users' },
+            user: { type: Schema.Types.ObjectId, ref: USERS },
             reason: { type: String, required: true },
             createdAt: { type: Date, default: Date.now }
         }
     ]
-},{
+}, {
     timestamps: true
 });
 
 
-module.exports = model('lessons',lessonSchema)
+module.exports = model(LESSONS, lessonSchema)

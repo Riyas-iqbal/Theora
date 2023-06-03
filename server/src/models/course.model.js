@@ -35,4 +35,4 @@ const courseSchema = new Schema({
     timestamps: true
 })
 
-module.exports = model('course', courseSchema)
+module.exports = model('courses', courseSchema)

@@ -74,8 +74,24 @@ class AppError extends Error {
         )
     }
 
+    static order(message = 'An unexpected error occured while processing your order') {
+        return new AppError(
+            errorCodes.ORDER_ERROR,
+            message,
+            StatusCodes.INTERNAL_SERVER_ERROR
+        )
+    }
+
+    static transaction(message = 'An unexpected error occured while processing your transaction') {
+        return new AppError(
+            errorCodes.TRANSACTION_ERROR,
+            message,
+            StatusCodes.INTERNAL_SERVER_ERROR
+        )
+    }
+
     static testError(message = 'This is an test error') {
-        return new AppError('1000',message,400)
+        return new AppError('1000', message, 400)
     }
 }
 

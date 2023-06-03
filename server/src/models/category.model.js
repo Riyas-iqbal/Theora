@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose')
+const { CATEGORIES } = require('../config/collection')
 
 const categorySchema = new Schema({
     title: {
@@ -11,4 +12,4 @@ const categorySchema = new Schema({
     timestamps: true
 })
 
-module.exports = model('categories',categorySchema)
+module.exports = model(CATEGORIES, categorySchema)
