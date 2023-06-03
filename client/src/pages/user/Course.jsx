@@ -14,6 +14,8 @@ import getUser from '../../components/authorization/getUser'
 import timeAgo from '../../utils/timeAgo'
 
 import { enrollCourseAPI, getCourseDetailsAPI, isEnrolledInCourseAPI } from '../../api/user'
+import { Button } from 'flowbite-react';
+import Payment from '../../components/user/Payment';
 
 export default function Course() {
 	const [course, setCourse] = useState({})
@@ -32,7 +34,7 @@ export default function Course() {
 		(async () => {
 			const courseDetails = await getCourseDetailsAPI(params.id)
 			const userCourse = await isEnrolledInCourseAPI(params.id)
-			
+
 			setIsEnrolled(userCourse.data.enrolled)
 			setCourse(courseDetails.data.data)
 
@@ -307,12 +309,13 @@ export default function Course() {
 
 							<div className="rounded-2xl bg-white py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
 								<div className="mx-auto max-w-xs px-8">
-									{	
+									{
 										// is User Already Enrolled for the course
 										isEnrolled ?
-										<div className='flex flex-col items-center'>
-											<CheckCircleIcon className='text-green-400 w-20' />
+											<div className='flex flex-col items-center'>
+												<CheckCircleIcon className='text-green-400 w-20' />
 												Enrolled for course
+												<Button className='mt-5' onClick={() => navigate(`/courses/enrolled/${course._id}`)}>View Course</Button>
 											</div>
 											:
 											<>
@@ -321,12 +324,10 @@ export default function Course() {
 													<span className="text-5xl font-bold tracking-tight text-gray-900">₹{course?.price}</span>
 													<span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">INR</span>
 												</p>
-												<button
-													onClick={() => handleEnrollCourse(course._id)}
-													className="mt-10 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-												>
+												<Payment courseId={course._id}>
 													Get Course
-												</button>
+												</Payment>
+
 												<button
 													onClick={() => setIsOpen(!isOpen)}
 													className="mt-2 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -352,7 +353,7 @@ export default function Course() {
 								</div>
 							</div>
 						</div>
-					</div>
+					</div >
 			}
 		</>
 	)

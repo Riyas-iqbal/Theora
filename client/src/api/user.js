@@ -11,15 +11,31 @@ const enrollCourseAPI = (body) => {
     )
 }
 
+const createOrderAPI = (courseId) => {
+    return API.post(
+        '/user/orders/create',
+        {
+            courseId
+        }
+    )
+}
+
+const verifyPaymentAPI = (data) => {
+    return API.post(
+        '/user/orders/payment/verify',
+        data
+    )
+}
+
 const isEnrolledInCourseAPI = (courseId) => {
     return API.get(`/user/details/enrolled/${courseId}/check`)
 }
 
-const getUserEnrolledCoursesAPI = ()=>{
+const getUserEnrolledCoursesAPI = () => {
     return API.get('/user/courses/enroll')
 }
 
-const handleLogOutAPI = ()=>{
+const handleLogOutAPI = () => {
     return API.delete('/auth/logout')
 }
 
@@ -28,5 +44,7 @@ export {
     getUserEnrolledCoursesAPI,
     isEnrolledInCourseAPI,
     enrollCourseAPI,
-    handleLogOutAPI
+    handleLogOutAPI,
+    createOrderAPI,
+    verifyPaymentAPI
 }

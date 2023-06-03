@@ -1,10 +1,11 @@
 const instance = require('../config/razorpay');
 const AppError = require('../utils/app.error.util');
 
-const generateRazorpayOrder = async ({ price, userId, courseId, orderId, courseTitle }) => {
+const generateRazorpayOrder = async ({ price, userId, courseId, orderId, courseTitle, user }) => {
+    let priceInSmallestUnit = price * 100 // 100rs = 1000p 
 
     const options = {
-        amount: price, // amount in the smallest currency unit
+        amount: priceInSmallestUnit, // amount in the smallest currency unit
         currency: "INR",
         receipt: orderId,
         notes: {

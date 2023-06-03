@@ -11,8 +11,8 @@ router
     .route('/create')
     .post(isAuth, orderController.createOrder)
 
-// router
-//     .route('/payment/verify')
-//     .post(orderController.verifyPayment)
+router
+    .route('/payment/verify')
+    .post(orderController.verifyPayment)
 
 module.exports = router
