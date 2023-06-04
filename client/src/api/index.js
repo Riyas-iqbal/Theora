@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { toast } from "react-hot-toast";
 
 const API = axios.create({
     baseURL: BASE_URL,
@@ -19,6 +20,10 @@ API.interceptors.response.use(
     (error) => {
         // Do something with the response error
         console.log(error)
+        toast.dismiss()
+        if (error?.code === 'ERR_NETWORK') {
+            toast.error('Oops! it seems that the server is not connected')
+        }
         if (error?.response?.data?.err?.name === "TokenExpiredError") {
             console.log('token expired')
             window.location.href = '/signin?expired=true';

@@ -87,7 +87,7 @@ export default function ViewCourse() {
 
 						{/* course description and thumbnail */}
 						<div className="flex justify-center pb-4">
-							<video class="w-full rounded-lg" controls src={lesson.videoURL} type="video/mp4">
+							<video className="w-full rounded-lg" controls src={lesson.videoURL} type="video/mp4">
 							</video>
 						</div>
 

@@ -13,6 +13,6 @@ router
 
 router
     .route('/payment/verify')
-    .post(orderController.verifyPayment)
+    .post(isAuth, orderController.verifyPayment)
 
 module.exports = router

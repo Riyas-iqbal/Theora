@@ -1,5 +1,6 @@
 import React from 'react'
 import DefaultLayout from '../../components/admin/DefaultLayout'
+import Breadcrumb from '../../components/admin/Breadcrumb'
 // import CardOne from '../../components/admin/CardOne'
 // import CardTwo from '../../components/admin/CardTwo'
 // import CardThree from '../../components/admin/CardThree'
@@ -14,6 +15,16 @@ import DefaultLayout from '../../components/admin/DefaultLayout'
 function HeroAdmin() {
   return (
     <DefaultLayout>
+      <Breadcrumb pageName={'Dashboard'} />
+
+
+
+      <section className="flex items-center h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="w-full max-w-screen-xl px-4 mx-auto lg:px-12">
+          {/* Start coding here */}
+          
+        </div>
+      </section>
       {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <CardOne />
         <CardTwo />

@@ -50,7 +50,6 @@ const findByTokenAndDelete = async (token) => {
 
 const enrollInCourseById = async ({ courseId, userId }) => {
     const userData = await User.updateOne({ _id: userId }, { $addToSet: { enrolledCourses: courseId } })
-    console.log(userData)
     return userData
 }
 

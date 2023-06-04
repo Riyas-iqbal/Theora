@@ -9,7 +9,7 @@ import { Toaster, toast } from 'react-hot-toast'
 
 function SignIn() {
 
-  const user = useSelector(state=>state.user)
+  const user = useSelector(state => state.user)
 
   const dispatch = useDispatch()
 
@@ -17,23 +17,32 @@ function SignIn() {
   const accessedPrivate = searchParams.get('private');
   const fromLocation = searchParams.get('from');
   const sessionExpired = searchParams.get('expired');
+  const newUser = searchParams.get('new');
   const logout = searchParams.get('logout');
 
   useEffect(() => {
     if (user.loggedIn) {
       navigate('/user')
     }
-    toast.dismiss()
+    if (newUser) {
+      toast.dismiss()
+      toast.success('Welcome to theora! Please login', {
+        duration: 2000
+      })
+    }
     if (accessedPrivate) {
+      toast.dismiss()
       toast.error('Please login to continue');
     }
     if (logout) {
+      toast.dismiss()
       toast.success('Missing You Already, Come Back Soon!', {
         icon: '😪',
         duration: 4000
       })
     }
     if (sessionExpired) {
+      toast.dismiss()
       toast.error('Session timeout! Please login again')
     }
   }, [])

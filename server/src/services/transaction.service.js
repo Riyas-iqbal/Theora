@@ -1,5 +1,6 @@
 const instance = require('../config/razorpay');
 const AppError = require('../utils/app.error.util');
+const crypto = require('crypto');
 
 const generateRazorpayOrder = async ({ price, userId, courseId, orderId, courseTitle, user }) => {
     let priceInSmallestUnit = price * 100 // 100rs = 1000p 
@@ -26,6 +27,27 @@ const generateRazorpayOrder = async ({ price, userId, courseId, orderId, courseT
     }
 }
 
+
+const verifyPayment = ({ razorpay_order_id, razorpay_payment_id, razorpay_signature }) => {
+
+    const body = razorpay_order_id + "|" + razorpay_payment_id
+
+    const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET)
+        .update(body.toString())
+        .digest('hex');
+
+    console.log("sig received ", razorpay_signature);
+    console.log("sig generated ", expectedSignature);
+
+    let data = { "signatureIsValid": "false" }
+    if (expectedSignature === razorpay_signature) {
+        data = { "signatureIsValid": "true" }
+    }
+
+    return data
+}
+
 module.exports = {
-    generateRazorpayOrder
+    generateRazorpayOrder,
+    verifyPayment
 }

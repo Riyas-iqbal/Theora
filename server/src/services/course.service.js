@@ -59,7 +59,7 @@ const getAllCourses = async () => {
 
 const getAllCourseByQuery = async (query) => {
 
-    query.difficulty = query.difficulty === 'all' ? ['beginner','intermediate','advanced','expert'] : query.difficulty.split(",") 
+    query.difficulty = query.difficulty === 'all' ? ['beginner', 'intermediate', 'advanced', 'expert'] : query.difficulty.split(",")
     query.category = query.category === 'all' ? await categoryRepository.getAllCategoriesTitle() : query.category.split(",")
     query.sort = query.reqSort ? query.reqSort.split(",") : [query.sort]
     query.sortBy = {};
@@ -77,7 +77,7 @@ const getAllCourseByQuery = async (query) => {
 
     const coursesWithURL = await bucketService.attachThumbnailURLToCourses(courses)
 
-    return {total,courses: coursesWithURL}
+    return { total, courses: coursesWithURL }
 }
 
 const getCourseDetails = async (courseId) => {
@@ -96,7 +96,10 @@ const getCourseDetails = async (courseId) => {
 const enrollInCourse = async ({ courseId, userId }) => {
 
     const isValidCourse = await courseRepository.findCourseById(courseId)
-    if (!isValidCourse) return false
+    if (!isValidCourse) {
+        console.log('inavlid course received for enrollment')
+        return false
+    }
 
     const isEnrolled = await userRepository.enrollInCourseById({ courseId, userId });
     return isEnrolled

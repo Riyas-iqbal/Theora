@@ -36,24 +36,28 @@ function Payment({ children, courseId, setIsEnrolled }) {
 			handler: async function (response) {
 				console.log(response)
 				const body = {
-					orderCreationId: order_id,
+					course_id: courseId,
+					order_creation_id: order_id,
 					razorpay_payment_id: response.razorpay_payment_id,
 					razorpay_order_id: response.razorpay_order_id,
 					razorpay_signature: response.razorpay_signature,
 				};
-
+				//verify payment signature and enroll in course
 				const result = await verifyPaymentAPI(body)
-				if (result?.data?.signatureIsValid) {
-					toast.success('payment successful', {
+				if (result?.data?.signatureIsValid === false) {
+					toast.error('Payment verification failed', {
 						duration: 1000
 					})
 				}
+				toast.success('payment successful', {
+					duration: 1000
+				})
 				setIsEnrolled(true)
 			},
 			prefill: {
 				name: user?.name,
 				email: user?.email,
-				contact: user?.phone,
+				// contact: user?.phone,
 			},
 			notes: {
 				address: "",

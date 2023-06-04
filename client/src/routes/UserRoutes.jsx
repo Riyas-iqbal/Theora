@@ -12,6 +12,7 @@ import Explore from '../pages/user/Explore'
 import Course from '../pages/user/Course'
 import Enrolled from '../pages/user/Enrolled'
 import ViewCourse from '../pages/user/ViewCourse'
+import Profile from '../pages/user/Profile'
 
 function UserRoutes() {
 
@@ -26,6 +27,7 @@ function UserRoutes() {
         <Route path='signin' element={<SignIn />} />
         <Route path='signup' element={<SignUp />} />
         <Route path='courses/:id' element={<Course />} />
+          <Route path='user/profile' element={<Profile />} />
 
         <Route element={<UserPrivate />}>
           <Route path='courses/enrolled' element={<Enrolled />} />
