@@ -15,12 +15,14 @@ const userSlice = createSlice({
             state.name = action.payload.name;
             state.userId = action.payload.userId
             state.email = action.payload.email,
+            state.phone = action.payload.phone,
             state.loggedIn = true
         },
         removeUser: (state) => {
             state.name = null;
             state.userId = null;
             state.email = null;
+            state.phone = null,
             state.loggedIn = false
         }
     }

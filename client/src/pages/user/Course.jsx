@@ -324,7 +324,7 @@ export default function Course() {
 													<span className="text-5xl font-bold tracking-tight text-gray-900">₹{course?.price}</span>
 													<span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">INR</span>
 												</p>
-												<Payment courseId={course._id}>
+												<Payment courseId={course._id} setIsEnrolled={(value)=>{setIsEnrolled(value)}}>
 													Get Course
 												</Payment>
 

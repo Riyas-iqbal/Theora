@@ -4,7 +4,7 @@ const AppError = require('../utils/app.error.util')
 
 
 const findUserByEmail = async (email) => {
-    const userData = await User.findOne({ email }).select({ email: 1, name: 1, isBlocked: 1, password: 1 })
+    const userData = await User.findOne({ email }).select({ email: 1, name: 1, isBlocked: 1, password: 1, phone: 1 })
     return userData
 }
 
@@ -14,7 +14,7 @@ const findUserByPhone = async (phone) => {
 }
 
 const checkIsBlocked = async (email) => {
-    const user = await User.findOne({ email }).select({ isBlocked:1})
+    const user = await User.findOne({ email }).select({ isBlocked: 1 })
     return user.isBlocked
 }
 

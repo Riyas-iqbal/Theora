@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../features/userSlice'
 import { Toaster, toast } from 'react-hot-toast'
 
-
-
 function SignIn() {
 
   const user = useSelector(state=>state.user)
@@ -20,9 +18,6 @@ function SignIn() {
   const fromLocation = searchParams.get('from');
   const sessionExpired = searchParams.get('expired');
   const logout = searchParams.get('logout');
-
-
-
 
   useEffect(() => {
     if (user.loggedIn) {
