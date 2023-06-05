@@ -39,52 +39,52 @@ function ViewTransactions() {
 							transactions.length ?
 								<>
 									<div className='flex flex-col gap-3'>
-										{transactions.map(transcation => (
-											<div key={transcation._id} className='min-w-2xl border rounded-xl overflow-hidden h-27  flex justify-between '>
+										{transactions.map(transaction => (
+											<div key={transaction._id} className='min-w-2xl border rounded-xl overflow-hidden h-27  flex justify-between '>
 												<div className='flex items-center '>
 													<div className='w-60 justify-center flex items-center text-center bg-gray-100 h-full'>
 														<div>
-															<h1 className='text-xl capitalize'>{transcation.course.title}</h1>
-															<span className='text-sm'>{transcation.course.tagline}</span>
+															<h1 className='text-xl capitalize'>{transaction.course.title}</h1>
+															<span className='text-sm'>{transaction.course.tagline}</span>
 														</div>
 													</div>
 													<div className='ml-5 first:capitalize '>
-														<h1 className='text-xl capitalize'>{transcation.title}</h1>
-														<h1 className='text-sm '>{transcation.tagline}</h1>
+														<h1 className='text-xl capitalize'>{transaction.title}</h1>
+														<h1 className='text-sm '>{transaction.tagline}</h1>
 														<div className='flex mt-1 gap-2'>
 															Current price
 															<Badge size='2' color={'warning'} className='w-fit capitalize'>
-															₹{transcation.course.price}
+																₹{transaction.course.price}
 															</Badge>
 														</div>
 													</div>
 												</div>
 												<div className='flex  gap-2 items-center mr-5'>
 													{
-														transcation.status === 'completed' ?
+														transaction.status === 'completed' ?
 															<div>
 																<div className='flex gap-2'>
 																	<Badge size='2' color='success' >
 																		Payment successfull
 																	</Badge>
-																	₹{transcation.price}
+																	₹{transaction.price}
 																</div>
 																<span className='text-xs'>
-																	completed on : {new Date(transcation.createdAt).toDateString()}
+																	completed on : {new Date(transaction.createdAt).toDateString()}
 																</span>
 															</div>
 															:
 															<div className='flex flex-col justify-center items-center mr-5 gap-2'>
 																<div>
 																	<Badge size='2' className='w-fit float-left capitalize'>
-																		₹{transcation.price}
+																		₹{transaction.price}
 																	</Badge>
-																<span className='ml-3 text-red-500'>
-																	failed
-																</span>
+																	<span className='ml-3 text-red-500'>
+																		failed
+																	</span>
 																</div>
 																<span className='text-xs text-gray-500'>
-																	{new Date(transcation.createdAt).toDateString()}
+																	{new Date(transaction.createdAt).toDateString()}
 																</span>
 															</div>
 													}
@@ -94,9 +94,9 @@ function ViewTransactions() {
 									</div>
 								</>
 								:
-								<>
-									<p>you havent enrolled for any courses yet</p>
-								</>
+								<div className='flex justify-center items-center'>
+									<p>you dont havent any transactions yet</p>
+								</div>
 					}
 				</div>
 			</div>
