@@ -61,7 +61,6 @@ const updateUserDetails = asyncHandler(async (req, res) => {
         throw AppError.validation(error.details[0].message)
     }
 
-    return res.status(200)
     const userData = await userService.updateUserDetails({...value,_id:req.user._id})
 
     res.status(200).json({message:'User details updated successfully',data: userData})
