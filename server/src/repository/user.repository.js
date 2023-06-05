@@ -3,24 +3,25 @@ const User = require('../models/user.model')
 const AppError = require('../utils/app.error.util')
 
 
-const findUserByEmail = async (email) => {
-    const userData = await User.findOne({ email }).select({ email: 1, name: 1, isBlocked: 1, password: 1, phone: 1 })
-    return userData
-}
+const findUserByEmail = async email =>
+    await User
+        .findOne({ email })
+        .select({ email: 1, name: 1, isBlocked: 1, password: 1, phone: 1 })
 
-const findUserByPhone = async (phone) => {
-    const userData = await User.findOne({ phone })
+const findUserByPhone = async phone => await User.findOne({ phone })
+
+const findUserByCourseId = async ({ courseId, userId }) => User.findOne({ _id: userId, enrolledCourses: { $in: [courseId] } })
+
+const findUserById = async _id => await User.findOne({ _id })
+
+const findUserByToken = async (token) => {
+    const userData = User.findOne({ token }).select({ email: 1, name: 1, isBlocked: 1 })
     return userData
 }
 
 const checkIsBlocked = async (email) => {
     const user = await User.findOne({ email }).select({ isBlocked: 1 })
     return user.isBlocked
-}
-
-const findUserByToken = async (token) => {
-    const userData = User.findOne({ token }).select({ email: 1, name: 1, isBlocked: 1 })
-    return userData
 }
 
 const createUser = ({ name, password, phone, email }) => {
@@ -41,6 +42,19 @@ const createUser = ({ name, password, phone, email }) => {
 
 const addRefreshTokenById = async (_id, token) => {
     await User.updateOne({ _id }, { $push: { token } })
+}
+
+const updateDetailsById = async user => {
+    const updatedUser = await User.updateOne({ _id: user._id }, {
+        name: user.name,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone,
+        about: user.about,
+        website: user.website
+    })
+
+    return updatedUser
 }
 
 const findByTokenAndDelete = async (token) => {
@@ -77,11 +91,6 @@ const getEnrolledCountById = async (courseId) => {
     return enrolledStudents
 }
 
-const findUserByCourseId = async ({ courseId, userId }) => {
-
-    const userData = await User.findOne({ _id: userId, enrolledCourses: { $in: [courseId] } })
-    return userData
-}
 
 
 const getAllUsers = async () => {
@@ -114,5 +123,7 @@ module.exports = {
     getEnrolledCountById,
     blockUserById,
     unblockUserById,
-    checkIsBlocked
+    checkIsBlocked,
+    findUserById,
+    updateDetailsById
 }

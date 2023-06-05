@@ -108,6 +108,20 @@ const getAllUsers = async () => {
     return users
 }
 
+const getUserDetails = async userId => {
+    const userDetails = await userRepository.findUserById(userId)
+    if (!userDetails) {
+        throw AppError.validation('User details was not found in database')
+    }
+    return userDetails
+}
+
+const updateUserDetails = async userDetails => {
+    const updatedUserDetails = await userRepository.updateDetailsById(userDetails)
+    console.log(`User details updated for ${userDetails.name} : ${updatedUserDetails}`)
+    return updatedUserDetails
+}
+
 const blockUser = async (userId) => {
     const isBlocked = await userRepository.blockUserById(userId)
     return isBlocked
@@ -119,8 +133,8 @@ const unblockUser = async (userId) => {
 }
 
 module.exports = {
-    getAllUsers, getEnrolledStudentsCount,
-    handleSignIn, handleSignUp, blockUser, unblockUser,
+    getAllUsers, getEnrolledStudentsCount, updateUserDetails, updateUserDetails,
+    handleSignIn, handleSignUp, blockUser, unblockUser, getUserDetails,
     isEnrolledForCourse, getAccessTokenByRefreshToken, checkTokenAndDelete
 }
 

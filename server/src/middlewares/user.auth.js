@@ -19,7 +19,7 @@ const isAuth = async (req, res, next) => {
                 console.log('role is not user');
                 return res.status(403).json({ messsage: 'Not Authorized' })
             }
-            console.log('token verified')
+            console.log('token verified - ',response.user.name)
             req.user = response.user;
             next()
         })

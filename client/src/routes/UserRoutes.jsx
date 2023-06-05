@@ -27,9 +27,9 @@ function UserRoutes() {
         <Route path='signin' element={<SignIn />} />
         <Route path='signup' element={<SignUp />} />
         <Route path='courses/:id' element={<Course />} />
-          <Route path='user/profile' element={<Profile />} />
 
         <Route element={<UserPrivate />}>
+          <Route path='user/profile' element={<Profile />} />
           <Route path='courses/enrolled' element={<Enrolled />} />
           <Route path='courses/enrolled/:id' element={<ViewCourse />} />
         </Route>

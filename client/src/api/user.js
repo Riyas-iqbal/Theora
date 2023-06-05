@@ -1,43 +1,41 @@
 import API from "./index";
 
-const getCourseDetailsAPI = (id, route = '/user/courses/enroll/') => {
-    return API.get(route + id)
-}
+/**
+ * Retrieves course details from the API.
+ * @param {string} id - The ID of the course.
+ * @param {string} [route='/user/courses/enroll/'] - The API route for fetching course details. Defaults to '/user/courses/enroll/'.
+ * @returns {Promise} - A Promise that resolves to the course details retrieved from the API.
+ */
+const getCourseDetailsAPI = (id, route = '/user/courses/enroll/') => API.get(route + id)
 
-const enrollCourseAPI = (body) => {
-    return API.post(
-        '/user/courses/enroll',
-        body
-    )
-}
 
-const createOrderAPI = (courseId) => {
-    return API.post(
-        '/user/orders/create',
-        {
-            courseId
-        }
-    )
-}
+const enrollCourseAPI = (body) => API.post('/user/courses/enroll', body)
 
-const verifyPaymentAPI = (data) => {
-    return API.post(
-        '/user/orders/payment/verify',
-        data
-    )
-}
+/**
+ * Retrieves details of the logged-in user from the API.
+ * The user ID will be retrieved from the token present in the client-side, which will be decoded on the server.
+ * @returns {Promise} - A Promise that resolves to the user details retrieved from the API.
+ */
+const getUserDetailsAPI = () => API.get('/user/details')
 
-const isEnrolledInCourseAPI = (courseId) => {
-    return API.get(`/user/details/enrolled/${courseId}/check`)
-}
+const updateUserDetailsAPI = body => API.post('/user/details',body)
 
-const getUserEnrolledCoursesAPI = () => {
-    return API.get('/user/courses/enroll')
-}
+/**
+ * Creates an order for a specific course using the API.
+ * @param {string} courseId - The ID of the course for which the order is being created.
+ * @returns {Promise} - A Promise that resolves to the response data containing the created order details.
+ */
+const createOrderAPI = courseId => API.post('/user/orders/create', { courseId })
 
-const handleLogOutAPI = () => {
-    return API.delete('/auth/logout')
-}
+
+const verifyPaymentAPI = data => API.post('/user/orders/payment/verify', data)
+
+const isEnrolledInCourseAPI = courseId => API.get(`/user/details/enrolled/${courseId}/check`)
+
+const getUserEnrolledCoursesAPI = () => API.get('/user/courses/enroll')
+
+const handleLogOutAPI = () => API.delete('/auth/logout')
+
 
 export {
     getCourseDetailsAPI,
@@ -46,5 +44,7 @@ export {
     enrollCourseAPI,
     handleLogOutAPI,
     createOrderAPI,
-    verifyPaymentAPI
+    verifyPaymentAPI,
+    getUserDetailsAPI,
+    updateUserDetailsAPI
 }

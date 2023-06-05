@@ -17,6 +17,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    about: String,
+    website: String,
+    lastName: String,
     age: Number,
     address: String,
     enrolledCourses: [
