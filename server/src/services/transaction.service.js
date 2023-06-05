@@ -47,7 +47,9 @@ const verifyPayment = ({ razorpay_order_id, razorpay_payment_id, razorpay_signat
     return data
 }
 
+
+
 module.exports = {
     generateRazorpayOrder,
-    verifyPayment
+    verifyPayment,
 }

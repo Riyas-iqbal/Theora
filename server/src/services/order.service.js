@@ -34,6 +34,16 @@ const createOrder = async ({ courseId, userId, user }) => {
     return orderDetails
 }
 
+const getAllOrders = async (userId) => {
+    const orders = await orderRepository.findOrdersByUserId(userId)
+    if (!orders.length) {
+        console.log('no transactions found for the user :', userId)
+    }
+    console.log('total orders by user:',userId,' - ',orders.length)
+    return orders
+}
+
 module.exports = {
-    createOrder
+    createOrder,
+    getAllOrders
 }

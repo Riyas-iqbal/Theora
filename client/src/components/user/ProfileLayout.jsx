@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, ClipboardDocumentCheckIcon, CurrencyDollarIcon, FunnelIcon, MinusIcon, PlusIcon, RectangleGroupIcon, ShoppingCartIcon, Squares2X2Icon, UserCircleIcon } from '@heroicons/react/20/solid'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 const sideBarMenu = [
@@ -13,6 +13,7 @@ const sideBarMenu = [
 
 export default function Example({ children }) {
 	const user = useSelector(state => state.user)
+	const { pathname } = useLocation()
 
 	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
@@ -110,7 +111,7 @@ export default function Example({ children }) {
 									{
 										sideBarMenu.map((option, index) => (
 											<li key={index} className='flex border-b last:border-none items-center first:pt-2 '>
-												<Link className='font-bold items-center flex gap-2 py-3 pl-10 text-gray-600 hover:text-black hover:bg-gray-100 text-lg w-full' to={option.link}>
+												<Link className={`${option.link === pathname ? 'bg-gray-100 text-black' : ''} font-bold items-center flex gap-2 py-3 pl-10 text-gray-600 hover:text-black hover:bg-gray-100 text-lg w-full`} to={option.link}>
 													<span className='w-6'>{option.icon}</span>
 													{option.title}
 												</Link>

@@ -32,6 +32,8 @@ const verifyPaymentAPI = data => API.post('/user/orders/payment/verify', data)
 
 const isEnrolledInCourseAPI = courseId => API.get(`/user/details/enrolled/${courseId}/check`)
 
+const getAllOrdersByUserAPI = () => API.get(`/user/orders`)
+
 const getUserEnrolledCoursesAPI = () => API.get('/user/courses/enroll')
 
 const handleLogOutAPI = () => API.delete('/auth/logout')
@@ -46,5 +48,6 @@ export {
     createOrderAPI,
     verifyPaymentAPI,
     getUserDetailsAPI,
-    updateUserDetailsAPI
+    updateUserDetailsAPI,
+    getAllOrdersByUserAPI
 }

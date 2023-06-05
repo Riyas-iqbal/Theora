@@ -30,10 +30,6 @@ function SignIn() {
         duration: 2000
       })
     }
-    if (accessedPrivate) {
-      toast.dismiss()
-      toast.error('Please login to continue');
-    }
     if (logout) {
       toast.dismiss()
       toast.success('Missing You Already, Come Back Soon!', {
@@ -41,6 +37,12 @@ function SignIn() {
         duration: 4000
       })
     }
+    if (accessedPrivate) {
+      console.log(accessedPrivate)
+      toast.dismiss()
+      toast.error('Please login to continue');
+    }
+
     if (sessionExpired) {
       toast.dismiss()
       toast.error('Session timeout! Please login again')

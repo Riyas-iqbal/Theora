@@ -4,15 +4,23 @@ const isAuth = require('../../middlewares/user.auth')
 
 /**
  * Base route to Orders
- * @route /api/users/orders 
+ * @route /api/users/orders
  */
 
+// add isAuth middleware to all routes
+router.use(isAuth)
+
 router
+    .route('/')
+    .get(orderController.getAllOrders)
+
+    router
     .route('/create')
-    .post(isAuth, orderController.createOrder)
+    .post(orderController.createOrder)
 
 router
     .route('/payment/verify')
-    .post(isAuth, orderController.verifyPayment)
+    .post(orderController.verifyPayment)
+
 
 module.exports = router

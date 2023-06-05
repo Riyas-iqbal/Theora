@@ -192,7 +192,7 @@ export default function ViewCourse() {
 															</div>
 														</Disclosure.Button>
 
-														<Disclosure.Panel 
+														<Disclosure.Panel
 															className="px-4 pt-4 pb-2 text-sm text-gray-500 flex justify-between hover:text-blue-500 hover:cursor-alias"
 															onClick={() => playLesson(lesson._id)}
 														>

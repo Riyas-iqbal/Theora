@@ -13,6 +13,8 @@ import Course from '../pages/user/Course'
 import Enrolled from '../pages/user/Enrolled'
 import ViewCourse from '../pages/user/ViewCourse'
 import Profile from '../pages/user/Profile'
+import CourseOwned from '../pages/user/CourseOwned'
+import ViewTransactions from '../pages/user/ViewTransactions'
 
 function UserRoutes() {
 
@@ -30,6 +32,8 @@ function UserRoutes() {
 
         <Route element={<UserPrivate />}>
           <Route path='user/profile' element={<Profile />} />
+          <Route path='user/profile/courses' element={<CourseOwned />} />
+          <Route path='user/profile/transactions' element={<ViewTransactions />} />
           <Route path='courses/enrolled' element={<Enrolled />} />
           <Route path='courses/enrolled/:id' element={<ViewCourse />} />
         </Route>

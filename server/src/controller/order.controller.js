@@ -38,7 +38,13 @@ const verifyPayment = asyncHandler(async (req, res) => {
     res.status(200).json(data)
 })
 
+const getAllOrders = asyncHandler(async (req, res) => {
+    const ordersByUser = await orderService.getAllOrders(req.user._id)
+    return res.status(200).json({ message: 'success', data: ordersByUser })
+})
+
 module.exports = {
     createOrder,
-    verifyPayment
+    verifyPayment,
+    getAllOrders
 }

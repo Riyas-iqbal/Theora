@@ -17,6 +17,18 @@ const createOrder = async ({ userId, courseId, status, price }) => {
         })
 }
 
+/**
+ * Retrieves all the orders by specific user
+ * @param {<String>} user userId
+ * @returns 
+ */
+const findOrdersByUserId = async userId => 
+    await Order
+        .find({ user: userId })
+        .select('-__v -updatedAt')
+        .populate('course','title tagline price') //populating course field by selecting specified fields
+
 module.exports = {
-    createOrder
+    createOrder,
+    findOrdersByUserId
 }

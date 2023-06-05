@@ -13,6 +13,8 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
+//Not responsive
 function Profile() {
   const [agreed, setAgreed] = useState(false)
   const [error, setError] = useState(null)
@@ -68,9 +70,9 @@ function Profile() {
           <div className='absolute ml-13'>
             {
               editMode ?
-                <h1 className='py-1 px-2 text-sm rounded-md bg-indigo-500 text-white'>Edit Mode On</h1>
+                <h1 className='py-1 px-2 text-sm rounded-md bg-indigo-500 text-white'>edit mode</h1>
                 :
-                <h1 className='py-1 px-2 text-sm rounded-md bg-gray-500 text-white'>Edit Mode Off</h1>
+                <h1 className='py-1 px-2 text-sm rounded-md bg-gray-500 text-white'>view only</h1>
             }
           </div>
           <span
@@ -79,7 +81,7 @@ function Profile() {
             title={editMode ? 'Turn off edit mode' : 'Turn on edit mode'}>
             {
               editMode ?
-                <PencilSquareIcon className='w-6 hover:scale-105 duration-300 cursor-pointer font-extrabold' />
+                <PencilSquareIcon className='w-6 hover:scale-105 duration-300 cursor-pointer text-primary font-extrabold' />
                 :
                 <LockClosedIcon className='w-6 hover:scale-105 duration-300 cursor-pointer text-red-500' />
 
