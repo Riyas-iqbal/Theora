@@ -26,7 +26,7 @@ export default function Enrolled() {
 		<>
 			<SectionTitle title='Enrolled Courses' description='Courses enrolled by you. Happy Learning!' />
 			<HorizontalRule />
-			<div className='flex flex-wrap justify-center gap-4'>
+			<div className='grid grid-cols-4 justify-center mr-10 gap-1'>
 				{
 					isLoading ?
 						<Loading />
@@ -36,16 +36,16 @@ export default function Enrolled() {
 								<div
 									key={course._id}
 									// style={{ flexShrink: 0, scrollSnapAlign: 'start' }}
-									className="w-full max-w-xs block hover:shadow-lg duration-300 bg-white border overflow-hidden border-gray-200  rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ml-10">
+									className="max-w-sm block hover:shadow-lg duration-300 bg-white border overflow-hidden border-gray-200  rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ml-10">
 									<div className='overflow-hidden '>
 										<Link to={`/courses/enrolled/${course._id}`}>
-											<img className="rounded-t-lg duration-300 scale-105 hover:scale-100" src={course.thumbnailURL} alt="product image" />
+											<img className="rounded-t-lg duration-300 scale-105 min-h-[11rem] object-cover hover:scale-100" src={course.thumbnailURL} alt="product image" />
 										</Link>
 									</div>
 									<div className="px-5 pb-5">
 										<Link to="#">
 											<h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-4 nexa-font">{course.title}</h5>
-											<h5 className="text-sm font-semibold tracking-tight text-gray-400 dark:text-white nexa-font">{course.tagline}</h5>
+											<span className="text-sm font-semibold tracking-tight text-gray-400 dark:text-white nexa-font">{course.tagline}</span>
 										</Link>
 										<div className='py-4'>
 											<Badge color="info" className='w-fit'>

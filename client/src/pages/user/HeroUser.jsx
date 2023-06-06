@@ -13,34 +13,6 @@ function HeroUser() {
   const LinkTitle = "Namaste React";
   const promotion = "From the person who made javascript easy as possible introducing"
 
-  // const categories = [
-  //   {
-  //     title: 'Computer Programming',
-  //     description: 'Learn everything about programming from fundametals to advanced topics',
-  //   }, {
-  //     title: 'Data Science',
-  //     description: 'Learn everything about programming from fundametals to advanced topics',
-  //   }, {
-  //     title: 'Machine Learning',
-  //     description: 'Learn everything about programming from fundametals to advanced topics',
-  //   }, {
-  //     title: 'Backend engineering',
-  //     description: 'Learn everything about programming from fundametals to advanced topics',
-  //   }, {
-  //     title: 'Computer Programming',
-  //     description: 'Learn everything about programming from fundametals to advanced topics',
-  //   }, {
-  //     title: 'Data Science',
-  //     description: 'Learn everything about programming from fundametals to advanced topics',
-  //   }, {
-  //     title: 'Machine Learning',
-  //     description: 'Learn everything about programming from fundametals to advanced topics',
-  //   }, {
-  //     title: 'Backend engineering',
-  //     description: 'Learn everything about programming from fundametals to advanced topics',
-  //   },
-  // ]
-
   const [showComponent, setShowComponent] = useState(false)
   const [categories, setCategories] = useState([])
 
@@ -51,7 +23,6 @@ function HeroUser() {
   useEffect(() => {
     getAllCategoriesAPI()
       .then(({data})=>{
-        console.log(data.categories)
         setCategories(data.categories)
       })
 
@@ -63,8 +34,6 @@ function HeroUser() {
   return (
     <>
       <TopBanner LinkTitle={LinkTitle} to="/explore" promotion={promotion} showComponent={showComponent} closeBanner={closeBanner}  />
-
-      
 
       <div className="pt-10 px-1 md:px-10 sm:px-5 bg-gray-200/95 pb-24">
         <CarouselHero />
@@ -102,8 +71,8 @@ function HeroUser() {
         </section>
 
 
-        <section className="h-22">
-        </section>
+        {/* <section className="h-22">
+        </section> */}
 
       </div>
       <Footer />

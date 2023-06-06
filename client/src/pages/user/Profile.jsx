@@ -19,17 +19,29 @@ function Profile() {
   const [agreed, setAgreed] = useState(false)
   const [error, setError] = useState(null)
   const [editMode, setEditMode] = useState(false)
+  const [userDetails, setUserDetails] = useState({})
+
+  console.count('rerender')
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
     resolver: yupResolver(profileSchema),
   });
-  console.log(editMode)
 
   useEffect(() => {
     console.log('mounted')
     getUserDetailsAPI()
       .then(response => {
         const userDetails = response.data.userDetails
+
+        //maintain order to compare later
+        setUserDetails({
+          name: userDetails.name,
+          lastName: userDetails.lastName,
+          email: userDetails.email,
+          phone: userDetails.phone,
+          website: userDetails.website,
+          about: userDetails.about,
+        })
         // Object.keys(userDetails).forEach(key => {
         //   setValue(key,userDetails[key])
         // })
@@ -45,7 +57,16 @@ function Profile() {
 
   const handleOnSubmit = (data) => {
     setError(null)
-    console.log(data)
+
+    //compare old UserDetails with new UserDetails 
+    const newData = JSON.stringify(data)
+    const oldData = JSON.stringify(userDetails)
+    console.log(newData == oldData)
+    if (newData == oldData) {
+      setError('No change detected. Please review your entered data and make any necessary modifications before submitting.')
+      return
+    }
+
     updateUserDetailsAPI(data)
       .then(response => {
         toast.success('Profile updated successfully', {
@@ -249,16 +270,16 @@ function Profile() {
             </Switch.Group>
           </div>
           <div className='flex justify-center'>
-            <p className='text-red-600 nexa-font text-lg mt-2 ml-1'>{error}</p>
           </div>
           <div className="mt-10">
             <button
               {...(editMode ? null : { disabled: true })}
               type="submit"
-              className={`${editMode ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-gray-400 cursor-not-allowed'} block w-full rounded-md px-3.5 py-2.5  text-center text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+              className={`${editMode ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-gray-400 cursor-not-allowed'} ${error ? ' ring-1 ring-opacity-40 ring-red-700 ring-offset-2' : null} block w-full rounded-md px-3.5 py-2.5  text-center text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
             >
               Update Profile
             </button>
+            <p className='text-red-600 nexa-font text-xs text-center mt-3 ml-1'>{error}</p>
           </div>
         </form>
       </div>

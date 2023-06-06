@@ -103,7 +103,6 @@ export default function Explore() {
           }
         })
 
-
         filters[1].options = [...options]
         console.log(filters[1])
       })
@@ -429,7 +428,7 @@ export default function Explore() {
                     <Loading />
                     :
                     <>
-                      <div className='flex flex-wrap justify-center gap-4'>
+                      <div className='flex flex-wrap justify-center gap-1'>
                         {
                           courses.length
                             ?
@@ -437,13 +436,13 @@ export default function Explore() {
                               return <div
                                 key={course._id}
                                 // style={{ flexShrink: 0, scrollSnapAlign: 'start' }}
-                                className="w-full max-w-xs block hover:shadow-lg duration-300 bg-white border overflow-hidden border-gray-200  rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ml-10">
+                                className="w-full max-w-xs block hover:shadow-lg duration-300 bg-white border overflow-hidden border-gray-200  rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ml-5">
                                 <div className='overflow-hidden '>
                                   <Link to={`/courses/${course._id}`} className=''>
                                     <img className="min-h-[13rem] max-h-[13rem] min-w-full object-cover rounded-t-lg duration-300 scale-105 hover:scale-100" src={course.thumbnailURL} alt="product image" />
                                   </Link>
                                 </div>
-                                <div className="px-5 pb-5">
+                                <div className="px-5 pb-5 flex flex-col justify-end ">
                                   <Link to="#">
                                     <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-4 nexa-font">{course.title}</h5>
                                     <h5 className="text-sm font-semibold tracking-tight text-gray-400 dark:text-white nexa-font">{course.tagline}</h5>

@@ -22,7 +22,7 @@ function CategoryCard({ categories }) {
       <SectionTitle title='Category' description='Find Your Next Learning Adventure' />
       <HorizontalRule />
 
-      <div className="flex flex-wrap justify-center gap-6 p-6 md:p-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center gap-4 p-5 md:p-2">
 
         { //change key from index to category id
           categories.map((category, i) => (
@@ -32,7 +32,7 @@ function CategoryCard({ categories }) {
             hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700
               transition ease-in-out hover:scale-105 duration-300 hover:shadow-lg ring-1 sm:ring-0"
             >
-              <div className="flex flex-col gap-3 items-center justify-between">
+              <div className="flex flex-col gap-2 items-center justify-between">
                 <CodeBracketIcon className="h-6 w-6 text-sm sm:block" />
                 <h6 className="text-lg md:text-2xl font-bold tracking-tight text-center text-blue-500 nexa-font dark:text-white">{category.title}</h6>
                 <p className="font-normal text-sm hidden sm:block  md:text-md text-center whitespace-pre-wrap text-gray-700 nexa-font dark:text-gray-400">{category.description}</p>
