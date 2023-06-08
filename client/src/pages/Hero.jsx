@@ -8,10 +8,10 @@ import Counter from '../utils/Counter';
 // import Counter from '../utils/Counter';
 
 const navigation = [
-  { name: 'Course', href: '#' },
-  { name: 'Features', href: '#' },
-  { name: 'Trending', href: '#' },
-  { name: 'Progress', href: '#' },
+  { name: 'Hero', href: '/user' },
+  { name: 'Explore', href: '/explore' },
+  { name: 'Teach', href: '/tutor' },
+  { name: 'contact', href: '/contact' },
 ]
 
 export default function Hero() {
