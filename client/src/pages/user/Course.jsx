@@ -10,7 +10,7 @@ import SectionTitle from '../../components/user/SectionTitle'
 import HorizontalRule from '../../components/common/HorizontalRule'
 import Modal from '../../components/user/Modal'
 import Loading from '../../components/common/Loading'
-import getUser from '../../components/authorization/getUser'
+import {getUser} from '../../components/authorization/getUser'
 import timeAgo from '../../utils/timeAgo'
 
 import { enrollCourseAPI, getCourseDetailsAPI, isEnrolledInCourseAPI } from '../../api/user'

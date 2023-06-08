@@ -75,6 +75,16 @@ const getAccessTokenByRefreshToken = async refreshToken => {
         })
 }
 
+const getUserFromToken = async (accessToken) => {
+    return verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET)
+        .then(async data => await userRepository.findUserByEmail(data?.user.email))
+        .catch(err => {
+            console.log('error while decoding access token', err)
+            return false
+        })
+    // if (!userData || !userData?.email) return false
+}
+
 // const checkPhoneExists = async (phone) => {
 //     const isPhoneTaken = await User.findOne({ phone })
 //     if (isPhoneTaken) {
@@ -134,7 +144,7 @@ const unblockUser = async (userId) => {
 
 module.exports = {
     getAllUsers, getEnrolledStudentsCount, updateUserDetails, updateUserDetails,
-    handleSignIn, handleSignUp, blockUser, unblockUser, getUserDetails,
+    handleSignIn, handleSignUp, blockUser, unblockUser, getUserDetails, getUserFromToken,
     isEnrolledForCourse, getAccessTokenByRefreshToken, checkTokenAndDelete
 }
 

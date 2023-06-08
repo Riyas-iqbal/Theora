@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import axios from 'axios'
 import Logo from '../../components/common/Logo'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../features/userSlice'
 import { Toaster, toast } from 'react-hot-toast'
+import { userSignInAPI } from '../../api/user'
 
 function SignIn() {
 
   const user = useSelector(state => state.user)
-
   const dispatch = useDispatch()
-
+  
   let [searchParams] = useSearchParams();
   const accessedPrivate = searchParams.get('private');
   const fromLocation = searchParams.get('from');
@@ -42,33 +41,33 @@ function SignIn() {
       toast.dismiss()
       toast.error('Please login to continue');
     }
-
+    
     if (sessionExpired) {
       toast.dismiss()
       toast.error('Session timeout! Please login again')
     }
   }, [])
-
+  
   // change to react hook form
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-
+  
   const navigate = useNavigate();
-
+  
   //covert to react API
   const handleSingIn = (e) => {
     e.preventDefault()
-    axios.post(
-      `http://localhost:3000/api/auth/signin`,
-      { email, password },
-      { withCredentials: true }
-    )
-      .then((response) => {
-        console.log(response)
-        toast.success(`Hey ${response.data.user.name}, Welcome back to theora!`, {
-          duration: 6000
-        })
+    userSignInAPI({ email, password })
+    .then((response) => {
+      //set isAuth
+      localStorage.setItem('isAuth', true)
+      //success notification
+      toast.success(`Hey ${response.data.user.name}, Welcome back to theora!`, {
+        duration: 6000
+      })
+
+        //set global user state
         dispatch(setUser({ ...response.data?.user, userId: response.data.user._id }))
         if (fromLocation) {
           return navigate(fromLocation)
@@ -79,7 +78,6 @@ function SignIn() {
         console.log(err)
         setError(err?.response?.data?.errors?.message)
       })
-
   }
 
 

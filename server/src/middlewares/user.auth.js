@@ -11,7 +11,7 @@ const isAuth = async (req, res, next) => {
      * const token = authHeader && authHeader.split(' ')[1]
      */
 
-    if (!accessToken) return res.status(401).json({ err: "token is missing" });
+    if (!accessToken) return res.status(401).json({ err: "token is missing", name: "TokenMissingError" });
 
     verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET)
         .then((response) => {
@@ -19,7 +19,7 @@ const isAuth = async (req, res, next) => {
                 console.log('role is not user');
                 return res.status(403).json({ messsage: 'Not Authorized' })
             }
-            console.log('token verified - ',response.user.name)
+            console.log('token verified - ', response.user.name)
             req.user = response.user;
             next()
         })

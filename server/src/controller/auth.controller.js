@@ -47,8 +47,23 @@ const handleSignUp = asyncHandler(async (req, res) => {
         throw AppError.validation(error.details[0].message)
     }
     const user = await userService.handleSignUp(value)
-    
+
     return res.status(200).json({ message: 'Account created successfully' })
+})
+
+/**
+ * @desc get user details from token present in access token
+ * @route GET /auth/user/restore
+ * @access public
+ */
+const restoreUserDetails = asyncHandler(async (req, res) => {
+    if (!req.cookies['accessToken']) {
+        return res.status(200).json({ message: 'access token not found', userData: null })
+    }
+
+    const userData = await userService.getUserFromToken(req.cookies['accessToken'])
+    
+    return res.status(200).json({ message: userData ? 'user details found' : 'user not found', userData })
 })
 
 /**
@@ -60,10 +75,10 @@ const handleSignUp = asyncHandler(async (req, res) => {
 const refreshToken = asyncHandler(async (req, res) => {
 
     const refreshToken = req.cookies['refreshToken']
-    if (!refreshToken){
+    if (!refreshToken) {
         throw AppError.authentication('provide a refresh token')
     }
-    
+
     const accessToken = await userService.getAccessTokenByRefreshToken(refreshToken)
     attachTokenToCookie('accessToken', accessToken, res)
 
@@ -96,6 +111,7 @@ module.exports = {
     handleSignIn,
     handleSignUp,
     handleLogout,
-    refreshToken
+    refreshToken,
+    restoreUserDetails
 }
 

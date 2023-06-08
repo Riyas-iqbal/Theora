@@ -13,6 +13,7 @@ export default function MenuDropDown({ user }) {
 	const navigate = useNavigate()
 	const handleLogOut = () => {
 		dispatch(removeUser())
+		localStorage.removeItem('isAuth')
 		handleLogOutAPI()
 			.then(({ data }) => {
 				navigate('/signin?logout=true')
@@ -25,7 +26,7 @@ export default function MenuDropDown({ user }) {
 				<div>
 					<Menu.Button className="inline-flex capitalize w-full justify-center rounded-md bg-indigo-500 bg-opacity px-4 py-2 text-sm font-medium text-white hover:bg-opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
 						<UserCircleIcon className='w-5 mr-2' />
-						{user}
+						{user?.name}
 						<ChevronDownIcon
 							className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
 							aria-hidden="true"

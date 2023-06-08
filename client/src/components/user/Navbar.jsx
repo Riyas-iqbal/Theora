@@ -32,8 +32,8 @@ function Navbar() {
 			<Logo className='mr-3' to={'/user'} size={1.3} />
 			<div className="flex md:order-2">
 				{
-					user.loggedIn ?
-						<MenuDropDown className='w-3' user={user.name} />
+					user?.loggedIn ?
+						<MenuDropDown className='w-3' user={user} />
 						// <button className='mr-3 bg-indigo-200 p-1 pr-3 rounded-xl flex hover:shadow-3 hover:bg-indigo-300'>
 						// 	<UserCircleIcon className='w-6 mr-2' />
 						// 	<span className='nexa-font '>{user.name}</span>

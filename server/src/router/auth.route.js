@@ -17,6 +17,10 @@ router
     .post(authController.handleSignUp)
 
 router
+    .route('/user/restore')
+    .get(authController.restoreUserDetails)
+
+router
     .route('/token')
     .get(authController.refreshToken)
 

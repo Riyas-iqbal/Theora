@@ -7,6 +7,7 @@ const findUserByEmail = async email =>
     await User
         .findOne({ email })
         .select({ email: 1, name: 1, isBlocked: 1, password: 1, phone: 1 })
+        .catch(err => console.log('error while quering database for user with email', email))
 
 const findUserByPhone = async phone => await User.findOne({ phone })
 

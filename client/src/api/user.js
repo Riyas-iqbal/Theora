@@ -1,5 +1,11 @@
 import API from "./index";
 
+const userSignInAPI = (body) => API.post('/auth/signin', body);
+
+const userSignUpAPI = (body) => API.post('/auth/signup', body);
+
+const getSignedInUserAPI = () => API.get('/auth/user/restore')
+
 /**
  * Retrieves course details from the API.
  * @param {string} id - The ID of the course.
@@ -7,7 +13,6 @@ import API from "./index";
  * @returns {Promise} - A Promise that resolves to the course details retrieved from the API.
  */
 const getCourseDetailsAPI = (id, route = '/user/courses/enroll/') => API.get(route + id)
-
 
 const enrollCourseAPI = (body) => API.post('/user/courses/enroll', body)
 
@@ -18,7 +23,7 @@ const enrollCourseAPI = (body) => API.post('/user/courses/enroll', body)
  */
 const getUserDetailsAPI = () => API.get('/user/details')
 
-const updateUserDetailsAPI = body => API.post('/user/details',body)
+const updateUserDetailsAPI = body => API.post('/user/details', body)
 
 /**
  * Creates an order for a specific course using the API.
@@ -26,7 +31,6 @@ const updateUserDetailsAPI = body => API.post('/user/details',body)
  * @returns {Promise} - A Promise that resolves to the response data containing the created order details.
  */
 const createOrderAPI = courseId => API.post('/user/orders/create', { courseId })
-
 
 const verifyPaymentAPI = data => API.post('/user/orders/payment/verify', data)
 
@@ -49,5 +53,8 @@ export {
     verifyPaymentAPI,
     getUserDetailsAPI,
     updateUserDetailsAPI,
-    getAllOrdersByUserAPI
+    getAllOrdersByUserAPI,
+    userSignInAPI,
+    userSignUpAPI,
+    getSignedInUserAPI
 }
