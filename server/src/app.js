@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean')
+const path = require('path')
 
 const compression = require('./middlewares/compression')
 const authLimiter = require('./middlewares/rate.limiter')
@@ -37,6 +38,10 @@ if (process.env.NODE_ENV === 'production') {
 
 // Application Routes
 app.use('/api', require('./router'))
+
+console.log(path.join(__dirname,"../../client/dist"))
+
+app.use(express.static(path.join(__dirname,"../../client/dist")))
 
 app.use('*', (req, res) => {
     res.status(404).json('Not found')
