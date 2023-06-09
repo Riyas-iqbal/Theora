@@ -15,7 +15,6 @@ const findCourseById = async (courseId) => {
 }
 
 const getAllCoursesByQuery = async (query) => {
-    console.log(query.difficulty)
     const courses = await Course
         .find({ title: { $regex: query.search.trim(), $options: "i" } })
         .select('-__v') 

@@ -72,9 +72,6 @@ const getAllCourseByQuery = async (query) => {
     const total = await courseRepository.getCountByQuery(query)
     const courses = await courseRepository.getAllCoursesByQuery(query)
 
-    console.log(total)
-    console.log(courses.length)
-
     const coursesWithURL = await bucketService.attachThumbnailURLToCourses(courses)
 
     return { total, courses: coursesWithURL }

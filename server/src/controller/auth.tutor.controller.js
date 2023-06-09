@@ -27,7 +27,7 @@ const handleSignIn = async (req, res) => {
     if (!isPasswordMatch) return res.status(401).json({ message: 'Unauthorized! invalid password' })
 
     if (tutorData.isBlocked) {
-        return res.status(403).json({message: 'Access denied'})
+        return res.status(403).json({ message: 'Access denied' })
     }
 
     tutorData = tutorData.toObject()
@@ -75,6 +75,9 @@ const handleSignUp = async (req, res) => {
         phone,
         password: hashedPassword
     })
+
+    console.log('New Tutor has been registered - ', name, ' with email - ', email, ' with phone number', phone)
+
 
     await tutor.save().catch(error => console.log(error))
     res.status(200).json({ message: 'Account created successfully' })

@@ -10,6 +10,7 @@ const connectDB = async () => {
 }
 
 if(process.env.FAKE_BUCKET) console.log('Faking S3 bucket')
+console.log(process.env.NODE_ENV)
 
 mongoose.connection
     .on('open', () => console.log('Mongoose connected successfully'))

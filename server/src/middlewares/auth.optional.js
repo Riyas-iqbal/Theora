@@ -23,7 +23,7 @@ const isAuth = async (req, res, next) => {
             next()
         })
         .catch((err) => {
-            console.log('error in verify optional token')
+            console.log('error in verify optional token',err)
             req.user = null
             next()
         })

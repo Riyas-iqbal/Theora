@@ -18,8 +18,8 @@ const AppError = require('../utils/app.error.util')
 
 const handleSignIn = asyncHandler(async (req, res) => {
     const { error, value } = signInSchema.validate(req.body)
-    console.log(error)
     if (error) {
+        console.log(error)
         throw AppError.validation(error.details[0].message)
     }
 
@@ -31,6 +31,8 @@ const handleSignIn = asyncHandler(async (req, res) => {
 
     attachTokenToCookie('accessToken', accessToken, res)
     attachTokenToCookie('refreshToken', refreshToken, res)
+
+    console.log('user login successful. user is ', user.name)
 
     res.status(200).json({ message: 'Login successfull', user })
 })
@@ -48,6 +50,8 @@ const handleSignUp = asyncHandler(async (req, res) => {
     }
     const user = await userService.handleSignUp(value)
 
+    console.log('New User has been registered - ', value.name, ' with email - ', value.email, ' with phone number', value.phone)
+
     return res.status(200).json({ message: 'Account created successfully' })
 })
 
@@ -62,7 +66,7 @@ const restoreUserDetails = asyncHandler(async (req, res) => {
     }
 
     const userData = await userService.getUserFromToken(req.cookies['accessToken'])
-    
+
     return res.status(200).json({ message: userData ? 'user details found' : 'user not found', userData })
 })
 
