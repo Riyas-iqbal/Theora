@@ -9,6 +9,14 @@ const createAccessToken = (user, tutor = false) => {
         { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION })
 }
 
+const createAccessTokenAdmin = admin => {
+    return jwt.sign(
+        { role: 'admin' },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION }
+    )
+}
+
 const createRefreshToken = (user) => {
     return jwt.sign(
         { user },
@@ -19,5 +27,6 @@ const createRefreshToken = (user) => {
 
 module.exports = {
     createAccessToken,
-    createRefreshToken
+    createRefreshToken,
+    createAccessTokenAdmin
 }

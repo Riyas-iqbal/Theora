@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const authController = require('../controller/auth.controller')
 const authTutorController = require('../controller/auth.tutor.controller')
-
+const authAdminController = require('../controller/auth.admin.controller')
 /**
 * @desc User Authentcion routes
 * @route /api/auth/
@@ -45,6 +45,21 @@ router
 router
     .route('/tutor/logout')
     .delete(authTutorController.handleLogout)
+
+/**
+* @desc admin Authentcion routes
+* @route /api/auth/admin
+* @access public
+*/
+
+router
+    .route('/admin/signin')
+    .post(authAdminController.handleSignIn)
+
+router
+    .route('/admin/logout')
+    .delete(authAdminController.handleLogout)
+
 
 // router.get('/test', (req, res) => {
 //     const data = 'Hello world'
