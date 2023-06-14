@@ -1,17 +1,18 @@
 const router = require('express').Router()
 const userController = require('../../controller/user.controller')
+const isAuthAdmin = require('../../middlewares/admin.auth')
+
 
 router
     .route('/')
-    .get(userController.getAllUsers)
-
+    .get(isAuthAdmin, userController.getAllUsers)
 
 router
     .route('/block')
-    .post(userController.blockUser)
+    .post(isAuthAdmin, userController.blockUser)
 
 router
     .route('/unblock')
-    .post(userController.unblockUser)
+    .post(isAuthAdmin, userController.unblockUser)
 
 module.exports = router

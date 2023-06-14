@@ -3,13 +3,18 @@ import { createOrderAPI, verifyPaymentAPI } from '../../api/user'
 import { useSelector } from 'react-redux';
 import loadScript from '../../utils/loadScript'
 import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom';
 
 function Payment({ children, courseId, setIsEnrolled }) {
 
+	const navigate = useNavigate()
 	const user = useSelector(state => state.user)
 	console.log(user)
 
 	const handleEnrollCourse = async () => {
+		if (!user.loggedIn || !localStorage.getItem('isAuth')) {
+			return navigate('/signin?private=true')
+		}
 		const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 		if (!res) {
 			console.log('Razorpay sdk failed to load')
@@ -24,8 +29,9 @@ function Payment({ children, courseId, setIsEnrolled }) {
 			return;
 		}
 
-		const { amount, id: order_id, currency } = result.data.data;
-		console.log(amount, order_id, currency);
+		const { amount, id: order_id, currency, orderId: order_id_from_db } = result.data.data;
+		console.log(amount, order_id, currency, order_id_from_db);
+
 		const options = {
 			key: "rzp_test_L5RIFMQfLKhSkl", // Key ID generated from the Dashboard
 			amount: amount.toString(),
@@ -38,6 +44,7 @@ function Payment({ children, courseId, setIsEnrolled }) {
 				const body = {
 					course_id: courseId,
 					order_creation_id: order_id,
+					order_id_from_db,
 					razorpay_payment_id: response.razorpay_payment_id,
 					razorpay_order_id: response.razorpay_order_id,
 					razorpay_signature: response.razorpay_signature,

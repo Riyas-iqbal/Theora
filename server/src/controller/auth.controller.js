@@ -67,6 +67,13 @@ const restoreUserDetails = asyncHandler(async (req, res) => {
 
     const userData = await userService.getUserFromToken(req.cookies['accessToken'])
 
+    if (!userData) {
+        // clear cookie from response
+        res.clearCookie('refreshToken')
+        res.clearCookie('accessToken')
+    }
+
+
     return res.status(200).json({ message: userData ? 'user details found' : 'user not found', userData })
 })
 

@@ -38,7 +38,7 @@ function ViewTransactions() {
 							:
 							transactions.length ?
 								<>
-									<div className='flex flex-col gap-3'>
+									<div className='flex flex-col-reverse gap-3'>
 										{transactions.map(transaction => (
 											<div key={transaction._id} className='min-w-2xl border rounded-xl overflow-hidden h-27  flex justify-between '>
 												<div className='flex items-center '>

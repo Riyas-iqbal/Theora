@@ -108,7 +108,7 @@ export default function Explore() {
       })
   }, [])
 
-
+  //clean up sort 
   useEffect(() => {
     return () => {
       console.log('clean up')
@@ -133,6 +133,7 @@ export default function Explore() {
     })
   }
 
+  //build up filter query on change
   const handleFilter = (targetOption, filterId) => {
     filters = filters.map(filter => {
       if (filter.id === filterId) {
@@ -150,6 +151,7 @@ export default function Explore() {
     })
     buildFilterQuery(filterId)
   }
+
 
   const buildFilterQuery = (filterId) => {
     const newFilter = []
@@ -172,6 +174,7 @@ export default function Explore() {
   }
 
   const onSearchChange = ((value) => {
+    setPage(1)
     setSearch(value)
   })
 

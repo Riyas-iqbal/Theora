@@ -62,6 +62,11 @@ function Navbar() {
 						Enrolled
 					</span>
 				</Link>
+				<Link to="user/profile" className='hover:text-indigo-500' >
+					<span className={pathname === 'user/profile' ? 'text-indigo-600' : null}>
+						Profile
+					</span>
+				</Link>
 				{/* <Link to="/newsletters" className='hover:text-indigo-500' >
 					<span className={pathname === '/newsletters' ? 'text-indigo-600' : null}>
 						Newsletter
