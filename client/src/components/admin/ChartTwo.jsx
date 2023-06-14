@@ -63,7 +63,7 @@ const options = {
 
 
 const ChartTwo = () => {
-  const [state, setState] = useState < ChartTwoState > ({
+  const [state, setState] = useState ({
     series: [
       {
         name: 'Sales',

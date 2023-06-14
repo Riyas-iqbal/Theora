@@ -12,6 +12,7 @@ const getAllTutorsAPI = (route = '/admin/tutors') => {
     return API.get(route)
 }
 
+const adminSignInAPI = (body) => API.post('/auth/admin/signin',body)
 
 /**
  * 
@@ -64,4 +65,5 @@ export {
     unBlockUserAPI,
     blockTutorAPI,
     unblockTutorAPI,
+    adminSignInAPI
 }

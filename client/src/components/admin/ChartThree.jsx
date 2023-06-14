@@ -44,7 +44,7 @@ const options = {
 };
 
 const ChartThree = () => {
-  const [state, setState] = useState < ChartThreeState > ({
+  const [state, setState] = useState({
     series: [65, 34, 12, 56],
   });
 
