@@ -4,8 +4,7 @@ const isAuthAdmin = require('../../middlewares/admin.auth')
 
 router
     .route('/')
-    .all(isAuthAdmin)
     .get(categoryController.getAllCategories)
-    .post(categoryController.createCategory)
+    .post(isAuthAdmin, categoryController.createCategory)
 
 module.exports = router
