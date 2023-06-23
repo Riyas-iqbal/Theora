@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Logo from '../../components/common/Logo'
+import { BASE_URL } from '../../utils/constants'
 
 function SignUp() {
 
@@ -17,7 +18,7 @@ function SignUp() {
   const handleSignUp = (e) => {
     e.preventDefault()
     axios.post(
-      `http://localhost:3000/api/auth/tutor/signup`,
+      `${BASE_URL}auth/tutor/signup`,
       {
         email,
         password,

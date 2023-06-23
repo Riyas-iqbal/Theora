@@ -6,18 +6,19 @@ import Logo from '../../components/common/Logo'
 import { useDispatch } from 'react-redux'
 import { setTutor } from '../../features/tutorSlice'
 import toast, { Toaster } from 'react-hot-toast';
+import { BASE_URL } from '../../utils/constants'
 
 
 
 function SignIn() {
-  
+
   const dispatch = useDispatch()
 
   let [searchParams, setSearchParams] = useSearchParams();
   const accessedPrivate = searchParams.get('private');
   const logout = searchParams.get('logout');
 
-  const notify = () => 
+  // const notify = () => 
 
   useEffect(() => {
     if (accessedPrivate) {
@@ -41,7 +42,7 @@ function SignIn() {
     e.preventDefault()
     console.log(email, password)
     axios.post(
-      `http://localhost:3000/api/auth/tutor/signin`,
+      `${BASE_URL}auth/tutor/signin`,
       {
         email,
         password,
