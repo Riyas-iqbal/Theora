@@ -22,6 +22,7 @@ function customLog(req, res, next) {
     const loggerCombined = logger(localLogFormat, { stream: accessLogStream });
 
     loggerDev(req, res, (err) => {
+        process.env.NODE_ENV === 'production' && console.log(req.headers['x-real-ip'] || req.connection.remoteAddress)
         if (err) return next(err);
         loggerCombined(req, res, next);
     });
