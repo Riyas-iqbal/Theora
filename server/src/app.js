@@ -14,6 +14,7 @@ const errorHandler = require('./middlewares/error.handler')
 const corsOptions =  require('./config/cors.options')
 
 const app = express()
+app.set('trust proxy', true);
 
 //Custom Http logging console and local
 app.use(customLog)
@@ -26,7 +27,6 @@ app.use(mongoSanitize());
 app.use(xss())
 
 app.use(cors(corsOptions))
-app.set('trust proxy', true);
 app.use(express.json())
 app.use(cookieParser())
 
