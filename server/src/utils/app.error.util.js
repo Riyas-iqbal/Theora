@@ -3,10 +3,14 @@ const errorCodes = require('../config/error.codes.js');
 
 /**
  * @desc To throw an error that is not defined
- * @usage throw new AppError (1001,'This is an error message',419)
+ * @usage ```js
+ * throw new AppError (1001,'This is an error message',419)
+ * ```
  * 
  * @desc To throw an error that is defined
- * @usage throw AppError.validation('This is an error message') 
+ * @usage ```js 
+ * throw AppError.validation('This is an error message')
+ * ``` 
  */
 
 class AppError extends Error {
