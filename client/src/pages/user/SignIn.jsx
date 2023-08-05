@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../features/userSlice'
 import { Toaster, toast } from 'react-hot-toast'
 import { userSignInAPI } from '../../api/user'
+import GoogleSignIn from '../../components/user/GoogleSignIn'
 
 function SignIn() {
 
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
-  
+
   let [searchParams] = useSearchParams();
   const accessedPrivate = searchParams.get('private');
   const fromLocation = searchParams.get('from');
@@ -41,31 +42,31 @@ function SignIn() {
       toast.dismiss()
       toast.error('Please login to continue');
     }
-    
+
     if (sessionExpired) {
       toast.dismiss()
       toast.error('Session timeout! Please login again')
     }
   }, [])
-  
+
   // change to react hook form
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  
+  const [error, setError] = useState(null)
+
   const navigate = useNavigate();
-  
+
   //covert to react API
   const handleSingIn = (e) => {
     e.preventDefault()
     userSignInAPI({ email, password })
-    .then((response) => {
-      //set isAuth
-      localStorage.setItem('isAuth', true)
-      //success notification
-      toast.success(`Hey ${response.data.user.name}, Welcome back to theora!`, {
-        duration: 6000
-      })
+      .then((response) => {
+        //set isAuth
+        localStorage.setItem('isAuth', true)
+        //success notification
+        toast.success(`Hey ${response.data.user.name}, Welcome back to theora!`, {
+          duration: 6000
+        })
 
         //set global user state
         dispatch(setUser({ ...response.data?.user, userId: response.data.user._id }))
@@ -124,11 +125,7 @@ function SignIn() {
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                   Password
                 </label>
-                <div className="text-sm">
-                  <Link to="../forgot-password" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </Link>
-                </div>
+
               </div>
               <div className="mt-2">
                 <input
@@ -140,26 +137,35 @@ function SignIn() {
                   required
                   className="block nexa-font w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {/* TODO: create forgot password function */}
+                {/* <div className="text-sm text-end mt-3">
+                  <Link to="../forgot-password" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                    Forgot password?
+                  </Link>
+                </div> */}
               </div>
             </div>
 
-            <div className='flex justify-center'>
+            <div className={`flex justify-center ${error ? '' : 'hidden'}`} >
               <span className='text-red-400 text-center font-bold nexa-font'>{error}</span>
             </div>
             <div>
               <button
                 type="submit"
                 onClick={handleSingIn}
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full mt-5 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign in
               </button>
             </div>
+
+            {/* google sign in */}
+            <GoogleSignIn  />
           </form>
 
           <p className="mt-10 text-center text-xs text-gray-500">
             Ready to start exploring new perspectives?{' '}
-            <Link to="../signup" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <Link to="/signup" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               Create an account!
             </Link>
           </p>
