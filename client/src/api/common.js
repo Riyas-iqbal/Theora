@@ -16,10 +16,17 @@ const getAllCategoriesAPI = (route = '/admin/category') => {
     return API.get(route)
 }
 
+const verifyGoogleSignIn = (token)=>{
+    return API.post('/auth/signin/google/verify',{
+        token: token
+    })
+}
+
 
 export {
     getAllCoursesAPI,
     getLessonDetailsAPI,
     getAllCourseByQuery,
-    getAllCategoriesAPI
+    getAllCategoriesAPI,
+    verifyGoogleSignIn
 }

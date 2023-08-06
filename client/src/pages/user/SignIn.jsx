@@ -61,24 +61,28 @@ function SignIn() {
     e.preventDefault()
     userSignInAPI({ email, password })
       .then((response) => {
-        //set isAuth
-        localStorage.setItem('isAuth', true)
-        //success notification
-        toast.success(`Hey ${response.data.user.name}, Welcome back to theora!`, {
-          duration: 6000
-        })
-
-        //set global user state
-        dispatch(setUser({ ...response.data?.user, userId: response.data.user._id }))
-        if (fromLocation) {
-          return navigate(fromLocation)
-        }
-        return navigate('/user')
+        handleSignInSuccess(response.data.user)
       })
       .catch((err) => {
         console.log(err)
         setError(err?.response?.data?.errors?.message)
       })
+  }
+
+  const handleSignInSuccess = (user) => {
+    //set isAuth
+    localStorage.setItem('isAuth', true)
+    //success notification
+    toast.success(`Hey ${user.name}, Welcome back to theora!`, {
+      duration: 6000
+    })
+
+    //set global user state
+    dispatch(setUser({ ...user, userId: user._id }))
+    if (fromLocation) {
+      return navigate(fromLocation)
+    }
+    return navigate('/user')
   }
 
 
@@ -160,7 +164,7 @@ function SignIn() {
             </div>
 
             {/* google sign in */}
-            <GoogleSignIn  />
+            <GoogleSignIn handleSignInSuccess={handleSignInSuccess} />
           </form>
 
           <p className="mt-10 text-center text-xs text-gray-500">

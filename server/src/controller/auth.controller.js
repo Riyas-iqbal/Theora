@@ -19,7 +19,7 @@ const AppError = require('../utils/app.error.util')
 const handleSignIn = asyncHandler(async (req, res) => {
     const { error, value } = signInSchema.validate(req.body)
     if (error) {
-        console.log(error)
+        console.log(error.details[0].message)
         throw AppError.validation(error.details[0].message)
     }
 
@@ -73,8 +73,30 @@ const restoreUserDetails = asyncHandler(async (req, res) => {
         res.clearCookie('accessToken')
     }
 
-
     return res.status(200).json({ message: userData ? 'user details found' : 'user not found', userData })
+})
+
+
+/**
+ * @desc verify id token received from client and handle sign in for google authentication
+ * @route GET /auth/signin/google/signin
+ * @access public
+ */
+const signInWithGoogle = asyncHandler(async (req, res) => {
+    const { token } = req.body
+
+    const {
+        user,
+        accessToken,
+        refreshToken
+    } = await userService.handleGoogleSignIn(token)
+
+    attachTokenToCookie('accessToken', accessToken, res)
+    attachTokenToCookie('refreshToken', refreshToken, res)
+
+    console.log('user login successful. user is ', user.name)
+
+    res.status(200).json({ message: 'Login successfull', user })
 })
 
 /**
@@ -123,6 +145,7 @@ module.exports = {
     handleSignUp,
     handleLogout,
     refreshToken,
-    restoreUserDetails
+    restoreUserDetails,
+    signInWithGoogle
 }
 

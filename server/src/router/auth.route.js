@@ -17,6 +17,10 @@ router
     .post(authController.handleSignUp)
 
 router
+    .route('/signin/google/verify')
+    .post(authController.signInWithGoogle)
+
+router
     .route('/user/restore')
     .get(authController.restoreUserDetails)
 
