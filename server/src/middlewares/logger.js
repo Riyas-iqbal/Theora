@@ -18,7 +18,7 @@ const localLogFormat = '[:indian-time] :remote-addr - :remote-user ":method :url
 // Custom log middleware for logging (console and local)
 function customLog(req, res, next) {
 
-    const loggerDev = logger(process.env.NODE_ENV === 'production' ? 'dev' : 'combined');
+    const loggerDev = logger(process.env.NODE_ENV === 'production' ? 'dev' : 'dev');
     const loggerCombined = logger(localLogFormat, { stream: accessLogStream });
 
     loggerDev(req, res, (err) => {

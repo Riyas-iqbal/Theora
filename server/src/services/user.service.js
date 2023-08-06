@@ -1,4 +1,5 @@
 const userRepository = require('../repository/user.repository')
+const firbaseService = require('./firebase.service')
 const AppError = require('../utils/app.error.util')
 const verifyToken = require('../utils/auth.util')
 const { comparePasswords, createHashPassword } = require('../utils/bcrypt.util')
@@ -56,6 +57,30 @@ const handleSignUp = async ({ name, password, phone, email }) => {
     })
 
     return user
+}
+
+const handleGoogleSignIn = async (token) => {
+    const { email } = await firbaseService.verifyToken(token)
+
+    const user = await userRepository.findUserByEmail(email)
+    if (!user) throw AppError.validation('Email not registered. Please create a new account')
+
+    const isBlocked = await userRepository.checkIsBlocked(email)
+    if (isBlocked) throw AppError.forbidden('Access denied')
+
+    const { password: _, ...userWithoutPassword } = user.toObject()
+
+    const accessToken = createAccessToken(userWithoutPassword)
+    const refreshToken = createRefreshToken(userWithoutPassword)
+
+    // commented until until database refresh token cleanUp is implemented
+    await userRepository.addRefreshTokenById(user._id, refreshToken)
+
+    return {
+        user: userWithoutPassword,
+        accessToken,
+        refreshToken
+    }
 }
 
 const getAccessTokenByRefreshToken = async refreshToken => {
@@ -145,6 +170,6 @@ const unblockUser = async (userId) => {
 module.exports = {
     getAllUsers, getEnrolledStudentsCount, updateUserDetails, updateUserDetails,
     handleSignIn, handleSignUp, blockUser, unblockUser, getUserDetails, getUserFromToken,
-    isEnrolledForCourse, getAccessTokenByRefreshToken, checkTokenAndDelete
+    isEnrolledForCourse, getAccessTokenByRefreshToken, checkTokenAndDelete, handleGoogleSignIn
 }
 
