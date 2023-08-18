@@ -7,6 +7,7 @@ import { setUser } from '../../features/userSlice'
 import { Toaster, toast } from 'react-hot-toast'
 import { userSignInAPI } from '../../api/user'
 import GoogleSignIn from '../../components/user/GoogleSignIn'
+import GithubSignIn from '../../components/user/GithubSignIn'
 
 function SignIn() {
 
@@ -163,8 +164,14 @@ function SignIn() {
               </button>
             </div>
 
-            {/* google sign in */}
-            <GoogleSignIn handleSignInSuccess={handleSignInSuccess} />
+            <div className='flex justify-center'>
+              {/* Google sign in */}
+              <GoogleSignIn handleSignInSuccess={handleSignInSuccess} />
+
+              {/* Github sign in */}
+              <GithubSignIn handleSignInSuccess={handleSignInSuccess} />
+            </div>
+
           </form>
 
           <p className="mt-10 text-center text-xs text-gray-500">
