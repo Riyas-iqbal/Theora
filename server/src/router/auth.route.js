@@ -17,6 +17,10 @@ router
     .post(authController.handleSignUp)
 
 router
+    .route('/signin/firebase/verify')
+    .post(authController.firebaseSignInVerify)
+
+router
     .route('/user/restore')
     .get(authController.restoreUserDetails)
 
