@@ -17,8 +17,8 @@ router
     .post(authController.handleSignUp)
 
 router
-    .route('/signin/google/verify')
-    .post(authController.signInWithGoogle)
+    .route('/signin/firebase/verify')
+    .post(authController.firebaseSignInVerify)
 
 router
     .route('/user/restore')

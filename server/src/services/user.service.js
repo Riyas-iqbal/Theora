@@ -59,7 +59,7 @@ const handleSignUp = async ({ name, password, phone, email }) => {
     return user
 }
 
-const handleGoogleSignIn = async (token) => {
+const handleFirebaseSignIn = async (token) => {
     const { email } = await firbaseService.verifyToken(token)
 
     const user = await userRepository.findUserByEmail(email)
@@ -170,6 +170,6 @@ const unblockUser = async (userId) => {
 module.exports = {
     getAllUsers, getEnrolledStudentsCount, updateUserDetails, updateUserDetails,
     handleSignIn, handleSignUp, blockUser, unblockUser, getUserDetails, getUserFromToken,
-    isEnrolledForCourse, getAccessTokenByRefreshToken, checkTokenAndDelete, handleGoogleSignIn
+    isEnrolledForCourse, getAccessTokenByRefreshToken, checkTokenAndDelete, handleFirebaseSignIn
 }
 

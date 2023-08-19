@@ -1,7 +1,7 @@
 import React from 'react'
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import firebase from '../../config/firebase'
-import { verifyGoogleSignIn } from '../../api/common';
+import { verifyFirebaseSignIn } from '../../api/common';
 import { toast } from 'react-hot-toast';
 
 function GoogleSignIn({ handleSignInSuccess }) {
@@ -12,7 +12,7 @@ function GoogleSignIn({ handleSignInSuccess }) {
     try {
       const result = await signInWithPopup(auth, provider) 
       const token = await result.user.getIdToken()
-      const response = await verifyGoogleSignIn(token)
+      const response = await verifyFirebaseSignIn(token)
       handleSignInSuccess(response.data.user);
     } catch (error) {
       // show error message from server if present

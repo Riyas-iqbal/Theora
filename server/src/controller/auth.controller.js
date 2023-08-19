@@ -82,14 +82,14 @@ const restoreUserDetails = asyncHandler(async (req, res) => {
  * @route GET /auth/signin/google/signin
  * @access public
  */
-const signInWithGoogle = asyncHandler(async (req, res) => {
+const firebaseSignInVerify = asyncHandler(async (req, res) => {
     const { token } = req.body
 
     const {
         user,
         accessToken,
         refreshToken
-    } = await userService.handleGoogleSignIn(token)
+    } = await userService.handleFirebaseSignIn(token)
 
     attachTokenToCookie('accessToken', accessToken, res)
     attachTokenToCookie('refreshToken', refreshToken, res)
@@ -146,6 +146,6 @@ module.exports = {
     handleLogout,
     refreshToken,
     restoreUserDetails,
-    signInWithGoogle
+    firebaseSignInVerify
 }
 

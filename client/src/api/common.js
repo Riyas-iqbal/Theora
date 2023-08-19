@@ -16,8 +16,8 @@ const getAllCategoriesAPI = (route = '/admin/category') => {
     return API.get(route)
 }
 
-const verifyGoogleSignIn = (token)=>{
-    return API.post('/auth/signin/google/verify',{
+const verifyFirebaseSignIn = (token)=>{
+    return API.post('/auth/signin/firebase/verify',{
         token: token
     })
 }
@@ -28,5 +28,5 @@ export {
     getLessonDetailsAPI,
     getAllCourseByQuery,
     getAllCategoriesAPI,
-    verifyGoogleSignIn
+    verifyFirebaseSignIn
 }
