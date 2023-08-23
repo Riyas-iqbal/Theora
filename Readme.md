@@ -14,7 +14,7 @@ Theora is a powerful learning management system (LMS) web application built usin
 
 To run Theora locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/yourusername/theora.git`
+1. Clone the repository: `git clone https://github.com/Riyas-iqbal/Theora.git`
 2. Install dependencies: `cd theora && npm install`
 3. Create a logs folder in the root directory: `mkdir logs`
 3. Set up environment variables: Create a `.env` file based on the provided `.env.example`.
