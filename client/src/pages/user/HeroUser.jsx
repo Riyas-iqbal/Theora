@@ -57,7 +57,7 @@ function HeroUser() {
                 and we're committed to providing our students with the <span className="text-green-500">highest-quality educational resources</span>."</p>
               </blockquote>
               <figcaption className="mt-10">
-                <img className="mx-auto h-14 w-14 rounded-full" src="https://media.licdn.com/dms/image/D5603AQGBh0PhpiNejQ/profile-displayphoto-shrink_800_800/0/1664886272481?e=1688601600&v=beta&t=5b67dr0349HgD7LtTOSj05bhZ1UhL-KenepydP-hHIk" alt="" />
+                <img className="mx-auto h-14 w-14 rounded-full" src="https://media.licdn.com/dms/image/D5603AQGBh0PhpiNejQ/profile-displayphoto-shrink_800_800/0/1664886272481?e=1700697600&v=beta&t=D8WZN7wTr4jDWxfKPPz6bAIYxQE5IWV94Oq3TAv-J0A" alt="" />
                 <div className="mt-4 flex items-center justify-center space-x-3 text-base">
                   <div className="font-semibold text-gray-900 nexa-font">Riyas Iqbal</div>
                   <svg viewBox="0 0 2 2" width={3} height={3} aria-hidden="true" className="fill-gray-900">

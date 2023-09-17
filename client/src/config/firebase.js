@@ -1,15 +1,8 @@
 
 import { initializeApp } from "firebase/app";
+import { FIREBASE_CONFIG } from '../utils/constants'
 
-const firebaseConfig = {
-    apiKey: "AIzaSyB8FzeFOgkUgc9KfhaTEYOtBp7jA1xdZFY",
-    authDomain: "theora-web-app.firebaseapp.com",
-    projectId: "theora-web-app",
-    storageBucket: "theora-web-app.appspot.com",
-    messagingSenderId: "82276966171",
-    appId: "1:82276966171:web:3c5e109df0f4aa164b7dbe",
-    measurementId: "G-2TLCCFXMC2"
-};
+const firebaseConfig = JSON.parse(FIREBASE_CONFIG)
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
