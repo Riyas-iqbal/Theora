@@ -33,7 +33,7 @@ const addLessonToCourse = async (lessonId, courseId) => {
 }
 
 const getAllCourseByTutor = async (couresId) => {
-    const courses = await Course.find({ tutor: couresId }).catch(err => { console.log(err) });
+    const courses = await Course.find({ tutor: couresId, isVerified: true }).catch(err => { console.log(err) });
 
     // code refractor needed
     for (let i = 0; i < courses.length; i++) {

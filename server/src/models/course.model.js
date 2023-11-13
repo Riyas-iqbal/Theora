@@ -28,6 +28,9 @@ const courseSchema = new Schema({
     isVisible: {
         type: Boolean, default: true
     },
+    isVerified: {
+        type: Boolean, default: false
+    },
     lessons: [
         { type: Schema.Types.ObjectId, ref: 'lessons' },
     ]

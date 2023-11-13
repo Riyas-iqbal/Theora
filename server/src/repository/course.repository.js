@@ -1,7 +1,7 @@
 const Course = require('../models/course.model')
 
 const getAllCourses = async () => {
-    const courses = await Course.find()
+    const courses = await Course.find({ isVerified: true })
     return courses
 }
 
@@ -16,8 +16,8 @@ const findCourseById = async (courseId) => {
 
 const getAllCoursesByQuery = async (query) => {
     const courses = await Course
-        .find({ title: { $regex: query.search.trim(), $options: "i" } })
-        .select('-__v') 
+        .find({ title: { $regex: query.search.trim(), $options: "i" }, isVerified: true })
+        .select('-__v')
         .where('category')
         .in(query.category)
         .where('difficulty')
@@ -32,7 +32,8 @@ const getCountByQuery = async ({ search, category, difficulty }) => {
     const total = await Course.countDocuments({
         category: { $in: [...category] },
         difficulty: { $in: [...difficulty] },
-        title: { $regex: search, $options: 'i' }
+        title: { $regex: search, $options: 'i' },
+        isVerified: true
     })
     return total
 }
