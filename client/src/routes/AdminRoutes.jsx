@@ -8,6 +8,7 @@ import ManageCategory from '../pages/admin/ManageCategory'
 import SignIn from '../pages/admin/SignIn'
 import { Toaster } from 'react-hot-toast'
 import AdminPrivate from '../components/authorization/AdminPrivate'
+import ManageCourses from '../pages/admin/ManageCourses'
 function AdminRoutes() {
 
   return (
@@ -20,6 +21,7 @@ function AdminRoutes() {
           <Route path='/users' element={<ManageUsers />} />
           <Route path='/tutors' element={<ManageTutors />} />
           <Route path='/category' element={<ManageCategory />} />
+          <Route path='/courses' element={<ManageCourses />} />
         </Route>
       </Routes>
     </>
