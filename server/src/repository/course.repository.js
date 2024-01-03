@@ -1,7 +1,17 @@
 const Course = require('../models/course.model')
 
-const getAllCourses = async () => {
-    const courses = await Course.find({ isVerified: true })
+const getAllCourses = async ({ filter }) => {
+    const queryfilter = () => {
+        if (filter === 'all') {
+            return {}
+        } else if (filter === 'unverified') {
+            return { isVerified: false }
+        } else {
+            return { isVerified: true }
+        }
+    }
+    console.log(queryfilter)
+    const courses = await Course.find(queryfilter())
     return courses
 }
 

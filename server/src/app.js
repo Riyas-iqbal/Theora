@@ -44,6 +44,8 @@ app.use('*', (req, res) => {
 
 app.use(errorHandler)
 
-connectDB()
+connectDB().then(() => {
+    console.log("-- Theora API Ready for Requests --")
+})
 
 module.exports = app

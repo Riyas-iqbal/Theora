@@ -44,8 +44,9 @@ const getAllCourseByTutor = async (couresId) => {
     return courses
 }
 
-const getAllCourses = async () => {
-    const courses = await courseRepository.getAllCourses()
+const getAllCourses = async (args) => {
+
+    const courses = await courseRepository.getAllCourses(args)
 
     // code refractor needed
     for (let i = 0; i < courses.length; i++) {
@@ -56,7 +57,17 @@ const getAllCourses = async () => {
     return courses
 }
 
-
+/**
+ * Retrieves a list of courses based on the specified query parameters.
+ *
+ * @param {Object} query - The query parameters for filtering and sorting courses.
+ * @param {string} query.difficulty - The difficulty level of the courses ('all', 'beginner', 'intermediate', 'advanced', 'expert').
+ * @param {string} query.category - The category of the courses ('all' or an array of category titles).
+ * @param {string} query.reqSort - The requested sorting criteria for courses as a comma-separated string.
+ * @param {string} query.sort - The actual sorting criteria for courses as a comma-separated string or a single value.
+ *
+ * @returns {Promise<{total: number, courses: Object[]}>} An object containing the total number of courses and the list of courses with attached thumbnail URLs.
+ */
 const getAllCourseByQuery = async (query) => {
 
     query.difficulty = query.difficulty === 'all' ? ['beginner', 'intermediate', 'advanced', 'expert'] : query.difficulty.split(",")
@@ -123,5 +134,5 @@ module.exports = {
     getEnrolledCourses,
     getAllCourseByQuery,
     enrollInCourse,
-    addLessonToCourse
+    addLessonToCourse,
 }

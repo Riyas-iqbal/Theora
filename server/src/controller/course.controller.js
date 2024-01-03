@@ -47,6 +47,15 @@ const getAllCourses = async (req, res) => {
 }
 
 /**
+ * Get All Courses Including courses that are not verified by admin
+ */
+const getAllCoursesNV = async (req, res) => {
+    const args = { filter: 'all' }
+    const data = await courseService.getAllCourses(args)
+    return res.status(200).json({ message: 'Courses found including not verified', data })
+}
+
+/**
  * Get Course details and enrolled students count for a given course id 
  */
 
@@ -94,6 +103,7 @@ const deleteCourse = (req, res) => {
 module.exports = {
     getAllCourseByTutor,
     getAllCourses,
+    getAllCoursesNV,
     getSpecificCourse,
     getEnrolledCourses,
     createCourse,
